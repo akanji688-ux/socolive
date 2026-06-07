@@ -137,10 +137,7 @@ body {
 .slider-btn:hover { background: var(--green); }
 .prev { left: 16px; }
 .next { right: 16px; }
-.slider-dots {
-  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 8px; z-index: 10;
-}
+.slider-dots { display: none; }
 .dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: rgba(255,255,255,.3); cursor: pointer; transition: all .3s;
