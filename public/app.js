@@ -12,6 +12,10 @@ function render(cfg) {
   setupNav(cfg.site);
   renderSlider(cfg.banners, cfg.buttons);
   renderButtons(cfg.buttons);
+  const ft = document.querySelector('.section-title');
+  const fs = document.querySelector('.section-sub');
+  if (ft && cfg.site.featuresTitle) ft.textContent = cfg.site.featuresTitle;
+  if (fs && cfg.site.featuresSub)   fs.textContent = cfg.site.featuresSub;
 }
 
 // ── AUTO-SYNC: poll version mỗi 4 giây ──
