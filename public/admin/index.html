@@ -4,6 +4,8 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Admin Panel — SocoLive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -11,13 +13,13 @@
       --green: #2ea043; --green-light: #3fb950;
       --text: #e6edf3; --muted: #8b949e; --accent: #f85149; --blue: #388bfd;
     }
-    body { font-family: -apple-system,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+    body { font-family: 'Be Vietnam Pro',-apple-system,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
 
     .layout { display:flex; min-height:100vh; }
     .sidebar {
       width:220px; background:var(--card); border-right:1px solid var(--border);
       padding:20px 0; position:fixed; top:0; left:0; height:100vh;
-      display:flex; flex-direction:column;
+      display:flex; flex-direction:column; z-index:200;
     }
     .sidebar-logo { font-size:1.1rem; font-weight:700; color:var(--green-light); padding:0 20px 20px; border-bottom:1px solid var(--border); }
     .sidebar-logo span { color:var(--muted); font-size:.75rem; display:block; font-weight:400; margin-top:2px; }
@@ -115,7 +117,7 @@
       .sidebar-nav { display:flex; flex-wrap:wrap; padding:8px; }
       .nav-item { border-left:none; border-bottom:2px solid transparent; padding:8px 12px; }
       .nav-item.active { border-bottom-color:var(--green-light); }
-      .layout { fl flex-direction:column; }
+      .layout { flex-direction:column; }
       .field-row { grid-template-columns:1fr; }
     }
   </style>
@@ -126,18 +128,18 @@
   <aside class="sidebar">
     <div class="sidebar-logo"> Admin Panel <span>SocoLive</span></div>
     <nav class="sidebar-nav">
-      <div class="nav-item active" onclick="showSection('site',his)"> Trang web</div>
+      <div class="nav-item active" onclick="showSection('site',this)"> Trang web</div>
       <div class="nav-item" onclick="showSection('banners',this)"> Banner</div>
       <div class="nav-item" onclick="showSection('buttons',this)"> Nút bấm</div>
       <div class="nav-item" onclick="showSection('pages',this)"> Trang con</div>
-      <div class="nav-item" onclick="showSection('stats',this)"> Thốnkkê</div>
+      <div class="nav-item" onclick="showSection('stats',this)"> Thống kê</div>
     </nav>
-    <div class="sidebar-footer"><a href="/" target="_blank">← Xem trang chữ ↗</a></div>
+    <div class="sidebar-footer"><a href="/" target="_blank">← Xem trang chủ ↗</a></div>
   </aside>
 
   <main class="main">
     <div class="preview-bar">
-       <a href="/" target="_blank">Trang chữ</a>
+       <a href="/" target="_blank">Trang chủ</a>
       <a href="/live" target="_blank">/live</a>
       <a href="/vip" target="_blank">/vip</a>
       <a href="/contact" target="_blank">/contact</a>
@@ -149,7 +151,7 @@
       <div class="page-desc">Tên, logo hình ảnh, mô tả chung</div>
 
       <div class="card">
-        <div class="card-header">🖼 Logo hình ƣnh</div>
+        <div class="card-header">🖼 Logo hình ảnh</div>
         <div class="card-body">
           <div class="upload-wrap">
             <div class="upload-preview" id="logoPreview">
@@ -158,12 +160,12 @@
             </div>
             <div class="upload-btn-group">
               <label class="upload-label">
-                📁 Chnọn file logo
+                📁 Chọn file logo
                 <input type="file" accept="image/*" onchange="uploadLogo(this)"/>
               </label>
               <span class="upload-hint">
-                PNG, SVG nền trong suốt ℔ tối đa 5MB<br/>
-                <b style="color:var(--green-light)">Kich thàuca khuy㪋n dùng: 300×80px</b><br/>
+                PNG, SVG nền trong suốt — tối đa 5MB<br/>
+                <b style="color:var(--green-light)">Kích thước khuyên dùng: 300×80px</b><br/>
                 Tên file lưu là <code>logo.png</code>
               </span>
               <span class="upload-status" id="logoUploadStatus"></span>
@@ -482,9 +484,14 @@ function fillBanners() {
               <img id="b-img-preview" src="${imgSrc}" alt="" style="${imgSrc?'':'display:none'}" onerror="this.style.display='none'"/>
               ${!imgSrc?'<span style="color:var(--muted);font-size:.75rem">Chưa có</span>':''}
             </div>
-            <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px">
+            <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px">
+              <label class="upload-label">
+                📁 Chọn file ảnh
+                <input type="file" accept="image/*" onchange="uploadBannerImg(this,${i})"/>
+              </label>
+              <span class="upload-status" id="b-img-status"></span>
+              <span id="b-img-hint" class="upload-hint">Hoặc dán URL bên dưới — khuyên dùng 1100×460px</span>
               <input id="b-img-url" type="url" placeholder="https://i.ibb.co/... hoặc /images/banner1.jpg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 12px;font-size:.9rem;width:100%" oninput="previewBannerImg('b-img-url','b-img-preview')"/>
-              <span class="upload-hint">Dán link ảnh — khuyên dùng 1100×460px<br/>Host miễn phí: <b>imgbb.com</b> (không cần đăng ký)</span>
               <button onclick="saveBannerImgUrl(${i})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Lưu URL ảnh</button>
             </div>
           </div>
@@ -792,9 +799,14 @@ function fillPageBanners(slug) {
             <img id="pb-img-prev-${slug}" src="${imgSrc}" style="${imgSrc?'':'display:none'}" onerror="this.style.display='none'"/>
             ${!imgSrc?'<span style="color:var(--muted);font-size:.75rem">Chưa có</span>':''}
           </div>
-          <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px">
+          <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px">
+            <label class="upload-label">
+              📁 Chọn file ảnh
+              <input type="file" accept="image/*" onchange="uploadPageBannerImg(this,'${slug}',${idx})"/>
+            </label>
+            <span class="upload-status" id="pb-img-status-${slug}"></span>
+            <span id="pb-img-hint-${slug}" class="upload-hint">${b.image ? `File: ${b.image}` : 'Hoặc dán URL bên dưới'}</span>
             <input id="pb-img-url-${slug}" type="url" placeholder="https://i.ibb.co/..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 12px;font-size:.9rem;width:100%" oninput="previewBannerImg('pb-img-url-${slug}','pb-img-prev-${slug}')"/>
-            <span class="upload-hint">${b.image ? `URL hiện tại: ${b.image}` : 'Chưa có ảnh'}</span>
             <button onclick="savePageBannerImgUrl('${slug}',${idx})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Lưu URL ảnh</button>
           </div>
         </div>
@@ -1026,29 +1038,4 @@ async function saveStats() {
 // ── HELPERS ──
 async function patch(section, index, field, value) {
   await fetch('/api/admin/config', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ section, index, field, value })
-  });
-}
-
-function showSection(name, el) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('sec-' + name).classList.add('active');
-  el.classList.add('active');
-}
-
-let toastTimer;
-function toast(type, msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.className = `toast show ${type}`;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-loadConfig();
-</script>
-</body>
-</html>
-  
+    me
