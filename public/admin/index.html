@@ -205,6 +205,8 @@
           <div class="field"><label>Ten website</label><input id="site-name" type="text"/></div>
           <div class="field"><label>Logo text (fallback khi chua co anh)</label><input id="site-logo" type="text"/></div>
           <div class="field"><label>Mo ta ngan</label><input id="site-description" type="text"/></div>
+          <div class="field"><label>Tieu de section "Kham Pha" (trang chinh + trang con)</label><input id="site-featuresTitle" type="text"/></div>
+          <div class="field"><label>Mo ta section "Kham Pha"</label><input id="site-featuresSub" type="text"/></div>
           <button class="save-btn" onclick="saveSite()">Luu thay doi</button>
         </div>
       </div>
@@ -449,11 +451,15 @@ function fillSite() {
   document.getElementById('site-name').value = cfg.site.name;
   document.getElementById('site-logo').value = cfg.site.logo;
   document.getElementById('site-description').value = cfg.site.description;
+  document.getElementById('site-featuresTitle').value = cfg.site.featuresTitle || '';
+  document.getElementById('site-featuresSub').value   = cfg.site.featuresSub   || '';
 }
 async function saveSite() {
   await patch('site', null, 'name',        document.getElementById('site-name').value);
   await patch('site', null, 'logo',        document.getElementById('site-logo').value);
-  await patch('site', null, 'description', document.getElementById('site-description').value);
+  await patch('site', null, 'description',   document.getElementById('site-description').value);
+  await patch('site', null, 'featuresTitle', document.getElementById('site-featuresTitle').value);
+  await patch('site', null, 'featuresSub',   document.getElementById('site-featuresSub').value);
   toast('ok', 'Đã lưu thông tin trang web!');
 }
 
