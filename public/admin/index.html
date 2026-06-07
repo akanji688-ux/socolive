@@ -115,7 +115,7 @@
       .sidebar-nav { display:flex; flex-wrap:wrap; padding:8px; }
       .nav-item { border-left:none; border-bottom:2px solid transparent; padding:8px 12px; }
       .nav-item.active { border-bottom-color:var(--green-light); }
-      .layout { flex-direction:column; }
+      .layout { fl flex-direction:column; }
       .field-row { grid-template-columns:1fr; }
     }
   </style>
@@ -126,18 +126,18 @@
   <aside class="sidebar">
     <div class="sidebar-logo"> Admin Panel <span>SocoLive</span></div>
     <nav class="sidebar-nav">
-      <div class="nav-item active" onclick="showSection('site',this)"> Trang web</div>
+      <div class="nav-item active" onclick="showSection('site',his)"> Trang web</div>
       <div class="nav-item" onclick="showSection('banners',this)"> Banner</div>
       <div class="nav-item" onclick="showSection('buttons',this)"> Nút bấm</div>
       <div class="nav-item" onclick="showSection('pages',this)"> Trang con</div>
-      <div class="nav-item" onclick="showSection('stats',this)"> Thống kê</div>
+      <div class="nav-item" onclick="showSection('stats',this)"> Thốnkkê</div>
     </nav>
-    <div class="sidebar-footer"><a href="/" target="_blank">← Xem trang chủ ↗</a></div>
+    <div class="sidebar-footer"><a href="/" target="_blank">← Xem trang chữ ↗</a></div>
   </aside>
 
   <main class="main">
     <div class="preview-bar">
-       <a href="/" target="_blank">Trang chủ</a>
+       <a href="/" target="_blank">Trang chữ</a>
       <a href="/live" target="_blank">/live</a>
       <a href="/vip" target="_blank">/vip</a>
       <a href="/contact" target="_blank">/contact</a>
@@ -149,7 +149,7 @@
       <div class="page-desc">Tên, logo hình ảnh, mô tả chung</div>
 
       <div class="card">
-        <div class="card-header">🖼 Logo hình ảnh</div>
+        <div class="card-header">🖼 Logo hình ƣnh</div>
         <div class="card-body">
           <div class="upload-wrap">
             <div class="upload-preview" id="logoPreview">
@@ -158,12 +158,12 @@
             </div>
             <div class="upload-btn-group">
               <label class="upload-label">
-                📁 Chọn file logo
+                📁 Chnọn file logo
                 <input type="file" accept="image/*" onchange="uploadLogo(this)"/>
               </label>
               <span class="upload-hint">
-                PNG, SVG nền trong su[ốt — tối đa 5MB<br/>
-                <b style="color:var(--green-light)">Kích thước khuyên dùng: 300×80px</b><br/>
+                PNG, SVG nền trong suốt ℔ tối đa 5MB<br/>
+                <b style="color:var(--green-light)">Kich thàuca khuy㪋n dùng: 300×80px</b><br/>
                 Tên file lưu là <code>logo.png</code>
               </span>
               <span class="upload-status" id="logoUploadStatus"></span>
@@ -173,7 +173,7 @@
       </div>
 
       <div class="card">
-        <div class="card-header">🎨 Ģnh nền krang (Background)</div>
+        <div class="card-header">🎨 Ảnh nền trang (Background)</div>
         <div class="card-body">
           <div class="upload-wrap">
             <div class="upload-preview" id="bgPreview" style="width:140px;height:80px;border-radius:8px;border:2px dashed var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">
@@ -249,10 +249,10 @@
         <div class="card-body">
           <div class="field-row">
             <div class="field"><label>Người dùng</label><input id="stat-users" type="number"/></div>
-            <div class="field"><label>Trận \tháng</label><input id="stat-matches" type="number"/></div>
+            <div class="field"><label>Trận / tháng</label><input id="stat-matches" type="number"/></div>
             <div class="field"><label>Đang live</label><input id="stat-live" type="number"/></div>
           </div>
-          <button class="save-btn" onclick="saveStats()">Luu thay đổi</button>
+          <button class="save-btn" onclick="saveStats()">Lưu thay đổi</button>
         </div>
       </div>
     </div>
@@ -261,8 +261,6 @@
 </div>
 
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
-
-
 
 <script>
 let cfg = {};
@@ -989,4 +987,68 @@ async function deletePage(slug) {
   if (!confirm(`Xóa trang /${slug}?`)) return;
   const r = await patchPage('delete-page', slug);
   if (r.success) {
+    cfg = r.config;
+    if (selectedPageSlug === slug) { selectedPageSlug = null; document.getElementById('pageEditor').style.display = 'none'; }
+    fillPages(); updatePreviewBar();
+    toast('ok', ` Đã xóa trang /${slug}!`);
+  }
+}
+
+
+async function patchPage(action, slug, field, value, itemIndex, newSlug, title) {
+  const body = { section: 'pages', action, slug, field, value, itemIndex };
+  if (newSlug) body.value = newSlug;
+  if (title)   body.field = title;
+  if (action === 'add-page') { body.slug = newSlug || slug; body.field = title; }
+  const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  return r.json();
+}
+
+function updatePreviewBar() {
+  const bar = document.querySelector('.preview-bar');
+  const slugs = Object.keys(cfg.pages || {});
+  bar.innerHTML = ` <a href="/" target="_blank">Trang chủ</a> ${slugs.map(s => `<a href="/${s}" target="_blank">/${s}</a>`).join(' ')}`;
+}
+
+// ── STATS ──
+function fillStats() {
+  document.getElementById('stat-users').value   = cfg.stats.users;
+  document.getElementById('stat-matches').value = cfg.stats.matches;
+  document.getElementById('stat-live').value    = cfg.stats.live;
+}
+async function saveStats() {
+  await patch('stats', null, 'users',   document.getElementById('stat-users').value);
+  await patch('stats', null, 'matches', document.getElementById('stat-matches').value);
+  await patch('stats', null, 'live',    document.getElementById('stat-live').value);
+  toast('ok', 'Đã lưu số liệu!');
+}
+
+// ── HELPERS ──
+async function patch(section, index, field, value) {
+  await fetch('/api/admin/config', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ section, index, field, value })
+  });
+}
+
+function showSection(name, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  el.classList.add('active');
+}
+
+let toastTimer;
+function toast(type, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+loadConfig();
+</script>
+</body>
+</html>
   
