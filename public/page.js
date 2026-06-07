@@ -57,11 +57,14 @@ function showSyncToast() {
   setTimeout(() => { t.style.opacity = '0'; }, 2500);
 }
 
+// Hỗ trợ URL đầy đủ (https://...) lẫn file local (/images/...)
+function imgUrl(v) { return v ? (v.startsWith('http') ? v : '/images/' + v) : ''; }
+
 // ── NAV ──
 function setupNav(site) {
   const logoWrap = document.getElementById('logoText');
   if (site.logoImage) {
-    logoWrap.innerHTML = `<img src="/images/${site.logoImage}?t=${Date.now()}" alt="${site.name}" class="logo-img"/>`;
+    logoWrap.innerHTML = `<img src="${imgUrl(site.logoImage)}" alt="${site.name}" class="logo-img"/>`;
   } else {
     logoWrap.innerHTML = `<span class="logo logo-fallback">${site.logo}</span>`;
   }
@@ -69,7 +72,7 @@ function setupNav(site) {
   const bgLayer = document.getElementById('bgLayer');
   if (bgLayer) {
     if (site.bgImage) {
-      bgLayer.style.backgroundImage = `url('/images/${site.bgImage}?t=${Date.now()}')`;
+      bgLayer.style.backgroundImage = `url('${imgUrl(site.bgImage)}')`;
       bgLayer.style.display = 'block';
     } else {
       bgLayer.style.backgroundImage = '';
@@ -93,7 +96,7 @@ function renderSlider(banners, buttons) {
   banners.forEach((b, i) => {
     const div = document.createElement('div');
     div.className = `slide ${b.bg}`;
-    if (b.image) div.style.backgroundImage = `url('/images/${b.image}?t=${Date.now()}')`;
+    if (b.image) div.style.backgroundImage = `url('${imgUrl(b.image)}')`;
     div.innerHTML = `
       <div class="slide-content">
         <span class="badge">${b.badge}</span>
@@ -154,7 +157,6 @@ function renderButtons(buttons, page) {
   buttons.forEach(b => {
     const a = document.createElement('a');
     a.href = b.link;
-    // Highlight nút tương ứng với trang hiện tại
     a.className = 'feature-btn' + (b.featured ? ' featured' : '') + (b.highlight ? ' highlight' : '') + (b.link === `/${PAGE_SLUG}` ? ' active-page' : '');
     if (b.badge) {
       const s = document.createElement('span'); s.className = 'badge-btn'; s.textContent = b.badge; a.appendChild(s);
