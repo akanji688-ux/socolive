@@ -1,0 +1,168 @@
+let currentVersion = 0;
+
+async function init() {
+  const res = await fetch('/api/config');
+  const cfg = await res.json();
+  currentVersion = cfg.v || 1;
+  render(cfg);
+  startPolling();
+}
+
+function render(cfg) {
+  setupNav(cfg.site);
+  renderSlider(cfg.banners, cfg.buttons);
+  renderButtons(cfg.buttons);
+}
+
+// ── AUTO-SYNC: poll version mỗi 4 giây ──
+function startPolling() {
+  setInterval(async () => {
+    try {
+      const r = await fetch('/api/version');
+      const { v } = await r.json();
+      if (v !== currentVersion) {
+        currentVersion = v;
+        const res = await fetch('/api/config');
+        const cfg = await res.json();
+        render(cfg);
+        showSyncToast();
+      }
+    } catch {}
+  }, 4000);
+}
+
+function showSyncToast() {
+  let t = document.getElementById('syncToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'syncToast';
+    t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1a2235;border:1px solid #00c853;color:#00c853;padding:10px 22px;border-radius:50px;font-size:.85rem;font-weight:600;z-index:999;opacity:0;transition:opacity .3s';
+    t.textContent = '✓ Nội dung đã được cập nhật';
+    document.body.appendChild(t);
+  }
+  t.style.opacity = '1';
+  setTimeout(() => { t.style.opacity = '0'; }, 2500);
+}
+
+// ── NAV ──
+function setupNav(site) {
+  const logoWrap = document.getElementById('logoText');
+  if (site.logoImage) {
+    logoWrap.innerHTML = `<img src="/images/${site.logoImage}?t=${Date.now()}" alt="${site.name}" class="logo-img"/>`;
+  } else {
+    logoWrap.innerHTML = `<span class="logo logo-fallback">${site.logo}</span>`;
+  }
+  document.getElementById('logoMobile').textContent = site.name;
+  const bgLayer = document.getElementById('bgLayer');
+  if (bgLayer) {
+    if (site.bgImage) {
+      bgLayer.style.backgroundImage = `url('/images/${site.bgImage}?t=${Date.now()}')`;
+      bgLayer.style.display = 'block';
+    } else {
+      bgLayer.style.backgroundImage = '';
+      bgLayer.style.display = 'none';
+    }
+  }
+}
+
+// ── SLIDER ──
+function renderSlider(banners, buttons) {
+  const slider = document.getElementById('slider');
+  const dotsWrap = document.getElementById('sliderDots');
+
+  const link1  = buttons[0]?.link  || '#';
+  const link2  = buttons[1]?.link  || '#';
+  const link3  = buttons[2]?.link  || '#';
+  const label3 = buttons[2] ? `${buttons[2].icon} ${buttons[2].label}` : 'Liên Hệ';
+
+  slider.innerHTML = '';
+  dotsWrap.innerHTML = '';
+
+  banners.forEach((b, i) => {
+    const div = document.createElement('div');
+    div.className = `slide ${b.bg}`;
+    if (b.image) div.style.backgroundImage = `url('/images/${b.image}?t=${Date.now()}')`;
+    div.innerHTML = `
+      <div class="slide-content">
+        <span class="badge">${b.badge}</span>
+        <h1>${b.title.replace(/\n/g,'<br/>')}</h1>
+        <p>${b.desc}</p>
+        <div class="cta-group">
+          <a href="${link1}" class="btn btn-primary">▶ Xem Ngay</a>
+          <a href="${link2}" class="btn btn-ghost">Đăng Ký</a>
+          <a href="${link3}" class="btn btn-outline">${label3}</a>
+        </div>
+      </div>`;
+    slider.appendChild(div);
+
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsWrap.appendChild(d);
+  });
+
+  startSlider(banners.length);
+}
+
+let current = 0, timer, totalSlides = 0;
+
+function startSlider(count) {
+  totalSlides = count;
+  clearInterval(timer);
+  timer = setInterval(() => goTo(current + 1), 5000);
+
+  const slider = document.getElementById('slider');
+  // Xóa listener cũ bằng cách clone
+  const newSlider = slider.cloneNode(true);
+  slider.parentNode.replaceChild(newSlider, slider);
+
+  let startX = 0;
+  newSlider.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
+  newSlider.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) { goTo(current + (dx < 0 ? 1 : -1)); reset(); }
+  });
+}
+
+function goTo(n) {
+  current = (n + totalSlides) % totalSlides;
+  const s = document.getElementById('slider');
+  if (s) s.style.transform = `translateX(-${current * 100}%)`;
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+function reset() {
+  clearInterval(timer);
+  timer = setInterval(() => goTo(current + 1), 5000);
+}
+
+document.getElementById('prevBtn').onclick = () => { goTo(current - 1); reset(); };
+document.getElementById('nextBtn').onclick = () => { goTo(current + 1); reset(); };
+
+// ── BUTTONS ──
+function renderButtons(buttons) {
+  const grid = document.getElementById('btnGrid');
+  grid.innerHTML = '';
+  buttons.forEach(b => {
+    const a = document.createElement('a');
+    a.href = b.link;
+    a.className = 'feature-btn' + (b.featured ? ' featured' : '') + (b.highlight ? ' highlight' : '');
+    if (b.badge) {
+      const s = document.createElement('span');
+      s.className = 'badge-btn';
+      s.textContent = b.badge;
+      a.appendChild(s);
+    }
+    const icon  = document.createElement('span'); icon.className  = 'feature-icon';  icon.textContent = b.icon;
+    const label = document.createElement('span'); label.className = 'feature-label'; label.textContent = b.label;
+    const desc  = document.createElement('span'); desc.className  = 'feature-desc';  desc.textContent = b.desc;
+    a.append(icon, label, desc);
+    grid.appendChild(a);
+  });
+}
+
+// ── HAMBURGER ──
+document.getElementById('hamburger').onclick = () =>
+  document.getElementById('mobileMenu').classList.toggle('open');
+
+init();

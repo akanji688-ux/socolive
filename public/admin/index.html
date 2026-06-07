@@ -1,0 +1,1022 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin Panel — SocoLive</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d1117; --card: #161b22; --border: #30363d;
+      --green: #2ea043; --green-light: #3fb950;
+      --text: #e6edf3; --muted: #8b949e; --accent: #f85149; --blue: #388bfd;
+    }
+    body { font-family: -apple-system,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+    .layout { display:flex; min-height:100vh; }
+    .sidebar {
+      width:220px; background:var(--card); border-right:1px solid var(--border);
+      padding:20px 0; position:fixed; top:0; left:0; height:100vh;
+      display:flex; flex-direction:column;
+    }
+    .sidebar-logo { font-size:1.1rem; font-weight:700; color:var(--green-light); padding:0 20px 20px; border-bottom:1px solid var(--border); }
+    .sidebar-logo span { color:var(--muted); font-size:.75rem; display:block; font-weight:400; margin-top:2px; }
+    .sidebar-nav { padding:12px 0; flex:1; }
+    .nav-item {
+      display:flex; align-items:center; gap:10px;
+      padding:10px 20px; cursor:pointer; color:var(--muted);
+      font-size:.9rem; transition:all .15s; border-left:3px solid transparent;
+    }
+    .nav-item:hover { background:rgba(255,255,255,.04); color:var(--text); }
+    .nav-item.active { color:var(--green-light); border-left-color:var(--green-light); background:rgba(46,160,67,.08); }
+    .sidebar-footer { padding:16px 20px; border-top:1px solid var(--border); }
+    .sidebar-footer a { color:var(--blue); font-size:.85rem; text-decoration:none; }
+
+    .main { margin-left:220px; padding:32px; flex:1; max-width:900px; }
+    .page-title { font-size:1.4rem; font-weight:700; margin-bottom:4px; }
+    .page-desc { color:var(--muted); font-size:.875rem; margin-bottom:28px; }
+
+    .section { display:none; }
+    .section.active { display:block; }
+
+    .card { background:var(--card); border:1px solid var(--border); border-radius:8px; margin-bottom:16px; }
+    .card-header { padding:14px 20px; border-bottom:1px solid var(--border); font-weight:600; font-size:.9rem; display:flex; align-items:center; gap:8px; }
+    .card-body { padding:20px; display:flex; flex-direction:column; gap:14px; }
+
+    .field { display:flex; flex-direction:column; gap:6px; }
+    .field label { font-size:.8rem; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+    .field input, .field select {
+      background:var(--bg); border:1px solid var(--border);
+      color:var(--text); border-radius:6px; padding:9px 12px;
+      font-size:.9rem; outline:none; transition:border .15s; width:100%;
+    }
+    .field input:focus { border-color:var(--blue); }
+    .field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+    /* UPLOAD */
+    .upload-wrap { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+    .upload-preview {
+      width:80px; height:80px; border-radius:8px;
+      border:2px dashed var(--border); background:var(--bg);
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden; flex-shrink:0;
+    }
+    .upload-preview img { width:100%; height:100%; object-fit:contain; }
+    .upload-preview.banner-preview { width:140px; height:80px; }
+    .upload-preview span { color:var(--muted); font-size:1.5rem; }
+    .upload-btn-group { display:flex; flex-direction:column; gap:8px; }
+    .upload-label {
+      display:inline-flex; align-items:center; gap:8px;
+      background:var(--bg); border:1px solid var(--border);
+      color:var(--text); border-radius:6px; padding:8px 16px;
+      font-size:.875rem; cursor:pointer; transition:border .15s;
+    }
+    .upload-label:hover { border-color:var(--blue); }
+    .upload-label input[type=file] { display:none; }
+    .upload-hint { font-size:.78rem; color:var(--muted); }
+    .upload-status { font-size:.82rem; }
+    .upload-status.ok  { color:var(--green-light); }
+    .upload-status.err { color:var(--accent); }
+
+    .tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px; }
+    .tab { padding:8px 18px; cursor:pointer; font-size:.875rem; color:var(--muted); border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .15s; }
+    .tab.active { color:var(--green-light); border-bottom-color:var(--green-light); }
+
+    .save-btn {
+      background:var(--green); color:#fff; border:none;
+      padding:9px 22px; border-radius:6px; font-size:.875rem;
+      font-weight:600; cursor:pointer; transition:background .15s; align-self:flex-start;
+    }
+    .save-btn:hover { background:var(--green-light); }
+
+    .preview-bar {
+      background:rgba(56,139,253,.1); border:1px solid rgba(56,139,253,.2);
+      border-radius:6px; padding:10px 16px; margin-bottom:24px;
+      font-size:.85rem; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+    .preview-bar a { color:var(--blue); text-decoration:none; }
+    .preview-bar a:hover { text-decoration:underline; }
+
+    .toast {
+      position:fixed; bottom:24px; right:24px;
+      background:#1c2128; border:1px solid var(--border);
+      border-radius:8px; padding:12px 20px; font-size:.875rem;
+      display:none; align-items:center; gap:10px; z-index:999;
+      box-shadow:0 8px 24px rgba(0,0,0,.4);
+    }
+    .toast.show { display:flex; }
+    .toast.ok .dot  { background:var(--green-light); }
+    .toast.err .dot { background:var(--accent); }
+    .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+    @media (max-width:640px) {
+      .sidebar { width:100%; height:auto; position:relative; }
+      .main { margin-left:0; padding:16px; }
+      .sidebar-nav { display:flex; flex-wrap:wrap; padding:8px; }
+      .nav-item { border-left:none; border-bottom:2px solid transparent; padding:8px 12px; }
+      .nav-item.active { border-bottom-color:var(--green-light); }
+      .layout { flex-direction:column; }
+      .field-row { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo"> Admin Panel <span>SocoLive</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showSection('site',this)"> Trang web</div>
+      <div class="nav-item" onclick="showSection('banners',this)"> Banner</div>
+      <div class="nav-item" onclick="showSection('buttons',this)"> Nút bấm</div>
+      <div class="nav-item" onclick="showSection('pages',this)"> Trang con</div>
+      <div class="nav-item" onclick="showSection('stats',this)"> Thống kê</div>
+    </nav>
+    <div class="sidebar-footer"><a href="/" target="_blank">← Xem trang chủ ↗</a></div>
+  </aside>
+
+  <main class="main">
+    <div class="preview-bar">
+       <a href="/" target="_blank">Trang chủ</a>
+      <a href="/live" target="_blank">/live</a>
+      <a href="/vip" target="_blank">/vip</a>
+      <a href="/contact" target="_blank">/contact</a>
+    </div>
+
+    <!-- SITE -->
+    <div class="section active" id="sec-site">
+      <div class="page-title"> Thông tin trang web</div>
+      <div class="page-desc">Tên, logo hình ảnh, mô tả chung</div>
+
+      <div class="card">
+        <div class="card-header"> Logo hình ảnh</div>
+        <div class="card-body">
+          <div class="upload-wrap">
+            <div class="upload-preview" id="logoPreview">
+              <img id="logoPreviewImg" src="/images/logo.png" alt="" onerror="this.style.display='none'" />
+              <span id="logoPreviewIcon"></span>
+            </div>
+            <div class="upload-btn-group">
+              <label class="upload-label">
+                 Chọn file logo
+                <input type="file" accept="image/*" onchange="uploadLogo(this)"/>
+              </label>
+              <span class="upload-hint">
+                PNG, SVG conen trong suot — toi da 5MB<br/>
+                <b style="color:var(--green-light)">Kich thuoc khuyen dung: 300 x 80 px</b><br/>
+                Anh qua lon se bi cat — nen dung anh ngang, chieu cao nho<br/>
+                Ten file luu la <code>logo.png</code>
+              </span>
+              <span class="upload-status" id="logoUploadStatus"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Anh nen trang (Background)</div>
+        <div class="card-body">
+          <div class="upload-wrap">
+            <div class="upload-preview" id="bgPreview" style="width:140px;height:80px;border-radius:8px;border:2px dashed var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">
+              <img id="bgPreviewImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover"/>
+              <span id="bgPreviewIcon" style="color:var(--muted);font-size:.8rem;text-align:center;padding:8px">Chua co anh nen</span>
+            </div>
+            <div class="upload-btn-group">
+              <label class="upload-label">
+                Chon anh nen
+                <input type="file" accept="image/*" onchange="uploadBg(this)"/>
+              </label>
+              <span class="upload-hint">
+                JPG, PNG — toi da 5MB<br/>
+                <b style="color:var(--green-light)">Kich thuoc khuyen dung: 1920 x 1080 px tro len</b><br/>
+                Anh duoc lam toi tu dong — dung anh sang se bi che khuat chu<br/>
+                Anh qua nho se bi mo / vo nat tren man hinh lon
+              </span>
+              <span class="upload-status" id="bgUploadStatus"></span>
+              <button onclick="removeBg()" style="background:rgba(248,81,73,.12);border:1px solid rgba(248,81,73,.25);color:#f85149;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Xoa anh nen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Thong tin chung</div>
+        <div class="card-body">
+          <div class="field"><label>Ten website</label><input id="site-name" type="text"/></div>
+          <div class="field"><label>Logo text (fallback khi chua co anh)</label><input id="site-logo" type="text"/></div>
+          <div class="field"><label>Mo ta ngan</label><input id="site-description" type="text"/></div>
+          <button class="save-btn" onclick="saveSite()">Luu thay doi</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANNERS -->
+    <div class="section" id="sec-banners">
+      <div class="page-title"> Banner Slider</div>
+      <div class="page-desc">Chỉnh nội dung và hình ảnh nền mỗi slide</div>
+      <div class="tabs" id="bannerTabs"></div>
+      <div id="bannerForms"></div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="section" id="sec-buttons">
+      <div class="page-title"> Nút bấm chính</div>
+      <div class="page-desc">Chỉnh icon, tên, mô tả, đường dẫn</div>
+      <div id="btnForms"></div>
+    </div>
+
+    <!-- PAGES -->
+    <div class="section" id="sec-pages">
+      <div class="page-title"> Trang con</div>
+      <div class="page-desc">Tạo và chỉnh sửa các trang con</div>
+
+      <!-- Tạo trang mới -->
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap">
+        <input id="new-page-slug" placeholder="Tên URL (vd: giaidau)" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 14px;font-size:.9rem;outline:none;width:200px"/>
+        <input id="new-page-title" placeholder="Tiêu đề trang (vd:  Giải Đấu)" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 14px;font-size:.9rem;outline:none;flex:1;min-width:180px"/>
+        <button class="save-btn" onclick="addPage()"> Tạo trang mới</button>
+      </div>
+
+      <!-- Danh sách trang (chọn để chỉnh) -->
+      <div id="pageList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px"></div>
+
+      <!-- Editor trang được chọn -->
+      <div id="pageEditor" style="display:none"></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="section" id="sec-stats">
+      <div class="page-title"> Số liệu thống kê</div>
+      <div class="page-desc">Hiển thị ở thanh số liệu dưới banner</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="field-row">
+            <div class="field"><label>Người dùng</label><input id="stat-users" type="number"/></div>
+            <div class="field"><label>Trận / tháng</label><input id="stat-matches" type="number"/></div>
+            <div class="field"><label>Đang live</label><input id="stat-live" type="number"/></div>
+          </div>
+          <button class="save-btn" onclick="saveStats()">Lưu thay đổi</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
+
+<script>
+let cfg = {};
+let activeBannerTab = 0;
+
+async function loadConfig() {
+  try {
+    const r = await fetch('/api/admin/config');
+    cfg = await r.json();
+    fillSite();
+    fillBanners();
+    fillButtons();
+    fillPages();
+    fillStats();
+    // logo preview
+    const img = document.getElementById('logoPreviewImg');
+    if (img) {
+      img.src = '/images/logo.png?' + Date.now();
+      img.style.display = '';
+      img.onerror = () => { img.style.display = 'none'; const icon = document.getElementById('logoPreviewIcon'); if (icon) icon.style.display = ''; };
+    }
+    // background preview
+    if (cfg.site.bgImage) {
+      const bgImg = document.getElementById('bgPreviewImg');
+      const bgIcon = document.getElementById('bgPreviewIcon');
+      if (bgImg) { bgImg.src = '/images/' + cfg.site.bgImage + '?' + Date.now(); bgImg.style.display = ''; }
+      if (bgIcon) bgIcon.style.display = 'none';
+    }
+  } catch(e) {
+    console.error('loadConfig error:', e);
+    toast('err', 'Lỗi tải config: ' + e.message);
+  }
+}
+
+// ── LOGO UPLOAD ──
+// ── BACKGROUND IMAGE ──
+async function uploadBg(input) {
+  const status = document.getElementById('bgUploadStatus');
+  if (!input.files[0]) return;
+  const ext = input.files[0].name.split('.').pop();
+  const filename = 'bg.' + ext;
+  const fd = new FormData();
+  fd.append('file', input.files[0]);
+  status.textContent = 'Dang tai len...'; status.className = 'upload-status';
+  try {
+    const r = await fetch('/api/upload/' + filename, { method:'POST', body:fd });
+    const d = await r.json();
+    if (d.success) {
+      await patch('site', null, 'bgImage', d.filename);
+      cfg.site.bgImage = d.filename;
+      const img = document.getElementById('bgPreviewImg');
+      img.src = d.url + '?' + Date.now(); img.style.display = '';
+      document.getElementById('bgPreviewIcon').style.display = 'none';
+      status.textContent = 'Tai len thanh cong!'; status.className = 'upload-status ok';
+      toast('ok', 'Anh nen da cap nhat!');
+    } else { status.textContent = d.error; status.className = 'upload-status err'; }
+  } catch { status.textContent = 'Loi ket noi'; status.className = 'upload-status err'; }
+}
+async function removeBg() {
+  await patch('site', null, 'bgImage', '');
+  cfg.site.bgImage = '';
+  const img = document.getElementById('bgPreviewImg');
+  img.style.display = 'none'; img.src = '';
+  document.getElementById('bgPreviewIcon').style.display = '';
+  document.getElementById('bgUploadStatus').textContent = '';
+  toast('ok', 'Da xoa anh nen!');
+}
+
+async function uploadLogo(input) {
+  const status = document.getElementById('logoUploadStatus');
+  if (!input.files[0]) return;
+  const ext = input.files[0].name.split('.').pop();
+  const filename = 'logo.' + ext;
+  const fd = new FormData();
+  fd.append('file', input.files[0]);
+  status.textContent = 'Đang tải lên...'; status.className = 'upload-status';
+  try {
+    const r = await fetch('/api/upload/' + filename, { method:'POST', body:fd });
+    const d = await r.json();
+    if (d.success) {
+      // Đồng bộ config để frontend biết dùng file nào
+      await patch('site', null, 'logoImage', d.filename);
+      cfg.site.logoImage = d.filename;
+      const img = document.getElementById('logoPreviewImg');
+      img.src = d.url + '?' + Date.now(); img.style.display = '';
+      document.getElementById('logoPreviewIcon').style.display = 'none';
+      status.textContent = ' Tải lên thành công!'; status.className = 'upload-status ok';
+      toast('ok', 'Logo đã cập nhật — trang chủ đồng bộ ngay!');
+    } else {
+      status.textContent = d.error; status.className = 'upload-status err';
+    }
+  } catch { status.textContent = 'Lỗi kết nối'; status.className = 'upload-status err'; }
+}
+
+// ── BANNER IMAGE UPLOAD ──
+async function uploadBannerImg(input, idx) {
+  // Dùng id cố định vì chỉ hiển thị 1 slide tại 1 thời điểm
+  const status = document.getElementById('b-img-status');
+  if (!input.files[0] || !status) return;
+  const ext = input.files[0].name.split('.').pop();
+  const name = `banner${idx + 1}.${ext}`;
+  const fd = new FormData();
+  fd.append('file', input.files[0]);
+  status.textContent = 'Đang tải lên...'; status.className = 'upload-status';
+  try {
+    const r = await fetch('/api/upload/' + name, { method:'POST', body:fd });
+    const d = await r.json();
+    if (d.success) {
+      await patch('banners', idx, 'image', d.filename);
+      cfg.banners[idx].image = d.filename;
+      // Cập nhật preview ngay
+      const prev = document.getElementById('b-img-preview');
+      if (prev) { prev.src = d.url + '?' + Date.now(); prev.style.display = ''; }
+      const hint = document.getElementById('b-img-hint');
+      if (hint) hint.textContent = `File hiện tại: ${d.filename}`;
+      status.textContent = ' Tải lên thành công!'; status.className = 'upload-status ok';
+      toast('ok', ` Ảnh Slide ${idx + 1} đã cập nhật!`);
+    } else {
+      status.textContent = d.error; status.className = 'upload-status err';
+      toast('err', ' Upload thất bại: ' + d.error);
+    }
+  } catch { status.textContent = 'Lỗi kết nối'; status.className = 'upload-status err'; }
+}
+
+// ── SITE ──
+function fillSite() {
+  document.getElementById('site-name').value = cfg.site.name;
+  document.getElementById('site-logo').value = cfg.site.logo;
+  document.getElementById('site-description').value = cfg.site.description;
+}
+async function saveSite() {
+  await patch('site', null, 'name',        document.getElementById('site-name').value);
+  await patch('site', null, 'logo',        document.getElementById('site-logo').value);
+  await patch('site', null, 'description', document.getElementById('site-description').value);
+  toast('ok', 'Đã lưu thông tin trang web!');
+}
+
+// ── BANNERS ──
+function fillBanners() {
+  const tabs = document.getElementById('bannerTabs');
+  const forms = document.getElementById('bannerForms');
+  if (activeBannerTab >= cfg.banners.length) activeBannerTab = 0;
+
+  // Tabs + nút Thêm slide
+  tabs.innerHTML = '';
+  cfg.banners.forEach((b, i) => {
+    const tab = document.createElement('div');
+    tab.className = 'tab' + (i === activeBannerTab ? ' active' : '');
+    tab.textContent = `Slide ${i + 1}`;
+    tab.onclick = () => { activeBannerTab = i; fillBanners(); };
+    tabs.appendChild(tab);
+  });
+  const addBtn = document.createElement('div');
+  addBtn.className = 'tab';
+  addBtn.style.cssText = 'color:#3fb950;font-weight:700;';
+  addBtn.textContent = ' Thêm slide';
+  addBtn.onclick = addSlide;
+  tabs.appendChild(addBtn);
+
+  const b = cfg.banners[activeBannerTab];
+  const i = activeBannerTab;
+  const imgSrc = b.image ? `/images/${b.image}?${Date.now()}` : '';
+  const canDelete = cfg.banners.length > 1;
+
+  forms.innerHTML = `
+    <div class="card">
+      <div class="card-header" style="justify-content:space-between">
+        <span> Slide ${i + 1}</span>
+        ${canDelete ? `<button onclick="deleteSlide(${i})" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;"> Xóa slide này</button>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="field"><label>Badge (nhãn nhỏ)</label><input id="b-badge"/></div>
+        <div class="field"><label>Tiêu đề (dùng \\n để xuống dòng)</label><input id="b-title"/></div>
+        <div class="field"><label>Mô tả</label><input id="b-desc"/></div>
+        <div class="field">
+          <label>Hình ảnh nền</label>
+          <div class="upload-wrap">
+            <div class="upload-preview banner-preview">
+              <img id="b-img-preview" src="${imgSrc}" alt="" style="${imgSrc?'':'display:none'}" onerror="this.style.display='none'"/>
+              ${!imgSrc?'<span></span>':''}
+            </div>
+            <div class="upload-btn-group">
+              <label class="upload-label">Chon anh banner<input type="file" accept="image/*" onchange="uploadBannerImg(this,${i})"/></label>
+              <span class="upload-hint" style="color:var(--muted);font-size:.78rem;line-height:1.5">
+                <b style="color:var(--green-light)">Kich thuoc: 1100 x 460 px</b><br/>
+                JPG, PNG — toi da 5MB<br/>
+                Anh ngang ty le 16:9 hoac 21:9 dep nhat<br/>
+                Anh toi mau / co gradient se hien chu ro hon
+              </span>
+              <span class="upload-hint" id="b-img-hint"></span>
+              <span class="upload-status" id="b-img-status"></span>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid #30363d;padding-top:16px;margin-top:4px">
+          <div style="font-size:.8rem;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px"> Nút bấm trên banner</div>
+          <div class="field-row" style="margin-bottom:12px">
+            <div class="field"><label>Nút 1 — Tên</label><input id="b-btn1-label"/></div>
+            <div class="field"><label>Nút 1 — Link</label><input id="b-btn1-link"/></div>
+          </div>
+          <div class="field-row" style="margin-bottom:12px">
+            <div class="field"><label>Nút 2 — Tên</label><input id="b-btn2-label"/></div>
+            <div class="field"><label>Nút 2 — Link</label><input id="b-btn2-link"/></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Nút 3 — Tên</label><input id="b-btn3-label"/></div>
+            <div class="field"><label>Nút 3 — Link</label><input id="b-btn3-link"/></div>
+          </div>
+        </div>
+
+        <button class="save-btn" onclick="saveBanner(${i})">Lưu Slide ${i + 1}</button>
+      </div>
+    </div>`;
+
+  // Gán giá trị qua JS
+  document.getElementById('b-badge').value = b.badge || '';
+  document.getElementById('b-title').value = (b.title || '').replace(/\n/g,'\\n');
+  document.getElementById('b-desc').value  = b.desc || '';
+  document.getElementById('b-img-hint').textContent = b.image ? `File hiện tại: ${b.image}` : 'Chưa có ảnh — dùng màu nền';
+  // Banner CTA buttons lấy từ config.buttons
+  const btn = cfg.buttons;
+  if (btn[0]) { document.getElementById('b-btn1-label').value = `${btn[0].icon} ${btn[0].label}`; document.getElementById('b-btn1-link').value = btn[0].link; }
+  if (btn[1]) { document.getElementById('b-btn2-label').value = `${btn[1].icon} ${btn[1].label}`; document.getElementById('b-btn2-link').value = btn[1].link; }
+  if (btn[2]) { document.getElementById('b-btn3-label').value = `${btn[2].icon} ${btn[2].label}`; document.getElementById('b-btn3-link').value = btn[2].link; }
+}
+
+async function saveBanner(i) {
+  const title = document.getElementById('b-title').value.replace(/\\n/g,'\n');
+  await patch('banners', i, 'badge', document.getElementById('b-badge').value);
+  await patch('banners', i, 'title', title);
+  await patch('banners', i, 'desc',  document.getElementById('b-desc').value);
+  // Lưu link nút bấm trên banner (cập nhật vào config.buttons)
+  const btn1Link = document.getElementById('b-btn1-link').value;
+  const btn2Link = document.getElementById('b-btn2-link').value;
+  const btn3Link = document.getElementById('b-btn3-link').value;
+  if (cfg.buttons[0] && btn1Link) await patch('buttons', 0, 'link', btn1Link);
+  if (cfg.buttons[1] && btn2Link) await patch('buttons', 1, 'link', btn2Link);
+  if (cfg.buttons[2] && btn3Link) await patch('buttons', 2, 'link', btn3Link);
+  cfg.banners[i].badge = document.getElementById('b-badge').value;
+  cfg.banners[i].title = title;
+  cfg.banners[i].desc  = document.getElementById('b-desc').value;
+  toast('ok', `Đã lưu Slide ${i + 1}!`);
+}
+
+async function addSlide() {
+  const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ section:'banners', action:'add' }) });
+  const d = await r.json();
+  if (d.success) { cfg = d.config; activeBannerTab = cfg.banners.length - 1; fillBanners(); toast('ok','Đã thêm slide mới!'); }
+}
+
+async function deleteSlide(i) {
+  if (!confirm(`Xóa Slide ${i + 1}?`)) return;
+  const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ section:'banners', action:'delete', index:i }) });
+  const d = await r.json();
+  if (d.success) { cfg = d.config; activeBannerTab = 0; fillBanners(); toast('ok','Đã xóa slide!'); }
+}
+
+// ── BUTTONS ──
+function fillButtons() {
+  const wrap = document.getElementById('btnForms');
+  wrap.innerHTML = '';
+  cfg.buttons.forEach((b, i) => {
+    const canDel = cfg.buttons.length > 1;
+    wrap.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <div class="card-header" style="justify-content:space-between">
+          <span id="btn-header-${i}"></span>
+          ${canDel ? `<button onclick="deleteButton(${i})" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem">Xoa</button>` : ''}
+        </div>
+        <div class="card-body">
+          <div class="field-row">
+            <div class="field"><label>Icon</label><input id="btn-icon-${i}"/></div>
+            <div class="field"><label>Ten nut</label><input id="btn-label-${i}"/></div>
+          </div>
+          <div class="field"><label>Mo ta</label><input id="btn-desc-${i}"/></div>
+          <div class="field-row">
+            <div class="field"><label>Link (URL)</label><input id="btn-link-${i}"/></div>
+            <div class="field"><label>Badge (vd: HOT, MOI — de trong de xoa)</label><input id="btn-badge-${i}" placeholder="de trong neu khong can"/></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.875rem">
+              <input type="checkbox" id="btn-featured-${i}" style="width:16px;height:16px;cursor:pointer"/>
+              <span>Nut chinh (vien xanh)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.875rem">
+              <input type="checkbox" id="btn-highlight-${i}" style="width:16px;height:16px;cursor:pointer"/>
+              <span style="color:#ffc800;font-weight:600">Noi bat (nhap nhay doi mau)</span>
+            </label>
+          </div>
+          <button class="save-btn" onclick="saveButton(${i})">Luu Nut ${i + 1}</button>
+        </div>
+      </div>`);
+    document.getElementById(`btn-header-${i}`).textContent = `Nut ${i + 1}: ${b.label}`;
+    document.getElementById(`btn-icon-${i}`).value  = b.icon;
+    document.getElementById(`btn-label-${i}`).value = b.label;
+    document.getElementById(`btn-desc-${i}`).value  = b.desc;
+    document.getElementById(`btn-link-${i}`).value  = b.link;
+    document.getElementById(`btn-badge-${i}`).value     = b.badge     || '';
+    document.getElementById(`btn-featured-${i}`).checked  = !!b.featured;
+    document.getElementById(`btn-highlight-${i}`).checked = !!b.highlight;
+  });
+  wrap.insertAdjacentHTML('beforeend',
+    `<button onclick="addButton()" style="background:transparent;border:1px solid var(--green);color:var(--green-light);border-radius:6px;padding:9px 22px;font-size:.875rem;font-weight:600;cursor:pointer;width:100%">+ Them nut moi</button>`);
+}
+async function saveButton(i) {
+  const icon      = document.getElementById(`btn-icon-${i}`).value;
+  const label     = document.getElementById(`btn-label-${i}`).value;
+  const desc      = document.getElementById(`btn-desc-${i}`).value;
+  const link      = document.getElementById(`btn-link-${i}`).value;
+  const badge     = document.getElementById(`btn-badge-${i}`).value || null;
+  const featured  = document.getElementById(`btn-featured-${i}`).checked;
+  const highlight = document.getElementById(`btn-highlight-${i}`).checked;
+  await patch('buttons', i, 'icon',      icon);
+  await patch('buttons', i, 'label',     label);
+  await patch('buttons', i, 'desc',      desc);
+  await patch('buttons', i, 'link',      link);
+  await patch('buttons', i, 'badge',     badge);
+  await patch('buttons', i, 'featured',  featured);
+  await patch('buttons', i, 'highlight', highlight);
+  // Cập nhật cfg local để fillButtons không mất dữ liệu
+  cfg.buttons[i] = { ...cfg.buttons[i], icon, label, desc, link, badge, featured, highlight };
+  toast('ok', `Da luu Nut ${i + 1}!`);
+  fillButtons();
+}
+async function addButton() {
+  const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ section:'buttons', action:'add' }) });
+  const d = await r.json();
+  if (d.success) { cfg = d.config; fillButtons(); toast('ok', 'Da them nut moi!'); }
+}
+async function deleteButton(i) {
+  if (!confirm('Xoa nut nay?')) return;
+  const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ section:'buttons', action:'delete', index:i }) });
+  const d = await r.json();
+  if (d.success) { cfg = d.config; fillButtons(); toast('ok', 'Da xoa nut!'); }
+}
+
+// ── PAGES ──
+const activePageBannerTab = {};
+let selectedPageSlug = null;
+
+function fillPages() {
+  const list = document.getElementById('pageList');
+  list.innerHTML = '';
+  const pages = cfg.pages || {};
+  const slugs = Object.keys(pages);
+
+  if (!slugs.length) {
+    list.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Chưa có trang con nào.</p>';
+    document.getElementById('pageEditor').style.display = 'none';
+    return;
+  }
+
+  slugs.forEach(slug => {
+    const p = pages[slug];
+    if (activePageBannerTab[slug] === undefined) activePageBannerTab[slug] = 0;
+
+    const row = document.createElement('div');
+    const isSelected = slug === selectedPageSlug;
+    row.style.cssText = `display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:${isSelected ? 'rgba(46,160,67,.12)' : 'var(--card)'};border:1px solid ${isSelected ? 'var(--green)' : 'var(--border)'};border-radius:8px;gap:12px;cursor:pointer;transition:all .15s`;
+    row.onclick = () => selectPage(slug);
+
+    const left = document.createElement('div');
+    left.style.cssText = 'display:flex;align-items:center;gap:12px;flex:1;min-width:0';
+    const icon = document.createElement('span');
+    icon.textContent = isSelected ? '' : '';
+    icon.style.cssText = `color:${isSelected ? 'var(--green-light)' : 'var(--muted)'};font-size:.9rem;flex-shrink:0`;
+    const info = document.createElement('div');
+    const titleSpan = document.createElement('span');
+    titleSpan.textContent = p.title || slug;
+    titleSpan.style.cssText = `font-weight:600;font-size:.9rem;color:${isSelected ? 'var(--green-light)' : 'var(--text)'}`;
+    const slugSpan = document.createElement('code');
+    slugSpan.textContent = `/${slug}`;
+    slugSpan.style.cssText = 'font-size:.78rem;color:var(--blue);margin-left:8px';
+    info.append(titleSpan, slugSpan);
+    left.append(icon, info);
+
+    const btns = document.createElement('div');
+    btns.style.cssText = 'display:flex;gap:8px;flex-shrink:0';
+    btns.innerHTML = `
+      <a href="/${slug}" target="_blank" onclick="event.stopPropagation()" style="font-size:.8rem;color:var(--blue);text-decoration:none;padding:4px 10px;border:1px solid var(--blue);border-radius:6px">↗ Xem</a>
+      <button onclick="event.stopPropagation();deletePage('${slug}')" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;"> Xóa</button>`;
+
+    row.append(left, btns);
+    list.appendChild(row);
+  });
+
+  // Nếu đang có trang được chọn, render editor
+  if (selectedPageSlug && cfg.pages[selectedPageSlug]) {
+    renderPageEditor(selectedPageSlug);
+  } else if (selectedPageSlug && !cfg.pages[selectedPageSlug]) {
+    selectedPageSlug = null;
+    document.getElementById('pageEditor').style.display = 'none';
+  }
+}
+
+function selectPage(slug) {
+  selectedPageSlug = slug;
+  fillPages(); // re-render list with highlight
+  renderPageEditor(slug);
+}
+
+function renderPageEditor(slug) {
+  const p = cfg.pages[slug];
+  const editor = document.getElementById('pageEditor');
+  editor.style.display = 'block';
+  editor.innerHTML = `
+    <div style="border-top:2px solid var(--green);padding-top:20px;margin-top:4px">
+      <div style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--green-light)"> Đang chỉnh sửa: <code style="color:var(--blue)">/${slug}</code></div>
+
+      <!-- Thông tin cơ bản -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header"> Thông tin trang</div>
+        <div class="card-body">
+          <div class="field-row">
+            <div class="field"><label>URL (slug)</label><input id="ps-slug-${slug}" placeholder="vd: giaidau"/></div>
+            <div class="field"><label>Tiêu đề trang</label><input id="ps-title-${slug}"/></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Heading (H1)</label><input id="ps-heading-${slug}"/></div>
+            <div class="field"><label>Mô tả</label><input id="ps-desc-${slug}"/></div>
+          </div>
+          <button class="save-btn" onclick="savePage('${slug}')">Lưu thông tin</button>
+        </div>
+      </div>
+
+      <!-- Banner riêng -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-header"> Banner của trang này</div>
+        <div class="card-body" style="padding-bottom:0">
+          <div class="tabs" id="ptabs-${slug}" style="margin:-20px -20px 0;padding:0 20px;border-bottom:1px solid var(--border)"></div>
+          <div id="pbannerForm-${slug}"></div>
+        </div>
+      </div>
+
+      <!-- Nút bấm riêng -->
+      <div class="card">
+        <div class="card-header"> Nút bấm của trang này</div>
+        <div class="card-body">
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Icon — Tên nút — Mô tả — Link — [Lưu]</div>
+          <div id="pbtns-${slug}"></div>
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById(`ps-slug-${slug}`).value    = slug;
+  document.getElementById(`ps-title-${slug}`).value   = p.title   || '';
+  document.getElementById(`ps-heading-${slug}`).value = p.heading || '';
+  document.getElementById(`ps-desc-${slug}`).value    = p.desc    || '';
+
+  fillPageBanners(slug);
+  fillPageButtons(slug);
+}
+
+// ── Banner riêng của trang con ──
+function fillPageBanners(slug) {
+  const p = cfg.pages[slug];
+  const banners = p.banners || cfg.banners;
+  const tabs = document.getElementById(`ptabs-${slug}`);
+  const form = document.getElementById(`pbannerForm-${slug}`);
+  if (!tabs || !form) return;
+
+  if (activePageBannerTab[slug] >= banners.length) activePageBannerTab[slug] = 0;
+  const idx = activePageBannerTab[slug];
+
+  tabs.innerHTML = '';
+  banners.forEach((_, i) => {
+    const tab = document.createElement('div');
+    tab.className = 'tab' + (i === idx ? ' active' : '');
+    tab.textContent = `Slide ${i + 1}`;
+    tab.onclick = () => { activePageBannerTab[slug] = i; fillPageBanners(slug); };
+    tabs.appendChild(tab);
+  });
+  const addT = document.createElement('div');
+  addT.className = 'tab'; addT.style.cssText = 'color:#3fb950;font-weight:700';
+  addT.textContent = ' Thêm slide'; addT.onclick = () => addPageBanner(slug);
+  tabs.appendChild(addT);
+
+  const b = banners[idx];
+  const imgSrc = b.image ? `/images/${b.image}?${Date.now()}` : '';
+  const canDel = banners.length > 1;
+
+  form.innerHTML = `
+    <div style="background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:16px;display:flex;flex-direction:column;gap:12px">
+      ${canDel ? `<div style="text-align:right"><button onclick="deletePageBanner('${slug}',${idx})" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;"> Xóa slide này</button></div>` : ''}
+      <div class="field"><label>Badge</label><input id="pb-badge-${slug}"/></div>
+      <div class="field"><label>Tiêu đề (dùng \\n để xuống dòng)</label><input id="pb-title-${slug}"/></div>
+      <div class="field"><label>Mô tả</label><input id="pb-desc-${slug}"/></div>
+      <div class="field">
+        <label>Hình ảnh nền</label>
+        <div class="upload-wrap">
+          <div class="upload-preview banner-preview">
+            <img id="pb-img-prev-${slug}" src="${imgSrc}" style="${imgSrc?'':'display:none'}" onerror="this.style.display='none'"/>
+            ${!imgSrc?'<span></span>':''}
+          </div>
+          <div class="upload-btn-group">
+            <label class="upload-label">Chon anh<input type="file" accept="image/*" onchange="uploadPageBannerImg(this,'${slug}',${idx})"/></label>
+            <span class="upload-hint" style="color:var(--muted);font-size:.78rem;line-height:1.5">
+              <b style="color:var(--green-light)">Kich thuoc: 1100 x 460 px</b><br/>
+              JPG, PNG — toi da 5MB — anh ngang ty le 16:9
+            </span>
+            <span class="upload-hint" id="pb-img-hint-${slug}">${b.image ? `File: ${b.image}` : 'Chua co anh'}</span>
+            <span class="upload-status" id="pb-img-status-${slug}"></span>
+          </div>
+        </div>
+      </div>
+      <button class="save-btn" onclick="savePageBanner('${slug}',${idx})">Lưu Slide ${idx + 1}</button>
+    </div>`;
+
+  document.getElementById(`pb-badge-${slug}`).value = b.badge || '';
+  document.getElementById(`pb-title-${slug}`).value = (b.title || '').replace(/\n/g,'\\n');
+  document.getElementById(`pb-desc-${slug}`).value  = b.desc  || '';
+}
+
+async function savePageBanner(slug, idx) {
+  const title = document.getElementById(`pb-title-${slug}`).value.replace(/\\n/g,'\n');
+  await patchPageBanner('update-banner', slug, idx, 'badge',  document.getElementById(`pb-badge-${slug}`).value);
+  await patchPageBanner('update-banner', slug, idx, 'title', title);
+  await patchPageBanner('update-banner', slug, idx, 'desc',   document.getElementById(`pb-desc-${slug}`).value);
+  if (!cfg.pages[slug].banners) cfg.pages[slug].banners = JSON.parse(JSON.stringify(cfg.banners));
+  cfg.pages[slug].banners[idx].badge = document.getElementById(`pb-badge-${slug}`).value;
+  cfg.pages[slug].banners[idx].title = title;
+  cfg.pages[slug].banners[idx].desc  = document.getElementById(`pb-desc-${slug}`).value;
+  toast('ok', ` Đã lưu Slide ${idx + 1} của trang /${slug}!`);
+}
+
+async function addPageBanner(slug) {
+  const r = await patchPageBanner('add-banner', slug);
+  if (r.success) { cfg = r.config; activePageBannerTab[slug] = (cfg.pages[slug].banners||cfg.banners).length - 1; fillPageBanners(slug); toast('ok','Đã thêm slide mới!'); }
+}
+async function deletePageBanner(slug, idx) {
+  if (!confirm(`Xóa Slide ${idx+1} của trang /${slug}?`)) return;
+  const r = await patchPageBanner('delete-banner', slug, idx);
+  if (r.success) { cfg = r.config; activePageBannerTab[slug] = 0; fillPageBanners(slug); toast('ok','Đã xóa slide!'); }
+}
+
+async function uploadPageBannerImg(input, slug, idx) {
+  const status = document.getElementById(`pb-img-status-${slug}`);
+  if (!input.files[0] || !status) return;
+  const ext = input.files[0].name.split('.').pop();
+  const name = `${slug}-banner${idx+1}.${ext}`;
+  const fd = new FormData(); fd.append('file', input.files[0]);
+  status.textContent = 'Đang tải lên...'; status.className = 'upload-status';
+  try {
+    const r = await fetch('/api/upload/' + name, { method:'POST', body:fd });
+    const d = await r.json();
+    if (d.success) {
+      await patchPageBanner('update-banner', slug, idx, 'image', d.filename);
+      if (!cfg.pages[slug].banners) cfg.pages[slug].banners = JSON.parse(JSON.stringify(cfg.banners));
+      cfg.pages[slug].banners[idx].image = d.filename;
+      const prev = document.getElementById(`pb-img-prev-${slug}`);
+      if (prev) { prev.src = d.url + '?' + Date.now(); prev.style.display = ''; }
+      document.getElementById(`pb-img-hint-${slug}`).textContent = `File: ${d.filename}`;
+      status.textContent = ' Tải lên thành công!'; status.className = 'upload-status ok';
+      toast('ok', ` Ảnh Slide ${idx+1} của /${slug} đã cập nhật!`);
+    } else { status.textContent = d.error; status.className = 'upload-status err'; }
+  } catch { status.textContent = 'Lỗi kết nối'; status.className = 'upload-status err'; }
+}
+
+async function patchPageBanner(action, slug, itemIndex, field, value) {
+  const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ section:'pages', action, slug, itemIndex, field, value }) });
+  return r.json();
+}
+
+// ── Nút bấm riêng của trang con ──
+function fillPageButtons(slug) {
+  const p = cfg.pages[slug];
+  const buttons = p.buttons || cfg.buttons;
+  const wrap = document.getElementById(`pbtns-${slug}`);
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const canDel = buttons.length > 1;
+  buttons.forEach((b, i) => {
+    const row = document.createElement('div');
+    row.style.cssText = `display:grid;grid-template-columns:60px 1fr 1fr 1fr auto${canDel ? ' auto' : ''};gap:8px;margin-bottom:8px;align-items:center`;
+    wrap.appendChild(row);
+    row.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-bottom:16px;padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px';
+    row.insertAdjacentHTML('beforeend',
+      `<div style="display:grid;grid-template-columns:60px 1fr 1fr 1fr;gap:8px">
+         <input id="pbi-icon-${slug}-${i}"  placeholder="Icon"  style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:8px;font-size:.9rem;width:100%;text-align:center"/>
+         <input id="pbi-label-${slug}-${i}" placeholder="Ten"   style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:8px;font-size:.9rem;width:100%"/>
+         <input id="pbi-desc-${slug}-${i}"  placeholder="Mo ta" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:8px;font-size:.9rem;width:100%"/>
+         <input id="pbi-link-${slug}-${i}"  placeholder="Link"  style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:8px;font-size:.9rem;width:100%"/>
+       </div>
+       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+         <input id="pbi-badge-${slug}-${i}" placeholder="Badge (HOT, MOI...)" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 10px;font-size:.82rem;width:180px"/>
+         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.82rem">
+           <input type="checkbox" id="pbi-featured-${slug}-${i}" style="width:15px;height:15px"/>
+           <span>Nut chinh</span>
+         </label>
+         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.82rem">
+           <input type="checkbox" id="pbi-highlight-${slug}-${i}" style="width:15px;height:15px"/>
+           <span style="color:#ffc800;font-weight:600">Noi bat (nhap nhay)</span>
+         </label>
+         <div style="margin-left:auto;display:flex;gap:8px">
+           <button onclick="savePageButton('${slug}',${i})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem">Luu</button>
+           ${canDel ? `<button onclick="deletePageButton('${slug}',${i})" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:7px 10px;cursor:pointer;font-size:.82rem">Xoa</button>` : ''}
+         </div>
+       </div>`);
+    document.getElementById(`pbi-icon-${slug}-${i}`).value      = b.icon      || '';
+    document.getElementById(`pbi-label-${slug}-${i}`).value     = b.label     || '';
+    document.getElementById(`pbi-desc-${slug}-${i}`).value      = b.desc      || '';
+    document.getElementById(`pbi-link-${slug}-${i}`).value      = b.link      || '';
+    document.getElementById(`pbi-badge-${slug}-${i}`).value     = b.badge     || '';
+    document.getElementById(`pbi-featured-${slug}-${i}`).checked  = !!b.featured;
+    document.getElementById(`pbi-highlight-${slug}-${i}`).checked = !!b.highlight;
+  });
+  wrap.insertAdjacentHTML('beforeend',
+    `<button onclick="addPageButton('${slug}')" style="background:transparent;border:1px solid var(--green);color:var(--green-light);border-radius:6px;padding:8px 18px;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:4px">+ Them nut moi</button>`);
+}
+
+async function savePageButton(slug, i) {
+  const icon      = document.getElementById(`pbi-icon-${slug}-${i}`).value;
+  const label     = document.getElementById(`pbi-label-${slug}-${i}`).value;
+  const desc      = document.getElementById(`pbi-desc-${slug}-${i}`).value;
+  const link      = document.getElementById(`pbi-link-${slug}-${i}`).value;
+  const badge     = document.getElementById(`pbi-badge-${slug}-${i}`).value || null;
+  const featured  = document.getElementById(`pbi-featured-${slug}-${i}`).checked;
+  const highlight = document.getElementById(`pbi-highlight-${slug}-${i}`).checked;
+  await patchPageBanner('update-button', slug, i, 'icon',      icon);
+  await patchPageBanner('update-button', slug, i, 'label',     label);
+  await patchPageBanner('update-button', slug, i, 'desc',      desc);
+  await patchPageBanner('update-button', slug, i, 'link',      link);
+  await patchPageBanner('update-button', slug, i, 'badge',     badge);
+  await patchPageBanner('update-button', slug, i, 'featured',  featured);
+  await patchPageBanner('update-button', slug, i, 'highlight', highlight);
+  if (!cfg.pages[slug].buttons) cfg.pages[slug].buttons = JSON.parse(JSON.stringify(cfg.buttons));
+  cfg.pages[slug].buttons[i] = { ...cfg.pages[slug].buttons[i], icon, label, desc, link, badge, featured, highlight };
+  toast('ok', 'Da luu nut!');
+}
+
+async function addPageButton(slug) {
+  const r = await patchPageBanner('add-button', slug);
+  if (r.success) { cfg = r.config; fillPageButtons(slug); toast('ok', 'Da them nut moi!'); }
+}
+
+async function deletePageButton(slug, i) {
+  if (!confirm('Xoa nut nay?')) return;
+  const r = await patchPageBanner('delete-button', slug, i);
+  if (r.success) { cfg = r.config; fillPageButtons(slug); toast('ok', 'Da xoa nut!'); }
+}
+
+
+async function addPage() {
+  const slug  = document.getElementById('new-page-slug').value.trim().replace(/[^a-z0-9-]/gi,'').toLowerCase();
+  const title = document.getElementById('new-page-title').value.trim();
+  if (!slug) return toast('err', ' Nhập tên URL cho trang!');
+  if (cfg.pages[slug]) return toast('err', ` Trang "/${slug}" đã tồn tại!`);
+  const r = await patchPage('add-page', null, null, null, null, slug, title || 'Trang Mới');
+  if (r.success) {
+    cfg = r.config;
+    document.getElementById('new-page-slug').value  = '';
+    document.getElementById('new-page-title').value = '';
+    selectedPageSlug = slug;
+    fillPages();
+    updatePreviewBar();
+    toast('ok', ` Đã tạo trang /${slug}! Đang mở editor...`);
+  }
+}
+
+async function savePage(slug) {
+  const newSlug = document.getElementById(`ps-slug-${slug}`).value.trim().replace(/[^a-z0-9-]/gi,'').toLowerCase();
+  const title   = document.getElementById(`ps-title-${slug}`).value;
+  const heading = document.getElementById(`ps-heading-${slug}`).value;
+  const desc    = document.getElementById(`ps-desc-${slug}`).value;
+
+  await patchPage('update-page', slug, 'title',   title);
+  await patchPage('update-page', slug, 'heading', heading);
+  await patchPage('update-page', slug, 'desc',    desc);
+
+  if (newSlug && newSlug !== slug) {
+    const r = await patchPage('rename-page', slug, null, newSlug);
+    if (r.success) {
+      cfg = r.config;
+      selectedPageSlug = newSlug;
+      fillPages(); updatePreviewBar();
+      toast('ok', ` Đã lưu và đổi URL thành /${newSlug}!`);
+      return;
+    }
+  }
+  cfg.pages[slug].title   = title;
+  cfg.pages[slug].heading = heading;
+  cfg.pages[slug].desc    = desc;
+  fillPages();
+  toast('ok', ` Đã lưu trang /${slug}!`);
+}
+
+async function deletePage(slug) {
+  if (!confirm(`Xóa trang /${slug}?`)) return;
+  const r = await patchPage('delete-page', slug);
+  if (r.success) {
+    cfg = r.config;
+    if (selectedPageSlug === slug) { selectedPageSlug = null; document.getElementById('pageEditor').style.display = 'none'; }
+    fillPages(); updatePreviewBar();
+    toast('ok', ` Đã xóa trang /${slug}!`);
+  }
+}
+
+
+async function patchPage(action, slug, field, value, itemIndex, newSlug, title) {
+  const body = { section: 'pages', action, slug, field, value, itemIndex };
+  if (newSlug) body.value = newSlug;
+  if (title)   body.field = title;
+  if (action === 'add-page') { body.slug = newSlug || slug; body.field = title; }
+  const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  return r.json();
+}
+
+function updatePreviewBar() {
+  const bar = document.querySelector('.preview-bar');
+  const slugs = Object.keys(cfg.pages || {});
+  bar.innerHTML = ` <a href="/" target="_blank">Trang chủ</a> ${slugs.map(s => `<a href="/${s}" target="_blank">/${s}</a>`).join(' ')}`;
+}
+
+// ── STATS ──
+function fillStats() {
+  document.getElementById('stat-users').value   = cfg.stats.users;
+  document.getElementById('stat-matches').value = cfg.stats.matches;
+  document.getElementById('stat-live').value    = cfg.stats.live;
+}
+async function saveStats() {
+  await patch('stats', null, 'users',   document.getElementById('stat-users').value);
+  await patch('stats', null, 'matches', document.getElementById('stat-matches').value);
+  await patch('stats', null, 'live',    document.getElementById('stat-live').value);
+  toast('ok', 'Đã lưu số liệu!');
+}
+
+// ── HELPERS ──
+async function patch(section, index, field, value) {
+  await fetch('/api/admin/config', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ section, index, field, value })
+  });
+}
+
+function showSection(name, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  el.classList.add('active');
+}
+
+let toastTimer;
+function toast(type, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+loadConfig();
+</script>
+</body>
+</html>

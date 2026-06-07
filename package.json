@@ -1,0 +1,14 @@
+{
+  "name": "socolive-cf",
+  "version": "1.0.0",
+  "description": "SocoLive — Cloudflare Pages + D1 + R2",
+  "scripts": {
+    "dev": "wrangler pages dev public --d1=DB --r2=IMAGES",
+    "deploy": "wrangler pages deploy public --project-name=socolive",
+    "db:init": "wrangler d1 execute socolive-db --file=./migrations/0001_init.sql",
+    "db:init:remote": "wrangler d1 execute socolive-db --remote --file=./migrations/0001_init.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
