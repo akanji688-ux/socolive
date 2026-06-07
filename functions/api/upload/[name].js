@@ -1,6 +1,10 @@
-import { json, handleOptions, getConfig, saveConfig } from '../../_lib.js';
+import { json, handleOptions } from '../../_lib.js';
 
 export async function onRequestPost({ params, request, env }) {
+  if (!env.IMAGES) {
+    return json({ success: false, error: 'R2 chưa được cấu hình. Vui lòng thêm R2 bucket trong Settings.' }, 503);
+  }
+
   const { name } = params;
   const formData  = await request.formData();
   const file      = formData.get('file');
@@ -15,7 +19,7 @@ export async function onRequestPost({ params, request, env }) {
   const arrayBuffer = await file.arrayBuffer();
   await env.IMAGES.put(name, arrayBuffer, { httpMetadata: { contentType } });
 
-  // Cập nhật config nếu là logo hoặc bg
+  const { getConfig, saveConfig } = await import('../../_lib.js');
   const cfg = await getConfig(env.DB);
   if (name.startsWith('logo')) cfg.site.logoImage = name;
   if (name.startsWith('bg'))   cfg.site.bgImage   = name;

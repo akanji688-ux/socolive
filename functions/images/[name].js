@@ -1,4 +1,7 @@
 export async function onRequestGet({ params, env }) {
+  if (!env.IMAGES) {
+    return new Response('Not Found', { status: 404 });
+  }
   const { name } = params;
   const obj = await env.IMAGES.get(name);
   if (!obj) return new Response('Not Found', { status: 404 });
