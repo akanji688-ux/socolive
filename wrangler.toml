@@ -5,7 +5,7 @@ pages_build_output_dir = "public"
 [[d1_databases]]
 binding = "DB"
 database_name = "socolive-db"
-database_id = "REPLACE_WITH_YOUR_D1_ID"
+database_id = "d086f4f3-321a-457c-a171-fda2354efed6"
 
 [[r2_buckets]]
 binding = "IMAGES"
