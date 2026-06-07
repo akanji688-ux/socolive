@@ -45,7 +45,7 @@ function startPolling() {
         showSyncToast();
       }
     } catch {}
-  }, 4000);
+  }, 2000);
 }
 
 function showSyncToast() {
