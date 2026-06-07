@@ -6,3 +6,7 @@ pages_build_output_dir = "public"
 binding = "DB"
 database_name = "socolive-db"
 database_id = "d086f4f3-321a-457c-a171-fda2354efed6"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "socolive-images"
