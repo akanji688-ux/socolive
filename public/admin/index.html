@@ -149,23 +149,22 @@
       <div class="page-desc">Tên, logo hình ảnh, mô tả chung</div>
 
       <div class="card">
-        <div class="card-header"> Logo hình ảnh</div>
+        <div class="card-header">🖼 Logo hình ảnh</div>
         <div class="card-body">
           <div class="upload-wrap">
             <div class="upload-preview" id="logoPreview">
-              <img id="logoPreviewImg" src="/images/logo.png" alt="" onerror="this.style.display='none'" />
-              <span id="logoPreviewIcon"></span>
+              <img id="logoPreviewImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'"/>
+              <span id="logoPreviewIcon" style="color:var(--muted);font-size:1.5rem">🖼</span>
             </div>
             <div class="upload-btn-group">
               <label class="upload-label">
-                 Chọn file logo
+                📁 Chọn file logo
                 <input type="file" accept="image/*" onchange="uploadLogo(this)"/>
               </label>
               <span class="upload-hint">
-                PNG, SVG conen trong suot — toi da 5MB<br/>
-                <b style="color:var(--green-light)">Kich thuoc khuyen dung: 300 x 80 px</b><br/>
-                Anh qua lon se bi cat — nen dung anh ngang, chieu cao nho<br/>
-                Ten file luu la <code>logo.png</code>
+                PNG, SVG nền trong su[ốt — tối đa 5MB<br/>
+                <b style="color:var(--green-light)">Kích thước khuyên dùng: 300×80px</b><br/>
+                Tên file lưu là <code>logo.png</code>
               </span>
               <span class="upload-status" id="logoUploadStatus"></span>
             </div>
@@ -174,26 +173,24 @@
       </div>
 
       <div class="card">
-        <div class="card-header">Anh nen trang (Background)</div>
+        <div class="card-header">🎨 Ģnh nền krang (Background)</div>
         <div class="card-body">
           <div class="upload-wrap">
             <div class="upload-preview" id="bgPreview" style="width:140px;height:80px;border-radius:8px;border:2px dashed var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">
               <img id="bgPreviewImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover"/>
-              <span id="bgPreviewIcon" style="color:var(--muted);font-size:.8rem;text-align:center;padding:8px">Chua co anh nen</span>
+              <span id="bgPreviewIcon" style="color:var(--muted);font-size:.8rem;text-align:center;padding:8px">Chưa có ảnh nền</span>
             </div>
             <div class="upload-btn-group">
               <label class="upload-label">
-                Chon anh nen
+                🖼 Chọn ảnh nền
                 <input type="file" accept="image/*" onchange="uploadBg(this)"/>
               </label>
               <span class="upload-hint">
-                JPG, PNG — toi da 5MB<br/>
-                <b style="color:var(--green-light)">Kich thuoc khuyen dung: 1920 x 1080 px tro len</b><br/>
-                Anh duoc lam toi tu dong — dung anh sang se bi che khuat chu<br/>
-                Anh qua nho se bi mo / vo nat tren man hinh lon
+                JPG, PNG — tối đa 5MB<br/>
+                <b style="color:var(--green-light)">Kích thước khuyên dùng: 1920×1080px trở lên</b>
               </span>
               <span class="upload-status" id="bgUploadStatus"></span>
-              <button onclick="removeBg()" style="background:rgba(248,81,73,.12);border:1px solid rgba(248,81,73,.25);color:#f85149;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Xoa anh nen</button>
+              <button onclick="removeBg()" style="background:rgba(248,81,73,.12);border:1px solid rgba(248,81,73,.25);color:#f85149;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Xóa ảnh nền</button>
             </div>
           </div>
         </div>
@@ -252,10 +249,10 @@
         <div class="card-body">
           <div class="field-row">
             <div class="field"><label>Người dùng</label><input id="stat-users" type="number"/></div>
-            <div class="field"><label>Trận / tháng</label><input id="stat-matches" type="number"/></div>
+            <div class="field"><label>Trận \tháng</label><input id="stat-matches" type="number"/></div>
             <div class="field"><label>Đang live</label><input id="stat-live" type="number"/></div>
           </div>
-          <button class="save-btn" onclick="saveStats()">Lưu thay đổi</button>
+          <button class="save-btn" onclick="saveStats()">Luu thay đổi</button>
         </div>
       </div>
     </div>
@@ -265,9 +262,12 @@
 
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
 
+
+
 <script>
 let cfg = {};
 let activeBannerTab = 0;
+function imgUrl(v) { return v ? (v.startsWith('http') ? v : '/images/' + v) : ''; }
 
 async function loadConfig() {
   try {
@@ -279,17 +279,17 @@ async function loadConfig() {
     fillPages();
     fillStats();
     // logo preview
-    const img = document.getElementById('logoPreviewImg');
-    if (img) {
-      img.src = '/images/logo.png?' + Date.now();
-      img.style.display = '';
-      img.onerror = () => { img.style.display = 'none'; const icon = document.getElementById('logoPreviewIcon'); if (icon) icon.style.display = ''; };
+    if (cfg.site.logoImage) {
+      const logoImg  = document.getElementById('logoPreviewImg');
+      const logoIcon = document.getElementById('logoPreviewIcon');
+      if (logoImg)  { logoImg.src = imgUrl(cfg.site.logoImage); logoImg.style.display = ''; }
+      if (logoIcon) logoIcon.style.display = 'none';
     }
     // background preview
     if (cfg.site.bgImage) {
-      const bgImg = document.getElementById('bgPreviewImg');
+      const bgImg  = document.getElementById('bgPreviewImg');
       const bgIcon = document.getElementById('bgPreviewIcon');
-      if (bgImg) { bgImg.src = '/images/' + cfg.site.bgImage + '?' + Date.now(); bgImg.style.display = ''; }
+      if (bgImg)  { bgImg.src = imgUrl(cfg.site.bgImage); bgImg.style.display = ''; }
       if (bgIcon) bgIcon.style.display = 'none';
     }
   } catch(e) {
@@ -298,94 +298,133 @@ async function loadConfig() {
   }
 }
 
-// ── LOGO UPLOAD ──
-// ── BACKGROUND IMAGE ──
-async function uploadBg(input) {
-  const status = document.getElementById('bgUploadStatus');
-  if (!input.files[0]) return;
-  const ext = input.files[0].name.split('.').pop();
-  const filename = 'bg.' + ext;
-  const fd = new FormData();
-  fd.append('file', input.files[0]);
-  status.textContent = 'Dang tai len...'; status.className = 'upload-status';
-  try {
-    const r = await fetch('/api/upload/' + filename, { method:'POST', body:fd });
-    const d = await r.json();
-    if (d.success) {
-      await patch('site', null, 'bgImage', d.filename);
-      cfg.site.bgImage = d.filename;
-      const img = document.getElementById('bgPreviewImg');
-      img.src = d.url + '?' + Date.now(); img.style.display = '';
-      document.getElementById('bgPreviewIcon').style.display = 'none';
-      status.textContent = 'Tai len thanh cong!'; status.className = 'upload-status ok';
-      toast('ok', 'Anh nen da cap nhat!');
-    } else { status.textContent = d.error; status.className = 'upload-status err'; }
-  } catch { status.textContent = 'Loi ket noi'; status.className = 'upload-status err'; }
-}
-async function removeBg() {
-  await patch('site', null, 'bgImage', '');
-  cfg.site.bgImage = '';
-  const img = document.getElementById('bgPreviewImg');
-  img.style.display = 'none'; img.src = '';
-  document.getElementById('bgPreviewIcon').style.display = '';
-  document.getElementById('bgUploadStatus').textContent = '';
-  toast('ok', 'Da xoa anh nen!');
+// ── HELPERS ẢNH ──
+function previewBannerImg(urlId, previewId) {
+  const url = document.getElementById(urlId)?.value;
+  const img = document.getElementById(previewId);
+  if (img && url) { img.src = url; img.style.display = ''; }
 }
 
+async function saveBannerImgUrl(i) {
+  const url = document.getElementById('b-img-url')?.value?.trim();
+  if (!url) return toast('err', 'Nhập URL ảnh trước!');
+  await patch('banners', i, 'image', url);
+  cfg.banners[i].image = url;
+  const prev = document.getElementById('b-img-preview');
+  if (prev) { prev.src = url; prev.style.display = ''; }
+  toast('ok', 'Đã lưu URL ảnh banner!');
+}
+
+async function savePageBannerImgUrl(slug, idx) {
+  const url = document.getElementById(`pb-img-url-${slug}`)?.value?.trim();
+  if (!url) return toast('err', 'Nhập URL ảnh trước!');
+  await patchPageBanner('update-banner', slug, idx, 'image', url);
+  if (!cfg.pages[slug].banners) cfg.pages[slug].banners = JSON.parse(JSON.stringify(cfg.banners));
+  cfg.pages[slug].banners[idx].image = url;
+  const prev = document.getElementById(`pb-img-prev-${slug}`);
+  if (prev) { prev.src = url; prev.style.display = ''; }
+  toast('ok', `Đã lưu URL ảnh Slide ${idx + 1}!`);
+}
+
+async function uploadFile(filename, fileInput, onSuccess) {
+  if (!fileInput.files[0]) return;
+  const fd = new FormData();
+  fd.append('file', fileInput.files[0]);
+  const res = await fetch('/api/upload/' + filename, { method: 'POST', body: fd });
+  const d = await res.json();
+  if (d.success) {
+    onSuccess(d);
+    toast('ok', d.note || 'Đã tải lên thành công!');
+  } else {
+    toast('err', d.error || 'Lỗi tải lên');
+  }
+  return d;
+}
+
+// ── LOGO ──
 async function uploadLogo(input) {
   const status = document.getElementById('logoUploadStatus');
   if (!input.files[0]) return;
   const ext = input.files[0].name.split('.').pop();
   const filename = 'logo.' + ext;
-  const fd = new FormData();
-  fd.append('file', input.files[0]);
-  status.textContent = 'Đang tải lên...'; status.className = 'upload-status';
-  try {
-    const r = await fetch('/api/upload/' + filename, { method:'POST', body:fd });
-    const d = await r.json();
-    if (d.success) {
-      // Đồng bộ config để frontend biết dùng file nào
-      await patch('site', null, 'logoImage', d.filename);
-      cfg.site.logoImage = d.filename;
-      const img = document.getElementById('logoPreviewImg');
-      img.src = d.url + '?' + Date.now(); img.style.display = '';
-      document.getElementById('logoPreviewIcon').style.display = 'none';
-      status.textContent = ' Tải lên thành công!'; status.className = 'upload-status ok';
-      toast('ok', 'Logo đã cập nhật — trang chủ đồng bộ ngay!');
-    } else {
-      status.textContent = d.error; status.className = 'upload-status err';
-    }
-  } catch { status.textContent = 'Lỗi kết nối'; status.className = 'upload-status err'; }
+  status.textContent = '⏳ Đang tải lên...'; status.className = 'upload-status';
+  const d = await uploadFile(filename, input, (d) => {
+    patch('site', null, 'logoImage', d.filename);
+    cfg.site.logoImage = d.filename;
+    const img = document.getElementById('logoPreviewImg');
+    if (img) { img.src = imgUrl(d.filename) + '?' + Date.now(); img.style.display = ''; }
+    document.getElementById('logoPreviewIcon').style.display = 'none';
+    status.textContent = '✅ ' + (d.note || 'Tải lên thành công!');
+    status.className = 'upload-status ok';
+  });
+  if (!d?.success) { status.textContent = '❌ ' + (d?.error || 'Lỗi'); status.className = 'upload-status err'; }
+}
+
+// ── BACKGROUND ──
+async function uploadBg(input) {
+  const status = document.getElementById('bgUploadStatus');
+  if (!input.files[0]) return;
+  const ext = input.files[0].name.split('.').pop();
+  const filename = 'bg.' + ext;
+  status.textContent = '⏳ Đang tải lên...'; status.className = 'upload-status';
+  const d = await uploadFile(filename, input, (d) => {
+    patch('site', null, 'bgImage', d.filename);
+    cfg.site.bgImage = d.filename;
+    const img = document.getElementById('bgPreviewImg');
+    if (img) { img.src = imgUrl(d.filename) + '?' + Date.now(); img.style.display = ''; }
+    document.getElementById('bgPreviewIcon').style.display = 'none';
+    status.textContent = '✅ ' + (d.note || 'Tải lên thành công!');
+    status.className = 'upload-status ok';
+  });
+  if (!d?.success) { status.textContent = '❌ ' + (d?.error || 'Lỗi'); status.className = 'upload-status err'; }
+}
+
+async function removeBg() {
+  await patch('site', null, 'bgImage', '');
+  cfg.site.bgImage = '';
+  const img = document.getElementById('bgPreviewImg');
+  if (img) { img.style.display = 'none'; img.src = ''; }
+  document.getElementById('bgPreviewIcon').style.display = '';
+  document.getElementById('bgUploadStatus').textContent = '';
+  toast('ok', 'Đã xóa ảnh nền!');
 }
 
 // ── BANNER IMAGE UPLOAD ──
 async function uploadBannerImg(input, idx) {
-  // Dùng id cố định vì chỉ hiển thị 1 slide tại 1 thời điểm
   const status = document.getElementById('b-img-status');
   if (!input.files[0] || !status) return;
   const ext = input.files[0].name.split('.').pop();
   const name = `banner${idx + 1}.${ext}`;
-  const fd = new FormData();
-  fd.append('file', input.files[0]);
-  status.textContent = 'Đang tải lên...'; status.className = 'upload-status';
-  try {
-    const r = await fetch('/api/upload/' + name, { method:'POST', body:fd });
-    const d = await r.json();
-    if (d.success) {
-      await patch('banners', idx, 'image', d.filename);
-      cfg.banners[idx].image = d.filename;
-      // Cập nhật preview ngay
-      const prev = document.getElementById('b-img-preview');
-      if (prev) { prev.src = d.url + '?' + Date.now(); prev.style.display = ''; }
-      const hint = document.getElementById('b-img-hint');
-      if (hint) hint.textContent = `File hiện tại: ${d.filename}`;
-      status.textContent = ' Tải lên thành công!'; status.className = 'upload-status ok';
-      toast('ok', ` Ảnh Slide ${idx + 1} đã cập nhật!`);
-    } else {
-      status.textContent = d.error; status.className = 'upload-status err';
-      toast('err', ' Upload thất bại: ' + d.error);
-    }
-  } catch { status.textContent = 'Lỗi kết nối'; status.className = 'upload-status err'; }
+  status.textContent = '⏳ Đang tải lên...'; status.className = 'upload-status';
+  const d = await uploadFile(name, input, (d) => {
+    patch('banners', idx, 'image', d.filename);
+    cfg.banners[idx].image = d.filename;
+    const prev = document.getElementById('b-img-preview');
+    if (prev) { prev.src = imgUrl(d.filename) + '?' + Date.now(); prev.style.display = ''; }
+    const hint = document.getElementById('b-img-hint');
+    if (hint) hint.textContent = d.note || ('File: ' + d.filename);
+    status.textContent = '✅ Tải lên thành công!'; status.className = 'upload-status ok';
+  });
+  if (!d?.success) { status.textContent = '❌ ' + (d?.error || 'Lỗi'); status.className = 'upload-status err'; }
+}
+
+// ── PAGE BANNER IMAGE UPLOAD ──
+async function uploadPageBannerImg(input, slug, idx) {
+  const status = document.getElementById(`pb-img-status-${slug}`);
+  if (!input.files[0] || !status) return;
+  const ext = input.files[0].name.split('.').pop();
+  const name = `${slug}-banner${idx+1}.${ext}`;
+  status.textContent = '⏳ Đang tải lên...'; status.className = 'upload-status';
+  const d = await uploadFile(name, input, (d) => {
+    patchPageBanner('update-banner', slug, idx, 'image', d.filename);
+    if (!cfg.pages[slug].banners) cfg.pages[slug].banners = JSON.parse(JSON.stringify(cfg.banners));
+    cfg.pages[slug].banners[idx].image = d.filename;
+    const prev = document.getElementById(`pb-img-prev-${slug}`);
+    if (prev) { prev.src = imgUrl(d.filename) + '?' + Date.now(); prev.style.display = ''; }
+    document.getElementById(`pb-img-hint-${slug}`).textContent = d.note || ('File: ' + d.filename);
+    status.textContent = '✅ Tải lên thành công!'; status.className = 'upload-status ok';
+  });
+  if (!d?.success) { status.textContent = '❌ ' + (d?.error || 'Lỗi'); status.className = 'upload-status err'; }
 }
 
 // ── SITE ──
@@ -439,22 +478,16 @@ function fillBanners() {
         <div class="field"><label>Tiêu đề (dùng \\n để xuống dòng)</label><input id="b-title"/></div>
         <div class="field"><label>Mô tả</label><input id="b-desc"/></div>
         <div class="field">
-          <label>Hình ảnh nền</label>
-          <div class="upload-wrap">
+          <label>URL ảnh nền banner</label>
+          <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
             <div class="upload-preview banner-preview">
               <img id="b-img-preview" src="${imgSrc}" alt="" style="${imgSrc?'':'display:none'}" onerror="this.style.display='none'"/>
-              ${!imgSrc?'<span></span>':''}
+              ${!imgSrc?'<span style="color:var(--muted);font-size:.75rem">Chưa có</span>':''}
             </div>
-            <div class="upload-btn-group">
-              <label class="upload-label">Chon anh banner<input type="file" accept="image/*" onchange="uploadBannerImg(this,${i})"/></label>
-              <span class="upload-hint" style="color:var(--muted);font-size:.78rem;line-height:1.5">
-                <b style="color:var(--green-light)">Kich thuoc: 1100 x 460 px</b><br/>
-                JPG, PNG — toi da 5MB<br/>
-                Anh ngang ty le 16:9 hoac 21:9 dep nhat<br/>
-                Anh toi mau / co gradient se hien chu ro hon
-              </span>
-              <span class="upload-hint" id="b-img-hint"></span>
-              <span class="upload-status" id="b-img-status"></span>
+            <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px">
+              <input id="b-img-url" type="url" placeholder="https://i.ibb.co/... hoặc /images/banner1.jpg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 12px;font-size:.9rem;width:100%" oninput="previewBannerImg('b-img-url','b-img-preview')"/>
+              <span class="upload-hint">Dán link ảnh — khuyên dùng 1100×460px<br/>Host miễn phí: <b>imgbb.com</b> (không cần đăng ký)</span>
+              <button onclick="saveBannerImgUrl(${i})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Lưu URL ảnh</button>
             </div>
           </div>
         </div>
@@ -483,7 +516,9 @@ function fillBanners() {
   document.getElementById('b-badge').value = b.badge || '';
   document.getElementById('b-title').value = (b.title || '').replace(/\n/g,'\\n');
   document.getElementById('b-desc').value  = b.desc || '';
-  document.getElementById('b-img-hint').textContent = b.image ? `File hiện tại: ${b.image}` : 'Chưa có ảnh — dùng màu nền';
+  // Cập nhật preview ảnh banner
+  const bImgPrev = document.getElementById('b-img-preview');
+  if (bImgPrev && b.image) { bImgPrev.src = imgUrl(b.image); bImgPrev.style.display = ''; }
   // Banner CTA buttons lấy từ config.buttons
   const btn = cfg.buttons;
   if (btn[0]) { document.getElementById('b-btn1-label').value = `${btn[0].icon} ${btn[0].label}`; document.getElementById('b-btn1-link').value = btn[0].link; }
@@ -753,20 +788,16 @@ function fillPageBanners(slug) {
       <div class="field"><label>Tiêu đề (dùng \\n để xuống dòng)</label><input id="pb-title-${slug}"/></div>
       <div class="field"><label>Mô tả</label><input id="pb-desc-${slug}"/></div>
       <div class="field">
-        <label>Hình ảnh nền</label>
-        <div class="upload-wrap">
+        <label>URL ảnh nền banner</label>
+        <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
           <div class="upload-preview banner-preview">
             <img id="pb-img-prev-${slug}" src="${imgSrc}" style="${imgSrc?'':'display:none'}" onerror="this.style.display='none'"/>
-            ${!imgSrc?'<span></span>':''}
+            ${!imgSrc?'<span style="color:var(--muted);font-size:.75rem">Chưa có</span>':''}
           </div>
-          <div class="upload-btn-group">
-            <label class="upload-label">Chon anh<input type="file" accept="image/*" onchange="uploadPageBannerImg(this,'${slug}',${idx})"/></label>
-            <span class="upload-hint" style="color:var(--muted);font-size:.78rem;line-height:1.5">
-              <b style="color:var(--green-light)">Kich thuoc: 1100 x 460 px</b><br/>
-              JPG, PNG — toi da 5MB — anh ngang ty le 16:9
-            </span>
-            <span class="upload-hint" id="pb-img-hint-${slug}">${b.image ? `File: ${b.image}` : 'Chua co anh'}</span>
-            <span class="upload-status" id="pb-img-status-${slug}"></span>
+          <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px">
+            <input id="pb-img-url-${slug}" type="url" placeholder="https://i.ibb.co/..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 12px;font-size:.9rem;width:100%" oninput="previewBannerImg('pb-img-url-${slug}','pb-img-prev-${slug}')"/>
+            <span class="upload-hint">${b.image ? `URL hiện tại: ${b.image}` : 'Chưa có ảnh'}</span>
+            <button onclick="savePageBannerImgUrl('${slug}',${idx})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Lưu URL ảnh</button>
           </div>
         </div>
       </div>
@@ -776,6 +807,8 @@ function fillPageBanners(slug) {
   document.getElementById(`pb-badge-${slug}`).value = b.badge || '';
   document.getElementById(`pb-title-${slug}`).value = (b.title || '').replace(/\n/g,'\\n');
   document.getElementById(`pb-desc-${slug}`).value  = b.desc  || '';
+  const pbImgPrev = document.getElementById(`pb-img-prev-${slug}`);
+  if (pbImgPrev && b.image) { pbImgPrev.src = imgUrl(b.image); pbImgPrev.style.display = ''; }
 }
 
 async function savePageBanner(slug, idx) {
@@ -956,67 +989,4 @@ async function deletePage(slug) {
   if (!confirm(`Xóa trang /${slug}?`)) return;
   const r = await patchPage('delete-page', slug);
   if (r.success) {
-    cfg = r.config;
-    if (selectedPageSlug === slug) { selectedPageSlug = null; document.getElementById('pageEditor').style.display = 'none'; }
-    fillPages(); updatePreviewBar();
-    toast('ok', ` Đã xóa trang /${slug}!`);
-  }
-}
-
-
-async function patchPage(action, slug, field, value, itemIndex, newSlug, title) {
-  const body = { section: 'pages', action, slug, field, value, itemIndex };
-  if (newSlug) body.value = newSlug;
-  if (title)   body.field = title;
-  if (action === 'add-page') { body.slug = newSlug || slug; body.field = title; }
-  const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
-  return r.json();
-}
-
-function updatePreviewBar() {
-  const bar = document.querySelector('.preview-bar');
-  const slugs = Object.keys(cfg.pages || {});
-  bar.innerHTML = ` <a href="/" target="_blank">Trang chủ</a> ${slugs.map(s => `<a href="/${s}" target="_blank">/${s}</a>`).join(' ')}`;
-}
-
-// ── STATS ──
-function fillStats() {
-  document.getElementById('stat-users').value   = cfg.stats.users;
-  document.getElementById('stat-matches').value = cfg.stats.matches;
-  document.getElementById('stat-live').value    = cfg.stats.live;
-}
-async function saveStats() {
-  await patch('stats', null, 'users',   document.getElementById('stat-users').value);
-  await patch('stats', null, 'matches', document.getElementById('stat-matches').value);
-  await patch('stats', null, 'live',    document.getElementById('stat-live').value);
-  toast('ok', 'Đã lưu số liệu!');
-}
-
-// ── HELPERS ──
-async function patch(section, index, field, value) {
-  await fetch('/api/admin/config', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ section, index, field, value })
-  });
-}
-
-function showSection(name, el) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('sec-' + name).classList.add('active');
-  el.classList.add('active');
-}
-
-let toastTimer;
-function toast(type, msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.className = `toast show ${type}`;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-loadConfig();
-</script>
-</body>
-</html>
+  
