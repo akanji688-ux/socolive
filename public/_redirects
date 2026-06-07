@@ -1,6 +1,1 @@
-# Trang admin
-/admin  /admin/index.html  200
-
-# Dynamic routes — tất cả path không phải file tĩnh → page.html
-# (Cloudflare chỉ áp dụng redirect này khi không có file tĩnh nào khớp)
-/*  /page.html  200
+# Redirects handled by Functions/[[path]].js
