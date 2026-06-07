@@ -1,1 +1,2 @@
-# Redirects handled by Functions/[[path]].js
+# Dynamic routes → serve page.html content (URL stays unchanged)
+/*   /page   200
