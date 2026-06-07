@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Admin Panel — SocoLive</title>
+  <title>Admin Panel â SocoLive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <style>
@@ -130,16 +130,16 @@
     <nav class="sidebar-nav">
       <div class="nav-item active" onclick="showSection('site',this)"> Trang web</div>
       <div class="nav-item" onclick="showSection('banners',this)"> Banner</div>
-      <div class="nav-item" onclick="showSection('buttons',this)"> Nút bấm</div>
+      <div class="nav-item" onclick="showSection('buttons',this)"> NÃºt báº¥m</div>
       <div class="nav-item" onclick="showSection('pages',this)"> Trang con</div>
-      <div class="nav-item" onclick="showSection('stats',this)"> Thống kê</div>
+      <div class="nav-item" onclick="showSection('stats',this)"> Thá»ng kÃª</div>
     </nav>
-    <div class="sidebar-footer"><a href="/" target="_blank">← Xem trang chủ ↗</a></div>
+    <div class="sidebar-footer"><a href="/" target="_blank">â Xem trang chá»§ â</a></div>
   </aside>
 
   <main class="main">
     <div class="preview-bar">
-       <a href="/" target="_blank">Trang chủ</a>
+       <a href="/" target="_blank">Trang chá»§</a>
       <a href="/live" target="_blank">/live</a>
       <a href="/vip" target="_blank">/vip</a>
       <a href="/contact" target="_blank">/contact</a>
@@ -147,26 +147,26 @@
 
     <!-- SITE -->
     <div class="section active" id="sec-site">
-      <div class="page-title"> Thông tin trang web</div>
-      <div class="page-desc">Tên, logo hình ảnh, mô tả chung</div>
+      <div class="page-title"> ThÃ´ng tin trang web</div>
+      <div class="page-desc">TÃªn, logo hÃ¬nh áº£nh, mÃ´ táº£ chung</div>
 
       <div class="card">
-        <div class="card-header">🖼 Logo hình ảnh</div>
+        <div class="card-header">ð¼ Logo hÃ¬nh áº£nh</div>
         <div class="card-body">
           <div class="upload-wrap">
             <div class="upload-preview" id="logoPreview">
               <img id="logoPreviewImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'"/>
-              <span id="logoPreviewIcon" style="color:var(--muted);font-size:1.5rem">🖼</span>
+              <span id="logoPreviewIcon" style="color:var(--muted);font-size:1.5rem">ð¼</span>
             </div>
             <div class="upload-btn-group">
               <label class="upload-label">
-                📁 Chọn file logo
+                ð Chá»n file logo
                 <input type="file" accept="image/*" onchange="uploadLogo(this)"/>
               </label>
               <span class="upload-hint">
-                PNG, SVG nền trong suốt — tối đa 5MB<br/>
-                <b style="color:var(--green-light)">Kích thước khuyên dùng: 300×80px</b><br/>
-                Tên file lưu là <code>logo.png</code>
+                PNG, SVG ná»n trong suá»t â tá»i Äa 5MB<br/>
+                <b style="color:var(--green-light)">KÃ­ch thÆ°á»c khuyÃªn dÃ¹ng: 300Ã80px</b><br/>
+                TÃªn file lÆ°u lÃ  <code>logo.png</code>
               </span>
               <span class="upload-status" id="logoUploadStatus"></span>
             </div>
@@ -175,24 +175,24 @@
       </div>
 
       <div class="card">
-        <div class="card-header">🎨 Ảnh nền trang (Background)</div>
+        <div class="card-header">ð¨ áº¢nh ná»n trang (Background)</div>
         <div class="card-body">
           <div class="upload-wrap">
             <div class="upload-preview" id="bgPreview" style="width:140px;height:80px;border-radius:8px;border:2px dashed var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">
               <img id="bgPreviewImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover"/>
-              <span id="bgPreviewIcon" style="color:var(--muted);font-size:.8rem;text-align:center;padding:8px">Chưa có ảnh nền</span>
+              <span id="bgPreviewIcon" style="color:var(--muted);font-size:.8rem;text-align:center;padding:8px">ChÆ°a cÃ³ áº£nh ná»n</span>
             </div>
             <div class="upload-btn-group">
               <label class="upload-label">
-                🖼 Chọn ảnh nền
+                ð¼ Chá»n áº£nh ná»n
                 <input type="file" accept="image/*" onchange="uploadBg(this)"/>
               </label>
               <span class="upload-hint">
-                JPG, PNG — tối đa 5MB<br/>
-                <b style="color:var(--green-light)">Kích thước khuyên dùng: 1920×1080px trở lên</b>
+                JPG, PNG â tá»i Äa 5MB<br/>
+                <b style="color:var(--green-light)">KÃ­ch thÆ°á»c khuyÃªn dÃ¹ng: 1920Ã1080px trá» lÃªn</b>
               </span>
               <span class="upload-status" id="bgUploadStatus"></span>
-              <button onclick="removeBg()" style="background:rgba(248,81,73,.12);border:1px solid rgba(248,81,73,.25);color:#f85149;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Xóa ảnh nền</button>
+              <button onclick="removeBg()" style="background:rgba(248,81,73,.12);border:1px solid rgba(248,81,73,.25);color:#f85149;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">XÃ³a áº£nh ná»n</button>
             </div>
           </div>
         </div>
@@ -212,49 +212,49 @@
     <!-- BANNERS -->
     <div class="section" id="sec-banners">
       <div class="page-title"> Banner Slider</div>
-      <div class="page-desc">Chỉnh nội dung và hình ảnh nền mỗi slide</div>
+      <div class="page-desc">Chá»nh ná»i dung vÃ  hÃ¬nh áº£nh ná»n má»i slide</div>
       <div class="tabs" id="bannerTabs"></div>
       <div id="bannerForms"></div>
     </div>
 
     <!-- BUTTONS -->
     <div class="section" id="sec-buttons">
-      <div class="page-title"> Nút bấm chính</div>
-      <div class="page-desc">Chỉnh icon, tên, mô tả, đường dẫn</div>
+      <div class="page-title"> NÃºt báº¥m chÃ­nh</div>
+      <div class="page-desc">Chá»nh icon, tÃªn, mÃ´ táº£, ÄÆ°á»ng dáº«n</div>
       <div id="btnForms"></div>
     </div>
 
     <!-- PAGES -->
     <div class="section" id="sec-pages">
       <div class="page-title"> Trang con</div>
-      <div class="page-desc">Tạo và chỉnh sửa các trang con</div>
+      <div class="page-desc">Táº¡o vÃ  chá»nh sá»­a cÃ¡c trang con</div>
 
-      <!-- Tạo trang mới -->
+      <!-- Táº¡o trang má»i -->
       <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap">
-        <input id="new-page-slug" placeholder="Tên URL (vd: giaidau)" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 14px;font-size:.9rem;outline:none;width:200px"/>
-        <input id="new-page-title" placeholder="Tiêu đề trang (vd:  Giải Đấu)" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 14px;font-size:.9rem;outline:none;flex:1;min-width:180px"/>
-        <button class="save-btn" onclick="addPage()"> Tạo trang mới</button>
+        <input id="new-page-slug" placeholder="TÃªn URL (vd: giaidau)" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 14px;font-size:.9rem;outline:none;width:200px"/>
+        <input id="new-page-title" placeholder="TiÃªu Äá» trang (vd:  Giáº£i Äáº¥u)" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 14px;font-size:.9rem;outline:none;flex:1;min-width:180px"/>
+        <button class="save-btn" onclick="addPage()"> Táº¡o trang má»i</button>
       </div>
 
-      <!-- Danh sách trang (chọn để chỉnh) -->
+      <!-- Danh sÃ¡ch trang (chá»n Äá» chá»nh) -->
       <div id="pageList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px"></div>
 
-      <!-- Editor trang được chọn -->
+      <!-- Editor trang ÄÆ°á»£c chá»n -->
       <div id="pageEditor" style="display:none"></div>
     </div>
 
     <!-- STATS -->
     <div class="section" id="sec-stats">
-      <div class="page-title"> Số liệu thống kê</div>
-      <div class="page-desc">Hiển thị ở thanh số liệu dưới banner</div>
+      <div class="page-title"> Sá» liá»u thá»ng kÃª</div>
+      <div class="page-desc">Hiá»n thá» á» thanh sá» liá»u dÆ°á»i banner</div>
       <div class="card">
         <div class="card-body">
           <div class="field-row">
-            <div class="field"><label>Người dùng</label><input id="stat-users" type="number"/></div>
-            <div class="field"><label>Trận / tháng</label><input id="stat-matches" type="number"/></div>
-            <div class="field"><label>Đang live</label><input id="stat-live" type="number"/></div>
+            <div class="field"><label>NgÆ°á»i dÃ¹ng</label><input id="stat-users" type="number"/></div>
+            <div class="field"><label>Tráº­n / thÃ¡ng</label><input id="stat-matches" type="number"/></div>
+            <div class="field"><label>Äang live</label><input id="stat-live" type="number"/></div>
           </div>
-          <button class="save-btn" onclick="saveStats()">Lưu thay đổi</button>
+          <button class="save-btn" onclick="saveStats()">LÆ°u thay Äá»i</button>
         </div>
       </div>
     </div>
@@ -294,11 +294,11 @@ async function loadConfig() {
     }
   } catch(e) {
     console.error('loadConfig error:', e);
-    toast('err', 'Lỗi tải config: ' + e.message);
+    toast('err', 'Lá»i táº£i config: ' + e.message);
   }
 }
 
-// ── HELPERS ẢNH ──
+// ââ HELPERS áº¢NH ââ
 function previewBannerImg(urlId, previewId) {
   const url = document.getElementById(urlId)?.value;
   const img = document.getElementById(previewId);
@@ -307,23 +307,23 @@ function previewBannerImg(urlId, previewId) {
 
 async function saveBannerImgUrl(i) {
   const url = document.getElementById('b-img-url')?.value?.trim();
-  if (!url) return toast('err', 'Nhập URL ảnh trước!');
+  if (!url) return toast('err', 'Nháº­p URL áº£nh trÆ°á»c!');
   await patch('banners', i, 'image', url);
   cfg.banners[i].image = url;
   const prev = document.getElementById('b-img-preview');
   if (prev) { prev.src = url; prev.style.display = ''; }
-  toast('ok', 'Đã lưu URL ảnh banner!');
+  toast('ok', 'ÄÃ£ lÆ°u URL áº£nh banner!');
 }
 
 async function savePageBannerImgUrl(slug, idx) {
   const url = document.getElementById(`pb-img-url-${slug}`)?.value?.trim();
-  if (!url) return toast('err', 'Nhập URL ảnh trước!');
+  if (!url) return toast('err', 'Nháº­p URL áº£nh trÆ°á»c!');
   await patchPageBanner('update-banner', slug, idx, 'image', url);
   if (!cfg.pages[slug].banners) cfg.pages[slug].banners = JSON.parse(JSON.stringify(cfg.banners));
   cfg.pages[slug].banners[idx].image = url;
   const prev = document.getElementById(`pb-img-prev-${slug}`);
   if (prev) { prev.src = url; prev.style.display = ''; }
-  toast('ok', `Đã lưu URL ảnh Slide ${idx + 1}!`);
+  toast('ok', `ÄÃ£ lÆ°u URL áº£nh Slide ${idx + 1}!`);
 }
 
 async function uploadFile(filename, fileInput, onSuccess) {
@@ -334,49 +334,49 @@ async function uploadFile(filename, fileInput, onSuccess) {
   const d = await res.json();
   if (d.success) {
     onSuccess(d);
-    toast('ok', d.note || 'Đã tải lên thành công!');
+    toast('ok', d.note || 'ÄÃ£ táº£i lÃªn thÃ nh cÃ´ng!');
   } else {
-    toast('err', d.error || 'Lỗi tải lên');
+    toast('err', d.error || 'Lá»i táº£i lÃªn');
   }
   return d;
 }
 
-// ── LOGO ──
+// ââ LOGO ââ
 async function uploadLogo(input) {
   const status = document.getElementById('logoUploadStatus');
   if (!input.files[0]) return;
   const ext = input.files[0].name.split('.').pop();
   const filename = 'logo.' + ext;
-  status.textContent = '⏳ Đang tải lên...'; status.className = 'upload-status';
+  status.textContent = 'â³ Äang táº£i lÃªn...'; status.className = 'upload-status';
   const d = await uploadFile(filename, input, (d) => {
     patch('site', null, 'logoImage', d.filename);
     cfg.site.logoImage = d.filename;
     const img = document.getElementById('logoPreviewImg');
     if (img) { img.src = imgUrl(d.filename) + '?' + Date.now(); img.style.display = ''; }
     document.getElementById('logoPreviewIcon').style.display = 'none';
-    status.textContent = '✅ ' + (d.note || 'Tải lên thành công!');
+    status.textContent = 'â ' + (d.note || 'Táº£i lÃªn thÃ nh cÃ´ng!');
     status.className = 'upload-status ok';
   });
-  if (!d?.success) { status.textContent = '❌ ' + (d?.error || 'Lỗi'); status.className = 'upload-status err'; }
+  if (!d?.success) { status.textContent = 'â ' + (d?.error || 'Lá»i'); status.className = 'upload-status err'; }
 }
 
-// ── BACKGROUND ──
+// ââ BACKGROUND ââ
 async function uploadBg(input) {
   const status = document.getElementById('bgUploadStatus');
   if (!input.files[0]) return;
   const ext = input.files[0].name.split('.').pop();
   const filename = 'bg.' + ext;
-  status.textContent = '⏳ Đang tải lên...'; status.className = 'upload-status';
+  status.textContent = 'â³ Äang táº£i lÃªn...'; status.className = 'upload-status';
   const d = await uploadFile(filename, input, (d) => {
     patch('site', null, 'bgImage', d.filename);
     cfg.site.bgImage = d.filename;
     const img = document.getElementById('bgPreviewImg');
     if (img) { img.src = imgUrl(d.filename) + '?' + Date.now(); img.style.display = ''; }
     document.getElementById('bgPreviewIcon').style.display = 'none';
-    status.textContent = '✅ ' + (d.note || 'Tải lên thành công!');
+    status.textContent = 'â ' + (d.note || 'Táº£i lÃªn thÃ nh cÃ´ng!');
     status.className = 'upload-status ok';
   });
-  if (!d?.success) { status.textContent = '❌ ' + (d?.error || 'Lỗi'); status.className = 'upload-status err'; }
+  if (!d?.success) { status.textContent = 'â ' + (d?.error || 'Lá»i'); status.className = 'upload-status err'; }
 }
 
 async function removeBg() {
@@ -386,16 +386,16 @@ async function removeBg() {
   if (img) { img.style.display = 'none'; img.src = ''; }
   document.getElementById('bgPreviewIcon').style.display = '';
   document.getElementById('bgUploadStatus').textContent = '';
-  toast('ok', 'Đã xóa ảnh nền!');
+  toast('ok', 'ÄÃ£ xÃ³a áº£nh ná»n!');
 }
 
-// ── BANNER IMAGE UPLOAD ──
+// ââ BANNER IMAGE UPLOAD ââ
 async function uploadBannerImg(input, idx) {
   const status = document.getElementById('b-img-status');
   if (!input.files[0] || !status) return;
   const ext = input.files[0].name.split('.').pop();
   const name = `banner${idx + 1}.${ext}`;
-  status.textContent = '⏳ Đang tải lên...'; status.className = 'upload-status';
+  status.textContent = 'â³ Äang táº£i lÃªn...'; status.className = 'upload-status';
   const d = await uploadFile(name, input, (d) => {
     patch('banners', idx, 'image', d.filename);
     cfg.banners[idx].image = d.filename;
@@ -403,18 +403,18 @@ async function uploadBannerImg(input, idx) {
     if (prev) { prev.src = imgUrl(d.filename) + '?' + Date.now(); prev.style.display = ''; }
     const hint = document.getElementById('b-img-hint');
     if (hint) hint.textContent = d.note || ('File: ' + d.filename);
-    status.textContent = '✅ Tải lên thành công!'; status.className = 'upload-status ok';
+    status.textContent = 'â Táº£i lÃªn thÃ nh cÃ´ng!'; status.className = 'upload-status ok';
   });
-  if (!d?.success) { status.textContent = '❌ ' + (d?.error || 'Lỗi'); status.className = 'upload-status err'; }
+  if (!d?.success) { status.textContent = 'â ' + (d?.error || 'Lá»i'); status.className = 'upload-status err'; }
 }
 
-// ── PAGE BANNER IMAGE UPLOAD ──
+// ââ PAGE BANNER IMAGE UPLOAD ââ
 async function uploadPageBannerImg(input, slug, idx) {
   const status = document.getElementById(`pb-img-status-${slug}`);
   if (!input.files[0] || !status) return;
   const ext = input.files[0].name.split('.').pop();
   const name = `${slug}-banner${idx+1}.${ext}`;
-  status.textContent = '⏳ Đang tải lên...'; status.className = 'upload-status';
+  status.textContent = 'â³ Äang táº£i lÃªn...'; status.className = 'upload-status';
   const d = await uploadFile(name, input, (d) => {
     patchPageBanner('update-banner', slug, idx, 'image', d.filename);
     if (!cfg.pages[slug].banners) cfg.pages[slug].banners = JSON.parse(JSON.stringify(cfg.banners));
@@ -422,12 +422,12 @@ async function uploadPageBannerImg(input, slug, idx) {
     const prev = document.getElementById(`pb-img-prev-${slug}`);
     if (prev) { prev.src = imgUrl(d.filename) + '?' + Date.now(); prev.style.display = ''; }
     document.getElementById(`pb-img-hint-${slug}`).textContent = d.note || ('File: ' + d.filename);
-    status.textContent = '✅ Tải lên thành công!'; status.className = 'upload-status ok';
+    status.textContent = 'â Táº£i lÃªn thÃ nh cÃ´ng!'; status.className = 'upload-status ok';
   });
-  if (!d?.success) { status.textContent = '❌ ' + (d?.error || 'Lỗi'); status.className = 'upload-status err'; }
+  if (!d?.success) { status.textContent = 'â ' + (d?.error || 'Lá»i'); status.className = 'upload-status err'; }
 }
 
-// ── SITE ──
+// ââ SITE ââ
 function fillSite() {
   document.getElementById('site-name').value = cfg.site.name;
   document.getElementById('site-logo').value = cfg.site.logo;
@@ -437,16 +437,16 @@ async function saveSite() {
   await patch('site', null, 'name',        document.getElementById('site-name').value);
   await patch('site', null, 'logo',        document.getElementById('site-logo').value);
   await patch('site', null, 'description', document.getElementById('site-description').value);
-  toast('ok', 'Đã lưu thông tin trang web!');
+  toast('ok', 'ÄÃ£ lÆ°u thÃ´ng tin trang web!');
 }
 
-// ── BANNERS ──
+// ââ BANNERS ââ
 function fillBanners() {
   const tabs = document.getElementById('bannerTabs');
   const forms = document.getElementById('bannerForms');
   if (activeBannerTab >= cfg.banners.length) activeBannerTab = 0;
 
-  // Tabs + nút Thêm slide
+  // Tabs + nÃºt ThÃªm slide
   tabs.innerHTML = '';
   cfg.banners.forEach((b, i) => {
     const tab = document.createElement('div');
@@ -458,7 +458,7 @@ function fillBanners() {
   const addBtn = document.createElement('div');
   addBtn.className = 'tab';
   addBtn.style.cssText = 'color:#3fb950;font-weight:700;';
-  addBtn.textContent = ' Thêm slide';
+  addBtn.textContent = ' ThÃªm slide';
   addBtn.onclick = addSlide;
   tabs.appendChild(addBtn);
 
@@ -471,60 +471,60 @@ function fillBanners() {
     <div class="card">
       <div class="card-header" style="justify-content:space-between">
         <span> Slide ${i + 1}</span>
-        ${canDelete ? `<button onclick="deleteSlide(${i})" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;"> Xóa slide này</button>` : ''}
+        ${canDelete ? `<button onclick="deleteSlide(${i})" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;"> XÃ³a slide nÃ y</button>` : ''}
       </div>
       <div class="card-body">
-        <div class="field"><label>Badge (nhãn nhỏ)</label><input id="b-badge"/></div>
-        <div class="field"><label>Tiêu đề (dùng \\n để xuống dòng)</label><input id="b-title"/></div>
-        <div class="field"><label>Mô tả</label><input id="b-desc"/></div>
+        <div class="field"><label>Badge (nhÃ£n nhá»)</label><input id="b-badge"/></div>
+        <div class="field"><label>TiÃªu Äá» (dÃ¹ng \\n Äá» xuá»ng dÃ²ng)</label><input id="b-title"/></div>
+        <div class="field"><label>MÃ´ táº£</label><input id="b-desc"/></div>
         <div class="field">
-          <label>URL ảnh nền banner</label>
+          <label>URL áº£nh ná»n banner</label>
           <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
             <div class="upload-preview banner-preview">
               <img id="b-img-preview" src="${imgSrc}" alt="" style="${imgSrc?'':'display:none'}" onerror="this.style.display='none'"/>
-              ${!imgSrc?'<span style="color:var(--muted);font-size:.75rem">Chưa có</span>':''}
+              ${!imgSrc?'<span style="color:var(--muted);font-size:.75rem">ChÆ°a cÃ³</span>':''}
             </div>
             <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px">
               <label class="upload-label">
-                📁 Chọn file ảnh
+                ð Chá»n file áº£nh
                 <input type="file" accept="image/*" onchange="uploadBannerImg(this,${i})"/>
               </label>
               <span class="upload-status" id="b-img-status"></span>
-              <span id="b-img-hint" class="upload-hint">Hoặc dán URL bên dưới — khuyên dùng 1100×460px</span>
-              <input id="b-img-url" type="url" placeholder="https://i.ibb.co/... hoặc /images/banner1.jpg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 12px;font-size:.9rem;width:100%" oninput="previewBannerImg('b-img-url','b-img-preview')"/>
-              <button onclick="saveBannerImgUrl(${i})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Lưu URL ảnh</button>
+              <span id="b-img-hint" class="upload-hint">Hoáº·c dÃ¡n URL bÃªn dÆ°á»i â khuyÃªn dÃ¹ng 1100Ã460px</span>
+              <input id="b-img-url" type="url" placeholder="https://i.ibb.co/... hoáº·c /images/banner1.jpg" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 12px;font-size:.9rem;width:100%" oninput="previewBannerImg('b-img-url','b-img-preview')"/>
+              <button onclick="saveBannerImgUrl(${i})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">LÆ°u URL áº£nh</button>
             </div>
           </div>
         </div>
 
         <div style="border-top:1px solid #30363d;padding-top:16px;margin-top:4px">
-          <div style="font-size:.8rem;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px"> Nút bấm trên banner</div>
+          <div style="font-size:.8rem;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px"> NÃºt báº¥m trÃªn banner</div>
           <div class="field-row" style="margin-bottom:12px">
-            <div class="field"><label>Nút 1 — Tên</label><input id="b-btn1-label"/></div>
-            <div class="field"><label>Nút 1 — Link</label><input id="b-btn1-link"/></div>
+            <div class="field"><label>NÃºt 1 â TÃªn</label><input id="b-btn1-label"/></div>
+            <div class="field"><label>NÃºt 1 â Link</label><input id="b-btn1-link"/></div>
           </div>
           <div class="field-row" style="margin-bottom:12px">
-            <div class="field"><label>Nút 2 — Tên</label><input id="b-btn2-label"/></div>
-            <div class="field"><label>Nút 2 — Link</label><input id="b-btn2-link"/></div>
+            <div class="field"><label>NÃºt 2 â TÃªn</label><input id="b-btn2-label"/></div>
+            <div class="field"><label>NÃºt 2 â Link</label><input id="b-btn2-link"/></div>
           </div>
           <div class="field-row">
-            <div class="field"><label>Nút 3 — Tên</label><input id="b-btn3-label"/></div>
-            <div class="field"><label>Nút 3 — Link</label><input id="b-btn3-link"/></div>
+            <div class="field"><label>NÃºt 3 â TÃªn</label><input id="b-btn3-label"/></div>
+            <div class="field"><label>NÃºt 3 â Link</label><input id="b-btn3-link"/></div>
           </div>
         </div>
 
-        <button class="save-btn" onclick="saveBanner(${i})">Lưu Slide ${i + 1}</button>
+        <button class="save-btn" onclick="saveBanner(${i})">LÆ°u Slide ${i + 1}</button>
       </div>
     </div>`;
 
-  // Gán giá trị qua JS
+  // GÃ¡n giÃ¡ trá» qua JS
   document.getElementById('b-badge').value = b.badge || '';
   document.getElementById('b-title').value = (b.title || '').replace(/\n/g,'\\n');
   document.getElementById('b-desc').value  = b.desc || '';
-  // Cập nhật preview ảnh banner
+  // Cáº­p nháº­t preview áº£nh banner
   const bImgPrev = document.getElementById('b-img-preview');
   if (bImgPrev && b.image) { bImgPrev.src = imgUrl(b.image); bImgPrev.style.display = ''; }
-  // Banner CTA buttons lấy từ config.buttons
+  // Banner CTA buttons láº¥y tá»« config.buttons
   const btn = cfg.buttons;
   if (btn[0]) { document.getElementById('b-btn1-label').value = `${btn[0].icon} ${btn[0].label}`; document.getElementById('b-btn1-link').value = btn[0].link; }
   if (btn[1]) { document.getElementById('b-btn2-label').value = `${btn[1].icon} ${btn[1].label}`; document.getElementById('b-btn2-link').value = btn[1].link; }
@@ -536,7 +536,7 @@ async function saveBanner(i) {
   await patch('banners', i, 'badge', document.getElementById('b-badge').value);
   await patch('banners', i, 'title', title);
   await patch('banners', i, 'desc',  document.getElementById('b-desc').value);
-  // Lưu link nút bấm trên banner (cập nhật vào config.buttons)
+  // LÆ°u link nÃºt báº¥m trÃªn banner (cáº­p nháº­t vÃ o config.buttons)
   const btn1Link = document.getElementById('b-btn1-link').value;
   const btn2Link = document.getElementById('b-btn2-link').value;
   const btn3Link = document.getElementById('b-btn3-link').value;
@@ -546,23 +546,23 @@ async function saveBanner(i) {
   cfg.banners[i].badge = document.getElementById('b-badge').value;
   cfg.banners[i].title = title;
   cfg.banners[i].desc  = document.getElementById('b-desc').value;
-  toast('ok', `Đã lưu Slide ${i + 1}!`);
+  toast('ok', `ÄÃ£ lÆ°u Slide ${i + 1}!`);
 }
 
 async function addSlide() {
   const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ section:'banners', action:'add' }) });
   const d = await r.json();
-  if (d.success) { cfg = d.config; activeBannerTab = cfg.banners.length - 1; fillBanners(); toast('ok','Đã thêm slide mới!'); }
+  if (d.success) { cfg = d.config; activeBannerTab = cfg.banners.length - 1; fillBanners(); toast('ok','ÄÃ£ thÃªm slide má»i!'); }
 }
 
 async function deleteSlide(i) {
-  if (!confirm(`Xóa Slide ${i + 1}?`)) return;
+  if (!confirm(`XÃ³a Slide ${i + 1}?`)) return;
   const r = await fetch('/api/admin/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ section:'banners', action:'delete', index:i }) });
   const d = await r.json();
-  if (d.success) { cfg = d.config; activeBannerTab = 0; fillBanners(); toast('ok','Đã xóa slide!'); }
+  if (d.success) { cfg = d.config; activeBannerTab = 0; fillBanners(); toast('ok','ÄÃ£ xÃ³a slide!'); }
 }
 
-// ── BUTTONS ──
+// ââ BUTTONS ââ
 function fillButtons() {
   const wrap = document.getElementById('btnForms');
   wrap.innerHTML = '';
@@ -582,7 +582,7 @@ function fillButtons() {
           <div class="field"><label>Mo ta</label><input id="btn-desc-${i}"/></div>
           <div class="field-row">
             <div class="field"><label>Link (URL)</label><input id="btn-link-${i}"/></div>
-            <div class="field"><label>Badge (vd: HOT, MOI — de trong de xoa)</label><input id="btn-badge-${i}" placeholder="de trong neu khong can"/></div>
+            <div class="field"><label>Badge (vd: HOT, MOI â de trong de xoa)</label><input id="btn-badge-${i}" placeholder="de trong neu khong can"/></div>
           </div>
           <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.875rem">
@@ -624,7 +624,7 @@ async function saveButton(i) {
   await patch('buttons', i, 'badge',     badge);
   await patch('buttons', i, 'featured',  featured);
   await patch('buttons', i, 'highlight', highlight);
-  // Cập nhật cfg local để fillButtons không mất dữ liệu
+  // Cáº­p nháº­t cfg local Äá» fillButtons khÃ´ng máº¥t dá»¯ liá»u
   cfg.buttons[i] = { ...cfg.buttons[i], icon, label, desc, link, badge, featured, highlight };
   toast('ok', `Da luu Nut ${i + 1}!`);
   fillButtons();
@@ -641,7 +641,7 @@ async function deleteButton(i) {
   if (d.success) { cfg = d.config; fillButtons(); toast('ok', 'Da xoa nut!'); }
 }
 
-// ── PAGES ──
+// ââ PAGES ââ
 const activePageBannerTab = {};
 let selectedPageSlug = null;
 
@@ -652,7 +652,7 @@ function fillPages() {
   const slugs = Object.keys(pages);
 
   if (!slugs.length) {
-    list.innerHTML = '<p style="color:var(--muted);font-size:.9rem">Chưa có trang con nào.</p>';
+    list.innerHTML = '<p style="color:var(--muted);font-size:.9rem">ChÆ°a cÃ³ trang con nÃ o.</p>';
     document.getElementById('pageEditor').style.display = 'none';
     return;
   }
@@ -684,14 +684,14 @@ function fillPages() {
     const btns = document.createElement('div');
     btns.style.cssText = 'display:flex;gap:8px;flex-shrink:0';
     btns.innerHTML = `
-      <a href="/${slug}" target="_blank" onclick="event.stopPropagation()" style="font-size:.8rem;color:var(--blue);text-decoration:none;padding:4px 10px;border:1px solid var(--blue);border-radius:6px">↗ Xem</a>
-      <button onclick="event.stopPropagation();deletePage('${slug}')" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;"> Xóa</button>`;
+      <a href="/${slug}" target="_blank" onclick="event.stopPropagation()" style="font-size:.8rem;color:var(--blue);text-decoration:none;padding:4px 10px;border:1px solid var(--blue);border-radius:6px">â Xem</a>
+      <button onclick="event.stopPropagation();deletePage('${slug}')" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;"> XÃ³a</button>`;
 
     row.append(left, btns);
     list.appendChild(row);
   });
 
-  // Nếu đang có trang được chọn, render editor
+  // Náº¿u Äang cÃ³ trang ÄÆ°á»£c chá»n, render editor
   if (selectedPageSlug && cfg.pages[selectedPageSlug]) {
     renderPageEditor(selectedPageSlug);
   } else if (selectedPageSlug && !cfg.pages[selectedPageSlug]) {
@@ -712,38 +712,38 @@ function renderPageEditor(slug) {
   editor.style.display = 'block';
   editor.innerHTML = `
     <div style="border-top:2px solid var(--green);padding-top:20px;margin-top:4px">
-      <div style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--green-light)"> Đang chỉnh sửa: <code style="color:var(--blue)">/${slug}</code></div>
+      <div style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--green-light)"> Äang chá»nh sá»­a: <code style="color:var(--blue)">/${slug}</code></div>
 
-      <!-- Thông tin cơ bản -->
+      <!-- ThÃ´ng tin cÆ¡ báº£n -->
       <div class="card" style="margin-bottom:16px">
-        <div class="card-header"> Thông tin trang</div>
+        <div class="card-header"> ThÃ´ng tin trang</div>
         <div class="card-body">
           <div class="field-row">
             <div class="field"><label>URL (slug)</label><input id="ps-slug-${slug}" placeholder="vd: giaidau"/></div>
-            <div class="field"><label>Tiêu đề trang</label><input id="ps-title-${slug}"/></div>
+            <div class="field"><label>TiÃªu Äá» trang</label><input id="ps-title-${slug}"/></div>
           </div>
           <div class="field-row">
             <div class="field"><label>Heading (H1)</label><input id="ps-heading-${slug}"/></div>
-            <div class="field"><label>Mô tả</label><input id="ps-desc-${slug}"/></div>
+            <div class="field"><label>MÃ´ táº£</label><input id="ps-desc-${slug}"/></div>
           </div>
-          <button class="save-btn" onclick="savePage('${slug}')">Lưu thông tin</button>
+          <button class="save-btn" onclick="savePage('${slug}')">LÆ°u thÃ´ng tin</button>
         </div>
       </div>
 
-      <!-- Banner riêng -->
+      <!-- Banner riÃªng -->
       <div class="card" style="margin-bottom:16px">
-        <div class="card-header"> Banner của trang này</div>
+        <div class="card-header"> Banner cá»§a trang nÃ y</div>
         <div class="card-body" style="padding-bottom:0">
           <div class="tabs" id="ptabs-${slug}" style="margin:-20px -20px 0;padding:0 20px;border-bottom:1px solid var(--border)"></div>
           <div id="pbannerForm-${slug}"></div>
         </div>
       </div>
 
-      <!-- Nút bấm riêng -->
+      <!-- NÃºt báº¥m riÃªng -->
       <div class="card">
-        <div class="card-header"> Nút bấm của trang này</div>
+        <div class="card-header"> NÃºt báº¥m cá»§a trang nÃ y</div>
         <div class="card-body">
-          <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Icon — Tên nút — Mô tả — Link — [Lưu]</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Icon â TÃªn nÃºt â MÃ´ táº£ â Link â [LÆ°u]</div>
           <div id="pbtns-${slug}"></div>
         </div>
       </div>
@@ -758,7 +758,7 @@ function renderPageEditor(slug) {
   fillPageButtons(slug);
 }
 
-// ── Banner riêng của trang con ──
+// ââ Banner riÃªng cá»§a trang con ââ
 function fillPageBanners(slug) {
   const p = cfg.pages[slug];
   const banners = p.banners || cfg.banners;
@@ -779,7 +779,7 @@ function fillPageBanners(slug) {
   });
   const addT = document.createElement('div');
   addT.className = 'tab'; addT.style.cssText = 'color:#3fb950;font-weight:700';
-  addT.textContent = ' Thêm slide'; addT.onclick = () => addPageBanner(slug);
+  addT.textContent = ' ThÃªm slide'; addT.onclick = () => addPageBanner(slug);
   tabs.appendChild(addT);
 
   const b = banners[idx];
@@ -788,30 +788,30 @@ function fillPageBanners(slug) {
 
   form.innerHTML = `
     <div style="background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:16px;display:flex;flex-direction:column;gap:12px">
-      ${canDel ? `<div style="text-align:right"><button onclick="deletePageBanner('${slug}',${idx})" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;"> Xóa slide này</button></div>` : ''}
+      ${canDel ? `<div style="text-align:right"><button onclick="deletePageBanner('${slug}',${idx})" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;"> XÃ³a slide nÃ y</button></div>` : ''}
       <div class="field"><label>Badge</label><input id="pb-badge-${slug}"/></div>
-      <div class="field"><label>Tiêu đề (dùng \\n để xuống dòng)</label><input id="pb-title-${slug}"/></div>
-      <div class="field"><label>Mô tả</label><input id="pb-desc-${slug}"/></div>
+      <div class="field"><label>TiÃªu Äá» (dÃ¹ng \\n Äá» xuá»ng dÃ²ng)</label><input id="pb-title-${slug}"/></div>
+      <div class="field"><label>MÃ´ táº£</label><input id="pb-desc-${slug}"/></div>
       <div class="field">
-        <label>URL ảnh nền banner</label>
+        <label>URL áº£nh ná»n banner</label>
         <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
           <div class="upload-preview banner-preview">
             <img id="pb-img-prev-${slug}" src="${imgSrc}" style="${imgSrc?'':'display:none'}" onerror="this.style.display='none'"/>
-            ${!imgSrc?'<span style="color:var(--muted);font-size:.75rem">Chưa có</span>':''}
+            ${!imgSrc?'<span style="color:var(--muted);font-size:.75rem">ChÆ°a cÃ³</span>':''}
           </div>
           <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px">
             <label class="upload-label">
-              📁 Chọn file ảnh
+              ð Chá»n file áº£nh
               <input type="file" accept="image/*" onchange="uploadPageBannerImg(this,'${slug}',${idx})"/>
             </label>
             <span class="upload-status" id="pb-img-status-${slug}"></span>
-            <span id="pb-img-hint-${slug}" class="upload-hint">${b.image ? `File: ${b.image}` : 'Hoặc dán URL bên dưới'}</span>
+            <span id="pb-img-hint-${slug}" class="upload-hint">${b.image ? `File: ${b.image}` : 'Hoáº·c dÃ¡n URL bÃªn dÆ°á»i'}</span>
             <input id="pb-img-url-${slug}" type="url" placeholder="https://i.ibb.co/..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:9px 12px;font-size:.9rem;width:100%" oninput="previewBannerImg('pb-img-url-${slug}','pb-img-prev-${slug}')"/>
-            <button onclick="savePageBannerImgUrl('${slug}',${idx})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">Lưu URL ảnh</button>
+            <button onclick="savePageBannerImgUrl('${slug}',${idx})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">LÆ°u URL áº£nh</button>
           </div>
         </div>
       </div>
-      <button class="save-btn" onclick="savePageBanner('${slug}',${idx})">Lưu Slide ${idx + 1}</button>
+      <button class="save-btn" onclick="savePageBanner('${slug}',${idx})">LÆ°u Slide ${idx + 1}</button>
     </div>`;
 
   document.getElementById(`pb-badge-${slug}`).value = b.badge || '';
@@ -830,17 +830,17 @@ async function savePageBanner(slug, idx) {
   cfg.pages[slug].banners[idx].badge = document.getElementById(`pb-badge-${slug}`).value;
   cfg.pages[slug].banners[idx].title = title;
   cfg.pages[slug].banners[idx].desc  = document.getElementById(`pb-desc-${slug}`).value;
-  toast('ok', ` Đã lưu Slide ${idx + 1} của trang /${slug}!`);
+  toast('ok', ` ÄÃ£ lÆ°u Slide ${idx + 1} cá»§a trang /${slug}!`);
 }
 
 async function addPageBanner(slug) {
   const r = await patchPageBanner('add-banner', slug);
-  if (r.success) { cfg = r.config; activePageBannerTab[slug] = (cfg.pages[slug].banners||cfg.banners).length - 1; fillPageBanners(slug); toast('ok','Đã thêm slide mới!'); }
+  if (r.success) { cfg = r.config; activePageBannerTab[slug] = (cfg.pages[slug].banners||cfg.banners).length - 1; fillPageBanners(slug); toast('ok','ÄÃ£ thÃªm slide má»i!'); }
 }
 async function deletePageBanner(slug, idx) {
-  if (!confirm(`Xóa Slide ${idx+1} của trang /${slug}?`)) return;
+  if (!confirm(`XÃ³a Slide ${idx+1} cá»§a trang /${slug}?`)) return;
   const r = await patchPageBanner('delete-banner', slug, idx);
-  if (r.success) { cfg = r.config; activePageBannerTab[slug] = 0; fillPageBanners(slug); toast('ok','Đã xóa slide!'); }
+  if (r.success) { cfg = r.config; activePageBannerTab[slug] = 0; fillPageBanners(slug); toast('ok','ÄÃ£ xÃ³a slide!'); }
 }
 
 async function uploadPageBannerImg(input, slug, idx) {
@@ -849,7 +849,7 @@ async function uploadPageBannerImg(input, slug, idx) {
   const ext = input.files[0].name.split('.').pop();
   const name = `${slug}-banner${idx+1}.${ext}`;
   const fd = new FormData(); fd.append('file', input.files[0]);
-  status.textContent = 'Đang tải lên...'; status.className = 'upload-status';
+  status.textContent = 'Äang táº£i lÃªn...'; status.className = 'upload-status';
   try {
     const r = await fetch('/api/upload/' + name, { method:'POST', body:fd });
     const d = await r.json();
@@ -860,10 +860,10 @@ async function uploadPageBannerImg(input, slug, idx) {
       const prev = document.getElementById(`pb-img-prev-${slug}`);
       if (prev) { prev.src = d.url + '?' + Date.now(); prev.style.display = ''; }
       document.getElementById(`pb-img-hint-${slug}`).textContent = `File: ${d.filename}`;
-      status.textContent = ' Tải lên thành công!'; status.className = 'upload-status ok';
-      toast('ok', ` Ảnh Slide ${idx+1} của /${slug} đã cập nhật!`);
+      status.textContent = ' Táº£i lÃªn thÃ nh cÃ´ng!'; status.className = 'upload-status ok';
+      toast('ok', ` áº¢nh Slide ${idx+1} cá»§a /${slug} ÄÃ£ cáº­p nháº­t!`);
     } else { status.textContent = d.error; status.className = 'upload-status err'; }
-  } catch { status.textContent = 'Lỗi kết nối'; status.className = 'upload-status err'; }
+  } catch { status.textContent = 'Lá»i káº¿t ná»i'; status.className = 'upload-status err'; }
 }
 
 async function patchPageBanner(action, slug, itemIndex, field, value) {
@@ -872,7 +872,7 @@ async function patchPageBanner(action, slug, itemIndex, field, value) {
   return r.json();
 }
 
-// ── Nút bấm riêng của trang con ──
+// ââ NÃºt báº¥m riÃªng cá»§a trang con ââ
 function fillPageButtons(slug) {
   const p = cfg.pages[slug];
   const buttons = p.buttons || cfg.buttons;
@@ -954,9 +954,9 @@ async function deletePageButton(slug, i) {
 async function addPage() {
   const slug  = document.getElementById('new-page-slug').value.trim().replace(/[^a-z0-9-]/gi,'').toLowerCase();
   const title = document.getElementById('new-page-title').value.trim();
-  if (!slug) return toast('err', ' Nhập tên URL cho trang!');
-  if (cfg.pages[slug]) return toast('err', ` Trang "/${slug}" đã tồn tại!`);
-  const r = await patchPage('add-page', null, null, null, null, slug, title || 'Trang Mới');
+  if (!slug) return toast('err', ' Nháº­p tÃªn URL cho trang!');
+  if (cfg.pages[slug]) return toast('err', ` Trang "/${slug}" ÄÃ£ tá»n táº¡i!`);
+  const r = await patchPage('add-page', null, null, null, null, slug, title || 'Trang Má»i');
   if (r.success) {
     cfg = r.config;
     document.getElementById('new-page-slug').value  = '';
@@ -964,7 +964,7 @@ async function addPage() {
     selectedPageSlug = slug;
     fillPages();
     updatePreviewBar();
-    toast('ok', ` Đã tạo trang /${slug}! Đang mở editor...`);
+    toast('ok', ` ÄÃ£ táº¡o trang /${slug}! Äang má» editor...`);
   }
 }
 
@@ -984,7 +984,7 @@ async function savePage(slug) {
       cfg = r.config;
       selectedPageSlug = newSlug;
       fillPages(); updatePreviewBar();
-      toast('ok', ` Đã lưu và đổi URL thành /${newSlug}!`);
+      toast('ok', ` ÄÃ£ lÆ°u vÃ  Äá»i URL thÃ nh /${newSlug}!`);
       return;
     }
   }
@@ -992,17 +992,17 @@ async function savePage(slug) {
   cfg.pages[slug].heading = heading;
   cfg.pages[slug].desc    = desc;
   fillPages();
-  toast('ok', ` Đã lưu trang /${slug}!`);
+  toast('ok', ` ÄÃ£ lÆ°u trang /${slug}!`);
 }
 
 async function deletePage(slug) {
-  if (!confirm(`Xóa trang /${slug}?`)) return;
+  if (!confirm(`XÃ³a trang /${slug}?`)) return;
   const r = await patchPage('delete-page', slug);
   if (r.success) {
     cfg = r.config;
     if (selectedPageSlug === slug) { selectedPageSlug = null; document.getElementById('pageEditor').style.display = 'none'; }
     fillPages(); updatePreviewBar();
-    toast('ok', ` Đã xóa trang /${slug}!`);
+    toast('ok', ` ÄÃ£ xÃ³a trang /${slug}!`);
   }
 }
 
@@ -1019,10 +1019,10 @@ async function patchPage(action, slug, field, value, itemIndex, newSlug, title) 
 function updatePreviewBar() {
   const bar = document.querySelector('.preview-bar');
   const slugs = Object.keys(cfg.pages || {});
-  bar.innerHTML = ` <a href="/" target="_blank">Trang chủ</a> ${slugs.map(s => `<a href="/${s}" target="_blank">/${s}</a>`).join(' ')}`;
+  bar.innerHTML = ` <a href="/" target="_blank">Trang chá»§</a> ${slugs.map(s => `<a href="/${s}" target="_blank">/${s}</a>`).join(' ')}`;
 }
 
-// ── STATS ──
+// ââ STATS ââ
 function fillStats() {
   document.getElementById('stat-users').value   = cfg.stats.users;
   document.getElementById('stat-matches').value = cfg.stats.matches;
@@ -1032,10 +1032,37 @@ async function saveStats() {
   await patch('stats', null, 'users',   document.getElementById('stat-users').value);
   await patch('stats', null, 'matches', document.getElementById('stat-matches').value);
   await patch('stats', null, 'live',    document.getElementById('stat-live').value);
-  toast('ok', 'Đã lưu số liệu!');
+  toast('ok', 'ÄÃ£ lÆ°u sá» liá»u!');
 }
 
-// ── HELPERS ──
+// ââ HELPERS ââ
+async function removeBannerImg(idx) {
+  await patch('banners', idx, 'image', '');
+  cfg.banners[idx].image = '';
+  fillBanners();
+  toast('ok', 'Đã xóa ảnh banner!');
+}
+
 async function patch(section, index, field, value) {
   await fetch('/api/admin/config', {
-    me
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ section, index, field, value })
+  });
+}
+
+function toast(type, msg) {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toastMsg');
+  if (!t || !m) return;
+  m.textContent = msg;
+  t.className = 'toast ' + type;
+  t.style.display = 'flex';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.display = 'none'; }, 3000);
+}
+
+loadConfig();
+</script>
+</body>
+</html>
