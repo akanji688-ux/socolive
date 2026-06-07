@@ -1,2 +1,2 @@
-# Dynamic routes → serve page.html content (URL stays unchanged)
-/*   /page   200
+# Dynamic routes handled by functions/[slug].js
+# No redirect rules needed
