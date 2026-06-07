@@ -163,7 +163,7 @@ body {
 .stat-label { font-size: .85rem; color: var(--muted); margin-top: 4px; display: block; }
 
 /* ── FEATURES (3 BUTTONS) ── */
-.features { padding: 80px 20px; }
+.features { padding: 40px 20px; }
 .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; text-align: center; margin-bottom: 10px; }
 .section-sub { color: var(--muted); text-align: center; margin-bottom: 48px; }
 .btn-grid {
