@@ -26,6 +26,8 @@ export const DEFAULT_CONFIG = {
     logoImage: '',
     bgImage: '',
     description: 'Xem bóng đá trực tuyến HD',
+    featuresTitle: 'Khám Phá SocoLive',
+    featuresSub: 'Tất cả những gì bạn cần cho trải nghiệm bóng đá đỉnh cao',
   },
   banners: [
     { badge: '🔴 LIVE NOW', title: 'Xem Bóng Đá\nTrực Tuyến HD', desc: 'Hàng nghìn trận đấu mỗi ngày — không giật, không lag', image: '', bg: 'slide-1' },
