@@ -168,6 +168,7 @@
                 <b style="color:var(--green-light)">Kích thước khuyên dùng: 300×80px</b><br/>
                 Tên file lưu là <code>logo.png</code>
               </span>
+              <button onclick="removeLogo()" id="removeLogoBtn" style="display:none;background:rgba(248,81,73,.12);border:1px solid rgba(248,81,73,.25);color:#f85149;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:.82rem;align-self:flex-start">🗑 Xóa logo</button>
               <span class="upload-status" id="logoUploadStatus"></span>
             </div>
           </div>
@@ -284,6 +285,8 @@ async function loadConfig() {
       const logoIcon = document.getElementById('logoPreviewIcon');
       if (logoImg)  { logoImg.src = imgUrl(cfg.site.logoImage); logoImg.style.display = ''; }
       if (logoIcon) logoIcon.style.display = 'none';
+      const removeLogoBtn = document.getElementById('removeLogoBtn');
+      if (removeLogoBtn) removeLogoBtn.style.display = '';
     }
     // background preview
     if (cfg.site.bgImage) {
@@ -354,10 +357,24 @@ async function uploadLogo(input) {
     const img = document.getElementById('logoPreviewImg');
     if (img) { img.src = imgUrl(d.filename) + '?' + Date.now(); img.style.display = ''; }
     document.getElementById('logoPreviewIcon').style.display = 'none';
+    const removeBtn = document.getElementById('removeLogoBtn');
+    if (removeBtn) removeBtn.style.display = '';
     status.textContent = '✅ ' + (d.note || 'Tải lên thành công!');
     status.className = 'upload-status ok';
   });
   if (!d?.success) { status.textContent = '❌ ' + (d?.error || 'Lỗi'); status.className = 'upload-status err'; }
+}
+
+async function removeLogo() {
+  await patch('site', null, 'logoImage', '');
+  cfg.site.logoImage = '';
+  const img = document.getElementById('logoPreviewImg');
+  if (img) { img.style.display = 'none'; img.src = ''; }
+  document.getElementById('logoPreviewIcon').style.display = '';
+  document.getElementById('logoUploadStatus').textContent = '';
+  const removeBtn = document.getElementById('removeLogoBtn');
+  if (removeBtn) removeBtn.style.display = 'none';
+  toast('ok', 'Đã xóa logo!');
 }
 
 // ── BACKGROUND ──
