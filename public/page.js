@@ -22,6 +22,10 @@ function render(cfg, page) {
   renderSlider(page.banners, page.buttons);
   renderButtons(page.buttons, page);
   renderPageContent(page);
+  const ft = document.querySelector('.section-title');
+  const fs = document.querySelector('.section-sub');
+  if (ft && cfg.site.featuresTitle) ft.textContent = cfg.site.featuresTitle;
+  if (fs && cfg.site.featuresSub)   fs.textContent = cfg.site.featuresSub;
 }
 
 // ── AUTO-SYNC ──
