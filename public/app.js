@@ -84,7 +84,11 @@ function renderSlider(banners, buttons) {
   banners.forEach((b, i) => {
     const div = document.createElement('div');
     div.className = `slide ${b.bg}`;
-    if (b.image) div.style.backgroundImage = `url('${imgUrl(b.image)}')`;
+    if (b.image) {
+      div.style.backgroundImage = `url('${imgUrl(b.image)}')`;
+      div.style.backgroundSize = 'cover';
+      div.style.backgroundPosition = 'center';
+    }
     div.innerHTML = `
       <div class="slide-content">
         <span class="badge">${b.badge}</span>
