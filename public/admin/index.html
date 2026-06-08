@@ -1037,6 +1037,8 @@ async function savePage(slug) {
   cfg.pages[slug].title   = title;
   cfg.pages[slug].heading = heading;
   cfg.pages[slug].desc    = desc;
+  cfg.pages[slug].tickerTitle = (document.getElementById("ps-ticker-"+slug)||{}).value||null;
+  cfg.pages[slug].tickerSub   = (document.getElementById("ps-tickerSub-"+slug)||{}).value||null;
   fillPages();
   toast('ok', ` Đã lưu trang /${slug}!`);
 }
