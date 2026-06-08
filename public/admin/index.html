@@ -530,10 +530,7 @@ function fillBanners() {
             <div class="field"><label>Nút 2 — Tên</label><input id="b-btn2-label"/></div>
             <div class="field"><label>Nút 2 — Link</label><input id="b-btn2-link"/></div>
           </div>
-          <div class="field-row">
-            <div class="field"><label>Nút 3 — Tên</label><input id="b-btn3-label"/></div>
-            <div class="field"><label>Nút 3 — Link</label><input id="b-btn3-link"/></div>
-          </div>
+          
         </div>
 
         <button class="save-btn" onclick="saveBanner(${i})">Lưu Slide ${i + 1}</button>
@@ -551,10 +548,8 @@ function fillBanners() {
   const btn = cfg.buttons;
   document.getElementById('b-btn1-label').value = b.btn1Label ?? '';
   document.getElementById('b-btn2-label').value = b.btn2Label ?? '';
-  document.getElementById('b-btn3-label').value = b.btn3Label ?? '';
   if (btn[0]) document.getElementById('b-btn1-link').value = btn[0].link;
   if (btn[1]) document.getElementById('b-btn2-link').value = btn[1].link;
-  if (btn[2]) document.getElementById('b-btn3-link').value = btn[2].link;
 }
 
 async function saveBanner(i) {
@@ -566,13 +561,10 @@ async function saveBanner(i) {
   // Lưu link nút bấm trên banner (cập nhật vào config.buttons)
   const btn1Link = document.getElementById('b-btn1-link')?.value;
   const btn2Link = document.getElementById('b-btn2-link')?.value;
-  const btn3Link = document.getElementById('b-btn3-link')?.value;
   const btn1Label = document.getElementById('b-btn1-label')?.value;
   const btn2Label = document.getElementById('b-btn2-label')?.value;
-  const btn3Label = document.getElementById('b-btn3-label')?.value;
   if (cfg.buttons[0] && btn1Link)  await patch('buttons', 0, 'link', btn1Link);
   if (cfg.buttons[1] && btn2Link)  await patch('buttons', 1, 'link', btn2Link);
-  if (cfg.buttons[2] && btn3Link)  await patch('buttons', 2, 'link', btn3Link);
   if (btn1Label) await patch('banners', i, 'btn1Label', btn1Label);
   if (btn2Label) await patch('banners', i, 'btn2Label', btn2Label);
   if (btn3Label) await patch('banners', i, 'btn3Label', btn3Label);
