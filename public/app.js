@@ -34,10 +34,14 @@ async function checkVersion() {
 }
 
 function startPolling() {
-  setInterval(checkVersion, 2000);
+  setInterval(checkVersion, 1000);
   // Khi tab active lại (từ background) → check ngay lập tức
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) checkVersion();
+  });
+  // bfcache restore (back/forward navigation)
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) checkVersion();
   });
 }
 
