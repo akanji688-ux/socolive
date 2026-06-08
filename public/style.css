@@ -170,9 +170,9 @@ body {
 .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; text-align: center; margin-bottom: 10px; }
 .section-sub { color: var(--muted); text-align: center; margin-bottom: 48px; }
 .btn-grid {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+  display: flex; flex-wrap: nowrap; justify-content: center; gap: 20px;
 }
-.btn-grid .feature-btn { min-width: 160px; flex: 0 1 auto; }
+.btn-grid .feature-btn { flex: 1 1 0; min-width: 0; max-width: 280px; overflow: hidden; }
 .feature-btn {
   position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 0; padding: 28px 16px;
@@ -330,8 +330,8 @@ body {
 @media (max-width: 768px) {
   .nav, .nav-cta { display: none; }
   .hamburger { display: block; }
-  .btn-grid { gap: 6px; flex-wrap: nowrap; }
-  .btn-grid .feature-btn { flex: 1 1 0; min-width: 0; padding: 16px 4px; overflow: hidden; }
+  .btn-grid { gap: 6px; }
+  .btn-grid .feature-btn { padding: 16px 4px; }
   .feature-label { font-size: clamp(.45rem, 2.2vw, .7rem); white-space: nowrap; }
   .section-title { font-size: 1.1rem; white-space: nowrap; }
   .stats-inner { gap: 30px; }
