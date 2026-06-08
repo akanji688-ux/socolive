@@ -1,11 +1,11 @@
-/app.js
-  Cache-Control: no-cache, must-revalidate
-
-/page.js
-  Cache-Control: no-cache, must-revalidate
-
-/admin/index.html
-  Cache-Control: no-cache, must-revalidate
-
 /*.html
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+  Pragma: no-cache
+
+/*.js
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+  Pragma: no-cache
+
+/*.css
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+  Pragma: no-cache
