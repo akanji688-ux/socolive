@@ -24,8 +24,9 @@ function render(cfg, page) {
   renderPageContent(page);
   const ft = document.querySelector('.section-title');
   const fs = document.querySelector('.section-sub');
-  if (ft && cfg.site.featuresTitle) ft.textContent = cfg.site.featuresTitle;
-  if (fs && cfg.site.featuresSub)   fs.textContent = cfg.site.featuresSub;
+  const _pt=cfg.pages?.[PAGE_SLUG]?.tickerTitle, _ps=cfg.pages?.[PAGE_SLUG]?.tickerSub;
+  if (ft) ft.textContent = _pt || cfg.site.featuresTitle || '';
+  if (fs) fs.textContent = _ps || cfg.site.featuresSub || '';
 }
 
 // ── AUTO-SYNC ──
