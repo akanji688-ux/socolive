@@ -330,9 +330,9 @@ body {
 @media (max-width: 768px) {
   .nav, .nav-cta { display: none; }
   .hamburger { display: block; }
-  .btn-grid { gap: 8px; flex-wrap: nowrap; }
-  .btn-grid .feature-btn { flex: 1 1 0; min-width: 0; padding: 20px 8px; }
-  .feature-label { font-size: .65rem; white-space: nowrap; }
+  .btn-grid { gap: 6px; flex-wrap: nowrap; }
+  .btn-grid .feature-btn { flex: 1 1 0; min-width: 0; padding: 16px 4px; overflow: hidden; }
+  .feature-label { font-size: clamp(.45rem, 2.2vw, .7rem); white-space: nowrap; }
   .section-title { font-size: 1.1rem; white-space: nowrap; }
   .stats-inner { gap: 30px; }
   .form-row { grid-template-columns: 1fr; }
