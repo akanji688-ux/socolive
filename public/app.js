@@ -52,7 +52,8 @@ function showSyncToast() {
 // Hỗ trợ URL đầy đủ (https://...) lẫn file local (/images/...)
 function imgUrl(v) { return v ? (v.startsWith('http') ? v : '/images/' + v) : ''; }
 
-function setupNav(site) {
+function setupNav(site, pages) {
+  pages = pages || {};
   const logoWrap = document.getElementById('logoText');
   if (site.logoImage) {
     logoWrap.innerHTML = `<img src="${imgUrl(site.logoImage)}" alt="${site.name}" class="logo-img"/>`;
