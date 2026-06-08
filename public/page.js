@@ -165,10 +165,9 @@ function renderButtons(buttons, page) {
     if (b.badge) {
       const s = document.createElement('span'); s.className = 'badge-btn'; s.textContent = b.badge; a.appendChild(s);
     }
-    const icon  = document.createElement('span'); icon.className  = 'feature-icon';  icon.textContent = b.icon;
     const label = document.createElement('span'); label.className = 'feature-label'; label.textContent = b.label;
     const desc  = document.createElement('span'); desc.className  = 'feature-desc';  desc.textContent = b.desc;
-    a.append(icon, label, desc);
+    a.append(label, desc);
     grid.appendChild(a);
   });
 }
