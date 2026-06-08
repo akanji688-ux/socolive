@@ -80,14 +80,13 @@ function renderSlider(banners, buttons) {
   const link1  = buttons[0]?.link  || '#';
   const link2  = buttons[1]?.link  || '#';
   const link3  = buttons[2]?.link  || '#';
-  const label1 = buttons[0]?.label || 'Xem Ngay';
-  const label2 = buttons[1]?.label || 'Đăng Ký';
-  const label3 = buttons[2]?.label || 'Liên Hệ';
-
   slider.innerHTML = '';
   dotsWrap.innerHTML = '';
 
   banners.forEach((b, i) => {
+    const label1 = b.btn1Label || 'Xem Ngay';
+    const label2 = b.btn2Label || 'Đăng Ký';
+    const label3 = b.btn3Label || 'Liên Hệ';
     const div = document.createElement('div');
     div.className = `slide ${b.bg}`;
     if (b.image) {
