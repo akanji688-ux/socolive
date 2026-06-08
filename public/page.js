@@ -159,6 +159,7 @@ function renderButtons(buttons, page) {
 
   const grid = document.getElementById('btnGrid');
   grid.innerHTML = '';
+  grid.style.gridTemplateColumns = `repeat(${buttons.length}, 1fr)`;
   buttons.forEach(b => {
     const a = document.createElement('a');
     a.href = b.link;
