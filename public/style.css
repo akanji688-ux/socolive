@@ -172,11 +172,9 @@ body {
 .section-sub { color: var(--muted); text-align: center; margin-bottom: 48px; }
 .btn-grid {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 20px;
 }
-.btn-grid .feature-btn { min-width: 0; }
 .feature-btn {
   position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 0; padding: 28px 16px;
@@ -334,9 +332,8 @@ body {
 @media (max-width: 768px) {
   .nav, .nav-cta { display: none; }
   .hamburger { display: block; }
-  .btn-grid { gap: 6px; }
-  .btn-grid .feature-btn { padding: 22px 6px 14px; }
-  .feature-label { font-size: clamp(.55rem, 2.5vw, .8rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%; }
+  .btn-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+  .feature-label { font-size: .75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%; }
   .section-title { font-size: 1.1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
   .stats-inner { gap: 30px; }
   .form-row { grid-template-columns: 1fr; }
