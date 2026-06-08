@@ -567,12 +567,12 @@ async function saveBanner(i) {
   const btn1Label = document.getElementById('b-btn1-label')?.value;
   const btn2Label = document.getElementById('b-btn2-label')?.value;
   const btn3Label = document.getElementById('b-btn3-label')?.value;
-  if (cfg.buttons[0] && btn1Link)  await patch('buttons', 0, 'link',  btn1Link);
-  if (cfg.buttons[1] && btn2Link)  await patch('buttons', 1, 'link',  btn2Link);
-  if (cfg.buttons[2] && btn3Link)  await patch('buttons', 2, 'link',  btn3Link);
-  if (cfg.buttons[0] && btn1Label) await patch('buttons', 0, 'label', btn1Label);
-  if (cfg.buttons[1] && btn2Label) await patch('buttons', 1, 'label', btn2Label);
-  if (cfg.buttons[2] && btn3Label) await patch('buttons', 2, 'label', btn3Label);
+  if (cfg.buttons[0] && btn1Link)  await patch('buttons', 0, 'link', btn1Link);
+  if (cfg.buttons[1] && btn2Link)  await patch('buttons', 1, 'link', btn2Link);
+  if (cfg.buttons[2] && btn3Link)  await patch('buttons', 2, 'link', btn3Link);
+  if (btn1Label) await patch('banners', i, 'btn1Label', btn1Label);
+  if (btn2Label) await patch('banners', i, 'btn2Label', btn2Label);
+  if (btn3Label) await patch('banners', i, 'btn3Label', btn3Label);
   cfg.banners[i].badge = document.getElementById('b-badge').value;
   cfg.banners[i].title = title;
   cfg.banners[i].desc  = document.getElementById('b-desc').value;
