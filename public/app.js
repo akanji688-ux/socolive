@@ -151,6 +151,8 @@ document.getElementById('prevBtn').onclick = () => { goTo(current - 1); reset();
 document.getElementById('nextBtn').onclick = () => { goTo(current + 1); reset(); };
 
 // ── BUTTONS ──
+function stripEmoji(s) { return (s||'').replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FEFF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}]/gu,'').replace(/\s+/g,' ').trim(); }
+
 function renderButtons(buttons) {
   const grid = document.getElementById('btnGrid');
   grid.innerHTML = '';
@@ -164,7 +166,7 @@ function renderButtons(buttons) {
       s.textContent = b.badge;
       a.appendChild(s);
     }
-    const label = document.createElement('span'); label.className = 'feature-label'; label.textContent = b.label;
+    const label = document.createElement('span'); label.className = 'feature-label'; label.textContent = stripEmoji(b.label);
     const desc  = document.createElement('span'); desc.className  = 'feature-desc';  desc.textContent = b.desc;
     a.append(label, desc);
     grid.appendChild(a);
