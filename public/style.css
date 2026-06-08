@@ -67,14 +67,24 @@ body {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 12px 26px; border-radius: 50px;
   font-size: .95rem; font-weight: 700; cursor: pointer;
-  border: 2px solid transparent; transition: all .2s; white-space: nowrap;
+  border: none; transition: all .2s; white-space: nowrap; text-decoration: none;
 }
-.btn-primary { background: var(--green); color: #fff; border-color: var(--green); }
-.btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: var(--shadow); }
-.btn-outline { background: transparent; color: var(--green); border-color: var(--green); }
-.btn-outline:hover { background: var(--green); color: #fff; }
-.btn-ghost { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.2); }
-.btn-ghost:hover { background: rgba(255,255,255,.2); }
+.btn:active { transform: scale(.96); }
+
+/* Nút 1 — xanh lá */
+.btn-primary { background: var(--green); color: #fff; }
+.btn-primary:hover { background: #00e35a; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,200,83,.4); }
+.btn-primary:active { background: #00b34a; }
+
+/* Nút 2 — trắng mờ */
+.btn-ghost { background: rgba(255,255,255,.15); color: #fff; backdrop-filter: blur(4px); }
+.btn-ghost:hover { background: rgba(255,255,255,.28); transform: translateY(-2px); }
+.btn-ghost:active { background: rgba(255,255,255,.1); }
+
+/* Nút 3 — viền xanh → solid khi hover */
+.btn-outline { background: rgba(0,200,83,.12); color: var(--green); border: 2px solid var(--green); }
+.btn-outline:hover { background: var(--green); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,200,83,.35); }
+.btn-outline:active { background: #00b34a; color: #fff; border-color: #00b34a; }
 
 /* ── SLIDER ── */
 .slider-section {
@@ -124,6 +134,7 @@ body {
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .slide-content p { font-size: 1.1rem; color: var(--muted); margin-bottom: 28px; }
+.cta-group a { text-decoration: none; }
 .cta-group { display: flex; gap: 14px; flex-wrap: wrap; }
 
 .slider-btn {
