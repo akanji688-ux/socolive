@@ -761,11 +761,11 @@ function renderPageEditor(slug) {
             <div class="field"><label>Heading (H1)</label><input id="ps-heading-${slug}"/></div>
             <div class="field"><label>Mô tả</label><input id="ps-desc-${slug}"/></div>
           </div>
-          <button class="save-btn" <div class="field-row" style="margin-bottom:10px">
+          <div class="field-row">
           <div class="field"><label>Ticker — để trống = dùng global</label><input id="ps-ticker-${slug}" placeholder="VD: SOCOLIVE ĐỒNG HÀNH WORLD CUP 2026" style="width:100%"/></div>
-          <div class="field"><label>Ticker phụ</label><input id="ps-tickerSub-${slug}" placeholder="VD: THAM GIA NHÓM BLV LIỆN HỆ TẠI ĐÂY" style="width:100%"/></div>
+          <div class="field"><label>Ticker phụ</label><input id="ps-tickerSub-${slug}" placeholder="VD: THAM GIA NHÓM BLV LIÊN HỆ TẠI ĐÂY" style="width:100%"/></div>
         </div>
-        onclick="savePage('${slug}')">Lưu thông tin</button>
+        <button class="save-btn" onclick="savePage('${slug}')">Lưu thông tin</button>
         </div>
       </div>
 
