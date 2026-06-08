@@ -617,7 +617,12 @@ function fillButtons() {
             </label>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.875rem">
               <input type="checkbox" id="btn-highlight-${i}" style="width:16px;height:16px;cursor:pointer"/>
-              <span style="color:#ffc800;font-weight:600">Noi bat (nhap nhay doi mau)</span>
+              <span style="color:#ffc800;font-weight:600">Noi bat (glow)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:.875rem">
+              <span style="color:var(--muted)">Màu nền:</span>
+              <input type="color" id="btn-color-${i}" value="#1a2235" style="width:36px;height:28px;border:none;border-radius:4px;cursor:pointer;padding:2px;background:transparent"/>
+              <button type="button" onclick="document.getElementById('btn-color-${i}').value='#1a2235'" style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:.75rem">Reset</button>
             </label>
           </div>
           <button class="save-btn" onclick="saveButton(${i})">Luu Nut ${i + 1}</button>
@@ -631,6 +636,7 @@ function fillButtons() {
     document.getElementById(`btn-badge-${i}`).value     = b.badge     || '';
     document.getElementById(`btn-featured-${i}`).checked  = !!b.featured;
     document.getElementById(`btn-highlight-${i}`).checked = !!b.highlight;
+    document.getElementById(`btn-color-${i}`).value = b.color || '#1a2235';
   });
   wrap.insertAdjacentHTML('beforeend',
     `<button onclick="addButton()" style="background:transparent;border:1px solid var(--green);color:var(--green-light);border-radius:6px;padding:9px 22px;font-size:.875rem;font-weight:600;cursor:pointer;width:100%">+ Them nut moi</button>`);
@@ -643,6 +649,8 @@ async function saveButton(i) {
   const badge     = document.getElementById(`btn-badge-${i}`).value || null;
   const featured  = document.getElementById(`btn-featured-${i}`).checked;
   const highlight = document.getElementById(`btn-highlight-${i}`).checked;
+  const color     = document.getElementById(`btn-color-${i}`).value;
+  const colorVal  = (color && color !== '#1a2235') ? color : null;
   await patch('buttons', i, 'icon',      icon);
   await patch('buttons', i, 'label',     label);
   await patch('buttons', i, 'desc',      desc);
@@ -650,8 +658,9 @@ async function saveButton(i) {
   await patch('buttons', i, 'badge',     badge);
   await patch('buttons', i, 'featured',  featured);
   await patch('buttons', i, 'highlight', highlight);
+  await patch('buttons', i, 'color',     colorVal);
   // Cập nhật cfg local để fillButtons không mất dữ liệu
-  cfg.buttons[i] = { ...cfg.buttons[i], icon, label, desc, link, badge, featured, highlight };
+  cfg.buttons[i] = { ...cfg.buttons[i], icon, label, desc, link, badge, featured, highlight, color: colorVal };
   toast('ok', `Da luu Nut ${i + 1}!`);
   fillButtons();
 }
