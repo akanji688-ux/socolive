@@ -170,8 +170,9 @@ body {
 .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; text-align: center; margin-bottom: 10px; }
 .section-sub { color: var(--muted); text-align: center; margin-bottom: 48px; }
 .btn-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
 }
+.btn-grid .feature-btn { min-width: 160px; flex: 0 1 auto; }
 .feature-btn {
   position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 0; padding: 28px 16px;
@@ -329,7 +330,7 @@ body {
 @media (max-width: 768px) {
   .nav, .nav-cta { display: none; }
   .hamburger { display: block; }
-  .btn-grid { grid-template-columns: 1fr 1fr; }
+  .btn-grid { gap: 12px; }
   .feature-label { font-size: .65rem; white-space: nowrap; }
   .section-title { font-size: 1.1rem; white-space: nowrap; }
   .stats-inner { gap: 30px; }
