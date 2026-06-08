@@ -330,7 +330,8 @@ body {
 @media (max-width: 768px) {
   .nav, .nav-cta { display: none; }
   .hamburger { display: block; }
-  .btn-grid { gap: 12px; }
+  .btn-grid { gap: 8px; }
+  .btn-grid .feature-btn { flex: 1 1 0; min-width: 0; padding: 20px 8px; }
   .feature-label { font-size: .65rem; white-space: nowrap; }
   .section-title { font-size: 1.1rem; white-space: nowrap; }
   .stats-inner { gap: 30px; }
