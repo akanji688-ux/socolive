@@ -9,7 +9,7 @@ async function init() {
 }
 
 function render(cfg) {
-  setupNav(cfg.site);
+  setupNav(cfg.site, cfg.pages || {});
   renderSlider(cfg.banners, cfg.buttons);
   renderButtons(cfg.buttons);
   const ft = document.querySelector('.section-title');
@@ -69,6 +69,19 @@ function setupNav(site) {
       bgLayer.style.backgroundImage = '';
       bgLayer.style.display = 'none';
     }
+  }
+  // ── NAV LINKS ──
+  const mainNav = document.getElementById('mainNav');
+  const mobileNav = document.getElementById('mobileNav');
+  if (mainNav) {
+    const slugs = Object.keys(pages);
+    mainNav.innerHTML = '<a href="/" class="nav-link">Trang chủ</a>' +
+      slugs.map(s => `<a href="/${s}" class="nav-link">${pages[s].title || s}</a>`).join('');
+  }
+  if (mobileNav) {
+    const slugs = Object.keys(pages);
+    mobileNav.innerHTML = '<a href="/" class="nav-link">Trang chủ</a>' +
+      slugs.map(s => `<a href="/${s}" class="nav-link">${pages[s].title || s}</a>`).join('');
   }
 }
 
