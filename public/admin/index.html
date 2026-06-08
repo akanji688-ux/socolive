@@ -138,11 +138,8 @@
   </aside>
 
   <main class="main">
-    <div class="preview-bar">
+    <div class="preview-bar" id="previewBar">
        <a href="/" target="_blank">Trang chủ</a>
-      <a href="/live" target="_blank">/live</a>
-      <a href="/vip" target="_blank">/vip</a>
-      <a href="/contact" target="_blank">/contact</a>
     </div>
 
     <!-- SITE -->
@@ -279,6 +276,7 @@ async function loadConfig() {
     fillSite();
     fillBanners();
     fillButtons();
+    {const pb=document.getElementById("previewBar");if(pb&&cfg.pages){const ss=Object.keys(cfg.pages);pb.innerHTML='<a href="/" target="_blank">Trang chủ</a>'+ss.map(s=>`<a href="/${s}" target="_blank">/${s}</a>`).join('');}}
     fillPages();
     fillStats();
     // logo preview
