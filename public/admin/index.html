@@ -950,7 +950,8 @@ function fillPageButtons(slug) {
     document.getElementById(`pbi-badge-${slug}-${i}`).value     = b.badge     || '';
     document.getElementById(`pbi-featured-${slug}-${i}`).checked  = !!b.featured;
     document.getElementById(`pbi-highlight-${slug}-${i}`).checked = !!b.highlight;
-    document.getElementById(`pbi-color-${slug}-${i}`).value = b.color || '#1a2235';
+    const colorElF = document.getElementById(`pbi-color-${slug}-${i}`);
+    if (colorElF) colorElF.value = b.color || '#1a2235';
   });
   wrap.insertAdjacentHTML('beforeend',
     `<button onclick="addPageButton('${slug}')" style="background:transparent;border:1px solid var(--green);color:var(--green-light);border-radius:6px;padding:8px 18px;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:4px">+ Them nut moi</button>`);
@@ -964,8 +965,8 @@ async function savePageButton(slug, i) {
   const badge     = document.getElementById(`pbi-badge-${slug}-${i}`).value || null;
   const featured  = document.getElementById(`pbi-featured-${slug}-${i}`).checked;
   const highlight = document.getElementById(`pbi-highlight-${slug}-${i}`).checked;
-  const color     = document.getElementById(`pbi-color-${slug}-${i}`).value;
-  const colorVal  = (color && color !== '#1a2235') ? color : null;
+  const colorEl   = document.getElementById(`pbi-color-${slug}-${i}`);
+  const colorVal  = colorEl && colorEl.value !== '#1a2235' ? colorEl.value : null;
   await patchPageBanner('update-button', slug, i, 'icon',      icon);
   await patchPageBanner('update-button', slug, i, 'label',     label);
   await patchPageBanner('update-button', slug, i, 'desc',      desc);
@@ -973,9 +974,6 @@ async function savePageButton(slug, i) {
   await patchPageBanner('update-button', slug, i, 'badge',     badge);
   await patchPageBanner('update-button', slug, i, 'featured',  featured);
   await patchPageBanner('update-button', slug, i, 'highlight', highlight);
-  const colorEl2 = document.getElementById(`pbi-color-${slug}-${i}`);
-  const colorVal = colorEl2 && colorEl2.value !== '#1a2235' ? colorEl2.value : null;
-  await patchPageBanner('update-button', slug, i, 'color', colorVal);
   await patchPageBanner('update-button', slug, i, 'color',     colorVal);
   if (!cfg.pages[slug].buttons) cfg.pages[slug].buttons = JSON.parse(JSON.stringify(cfg.buttons));
   cfg.pages[slug].buttons[i] = { ...cfg.pages[slug].buttons[i], icon, label, desc, link, badge, featured, highlight, color: colorVal };
