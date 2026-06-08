@@ -16,6 +16,7 @@
 html { scroll-behavior: smooth; }
 
 body {
+  overflow-x: hidden;
   font-family: 'Be Vietnam Pro', sans-serif;
   background: var(--dark);
   color: var(--text);
@@ -333,7 +334,7 @@ body {
   .nav, .nav-cta { display: none; }
   .hamburger { display: block; }
   .btn-grid { gap: 6px; }
-  .feature-label { font-size: clamp(.5rem, 2.5vw, .75rem); }
+  .feature-label { font-size: clamp(.5rem, 2.5vw, .75rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
   .section-title { font-size: 1.1rem; white-space: nowrap; }
   .stats-inner { gap: 30px; }
   .form-row { grid-template-columns: 1fr; }
