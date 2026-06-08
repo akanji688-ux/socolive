@@ -157,6 +157,7 @@ function renderButtons(buttons) {
     const a = document.createElement('a');
     a.href = b.link;
     a.className = 'feature-btn' + (b.featured ? ' featured' : '') + (b.highlight ? ' highlight' : '');
+    if (b.color) { a.style.background = b.color; a.style.borderColor = b.color; }
     if (b.badge) {
       const s = document.createElement('span');
       s.className = 'badge-btn';
