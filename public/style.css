@@ -176,6 +176,7 @@ body {
   grid-auto-columns: 1fr;
   gap: 20px;
 }
+.btn-grid .feature-btn { min-width: 0; overflow: hidden; }
 .feature-btn {
   position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 0; padding: 28px 16px;
