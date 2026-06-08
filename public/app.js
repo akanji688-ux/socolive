@@ -18,21 +18,27 @@ function render(cfg) {
   if (fs && cfg.site.featuresSub)   fs.textContent = cfg.site.featuresSub;
 }
 
-// ── AUTO-SYNC: poll version mỗi 4 giây ──
+// ── AUTO-SYNC: poll version mỗi 2 giây + check ngay khi tab active lại ──
+async function checkVersion() {
+  try {
+    const r = await fetch('/api/version');
+    const { v } = await r.json();
+    if (v !== currentVersion) {
+      currentVersion = v;
+      const res = await fetch('/api/config');
+      const cfg = await res.json();
+      render(cfg);
+      showSyncToast();
+    }
+  } catch {}
+}
+
 function startPolling() {
-  setInterval(async () => {
-    try {
-      const r = await fetch('/api/version');
-      const { v } = await r.json();
-      if (v !== currentVersion) {
-        currentVersion = v;
-        const res = await fetch('/api/config');
-        const cfg = await res.json();
-        render(cfg);
-        showSyncToast();
-      }
-    } catch {}
-  }, 2000);
+  setInterval(checkVersion, 2000);
+  // Khi tab active lại (từ background) → check ngay lập tức
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) checkVersion();
+  });
 }
 
 function showSyncToast() {
