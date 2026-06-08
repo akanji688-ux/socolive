@@ -91,14 +91,12 @@ function renderSlider(banners, buttons) {
   const dotsWrap = document.getElementById('sliderDots');
   const link1   = buttons[0]?.link || '#';
   const link2   = buttons[1]?.link || '#';
-  const link3   = buttons[2]?.link || '#';
   slider.innerHTML = '';
   dotsWrap.innerHTML = '';
 
   banners.forEach((b, i) => {
     const label1 = b.btn1Label || 'Xem Ngay';
     const label2 = b.btn2Label || 'Đăng Ký';
-    const label3 = b.btn3Label || 'Liên Hệ';
     const div = document.createElement('div');
     div.className = `slide ${b.bg}`;
     if (b.image) div.style.backgroundImage = `url('${imgUrl(b.image)}')`;
@@ -110,7 +108,6 @@ function renderSlider(banners, buttons) {
         <div class="cta-group">
           <a href="${link1}" class="btn btn-primary">${label1}</a>
           <a href="${link2}" class="btn btn-ghost">${label2}</a>
-          <a href="${link3}" class="btn btn-outline">${label3}</a>
         </div>
       </div>`;
     slider.appendChild(div);
