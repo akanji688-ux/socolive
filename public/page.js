@@ -105,8 +105,8 @@ function renderSlider(banners, buttons) {
   dotsWrap.innerHTML = '';
 
   banners.forEach((b, i) => {
-    const label1 = b.btn1Label || 'Xem Ngay';
-    const label2 = b.btn2Label || 'Đăng Ký';
+    const label1 = buttons[0]?.label || b.btn1Label || 'Xem Ngay';
+    const label2 = buttons[1]?.label || b.btn2Label || 'Đăng Ký';
     const div = document.createElement('div');
     div.className = `slide ${b.bg}`;
     if (b.image) div.style.backgroundImage = `url('${imgUrl(b.image)}')`;
