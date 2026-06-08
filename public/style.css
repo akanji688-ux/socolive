@@ -13,7 +13,7 @@
   --shadow: 0 4px 24px rgba(0,200,83,.18);
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
   overflow-x: hidden;
@@ -335,7 +335,7 @@ body {
   .hamburger { display: block; }
   .btn-grid { gap: 6px; }
   .feature-label { font-size: clamp(.5rem, 2.5vw, .75rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-  .section-title { font-size: 1.1rem; white-space: nowrap; }
+  .section-title { font-size: 1.1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
   .stats-inner { gap: 30px; }
   .form-row { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; text-align: center; }
