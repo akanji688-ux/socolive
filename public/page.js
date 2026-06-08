@@ -30,23 +30,28 @@ function render(cfg, page) {
 }
 
 // ── AUTO-SYNC ──
+async function checkVersion() {
+  try {
+    const r = await fetch('/api/version');
+    const { v } = await r.json();
+    if (v !== currentVersion) {
+      currentVersion = v;
+      const [cfgRes, pageRes] = await Promise.all([fetch('/api/config'), fetch(`/api/page/${PAGE_SLUG}`)]);
+      const cfg = await cfgRes.json();
+      const page = await pageRes.json();
+      if (page.error) return;
+      document.title = `${page.title} — ${cfg.site.name}`;
+      render(cfg, page);
+      showSyncToast();
+    }
+  } catch {}
+}
+
 function startPolling() {
-  setInterval(async () => {
-    try {
-      const r = await fetch('/api/version');
-      const { v } = await r.json();
-      if (v !== currentVersion) {
-        currentVersion = v;
-        const [cfgRes, pageRes] = await Promise.all([fetch('/api/config'), fetch(`/api/page/${PAGE_SLUG}`)]);
-        const cfg = await cfgRes.json();
-        const page = await pageRes.json();
-        if (page.error) return;
-        document.title = `${page.title} — ${cfg.site.name}`;
-        render(cfg, page);
-        showSyncToast();
-      }
-    } catch {}
-  }, 2000);
+  setInterval(checkVersion, 2000);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) checkVersion();
+  });
 }
 
 function showSyncToast() {
