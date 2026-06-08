@@ -1021,6 +1021,8 @@ async function savePage(slug) {
   await patchPage('update-page', slug, 'title',   title);
   await patchPage('update-page', slug, 'heading', heading);
   await patchPage('update-page', slug, 'desc',    desc);
+  {const v=(document.getElementById('ps-ticker-'+slug)||{}).value||'';await patchPage('update-page',slug,'tickerTitle',v||null);}
+  {const v2=(document.getElementById('ps-tickerSub-'+slug)||{}).value||'';await patchPage('update-page',slug,'tickerSub',v2||null);}
 
   if (newSlug && newSlug !== slug) {
     const r = await patchPage('rename-page', slug, null, newSlug);
