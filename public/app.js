@@ -80,7 +80,9 @@ function renderSlider(banners, buttons) {
   const link1  = buttons[0]?.link  || '#';
   const link2  = buttons[1]?.link  || '#';
   const link3  = buttons[2]?.link  || '#';
-  const label3 = buttons[2] ? `${buttons[2].icon} ${buttons[2].label}` : 'Liên Hệ';
+  const label1 = buttons[0]?.label || 'Xem Ngay';
+  const label2 = buttons[1]?.label || 'Đăng Ký';
+  const label3 = buttons[2]?.label || 'Liên Hệ';
 
   slider.innerHTML = '';
   dotsWrap.innerHTML = '';
@@ -99,8 +101,8 @@ function renderSlider(banners, buttons) {
         <h1>${b.title.replace(/\n/g,'<br/>')}</h1>
         <p>${b.desc}</p>
         <div class="cta-group">
-          <a href="${link1}" class="btn btn-primary">▶ Xem Ngay</a>
-          <a href="${link2}" class="btn btn-ghost">Đăng Ký</a>
+          <a href="${link1}" class="btn btn-primary">${label1}</a>
+          <a href="${link2}" class="btn btn-ghost">${label2}</a>
           <a href="${link3}" class="btn btn-outline">${label3}</a>
         </div>
       </div>`;
