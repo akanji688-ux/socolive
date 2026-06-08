@@ -849,10 +849,26 @@ function fillPageBanners(slug) {
           </div>
         </div>
       </div>
+      <div style="border-top:1px solid #30363d;padding-top:16px;margin-top:4px">
+        <div style="font-size:.8rem;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px">🔘 Nút bấm trên banner</div>
+        <div class="field-row" style="margin-bottom:12px">
+          <div class="field"><label>Nút 1 — Tên</label><input id="pb-btn1-label-${slug}"/></div>
+          <div class="field"><label>Nút 1 — Link</label><input id="pb-btn1-link-${slug}"/></div>
+        </div>
+        <div class="field-row" style="margin-bottom:12px">
+          <div class="field"><label>Nút 2 — Tên</label><input id="pb-btn2-label-${slug}"/></div>
+          <div class="field"><label>Nút 2 — Link</label><input id="pb-btn2-link-${slug}"/></div>
+        </div>
+      </div>
       <button class="save-btn" onclick="savePageBanner('${slug}',${idx})">Lưu Slide ${idx + 1}</button>
     </div>`;
 
   document.getElementById(`pb-badge-${slug}`).value = b.badge || '';
+  {const btns=cfg.pages[slug]?.buttons||cfg.buttons||[];
+   const e1=document.getElementById(`pb-btn1-label-${slug}`); if(e1) e1.value=b.btn1Label||btns[0]?.label||'';
+   const e2=document.getElementById(`pb-btn2-label-${slug}`); if(e2) e2.value=b.btn2Label||btns[1]?.label||'';
+   const l1=document.getElementById(`pb-btn1-link-${slug}`); if(l1) l1.value=btns[0]?.link||'';
+   const l2=document.getElementById(`pb-btn2-link-${slug}`); if(l2) l2.value=btns[1]?.link||'';}
   document.getElementById(`pb-title-${slug}`).value = (b.title || '').replace(/\n/g,'\\n');
   document.getElementById(`pb-desc-${slug}`).value  = b.desc  || '';
   const pbImgPrev = document.getElementById(`pb-img-prev-${slug}`);
@@ -868,6 +884,14 @@ async function savePageBanner(slug, idx) {
   cfg.pages[slug].banners[idx].badge = document.getElementById(`pb-badge-${slug}`).value;
   cfg.pages[slug].banners[idx].title = title;
   cfg.pages[slug].banners[idx].desc  = document.getElementById(`pb-desc-${slug}`).value;
+  {const btns=cfg.pages[slug].buttons||cfg.buttons||[];
+   const lbl1=document.getElementById(`pb-btn1-label-${slug}`)?.value;
+   const lbl2=document.getElementById(`pb-btn2-label-${slug}`)?.value;
+   const lnk1=document.getElementById(`pb-btn1-link-${slug}`)?.value;
+   const lnk2=document.getElementById(`pb-btn2-link-${slug}`)?.value;
+   if(btns[0]&&lnk1!==undefined){await patchPage('update-page',slug,'buttons',btns.map((b,i)=>i===0?{...b,label:lbl1||b.label,link:lnk1}:b));}
+   if(btns[1]&&lnk2!==undefined){await patchPage('update-page',slug,'buttons',btns.map((b,i)=>i===1?{...b,label:lbl2||b.label,link:lnk2}:b));}
+  }
   toast('ok', ` Đã lưu Slide ${idx + 1} của trang /${slug}!`);
 }
 
