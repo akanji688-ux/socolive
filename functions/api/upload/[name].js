@@ -45,7 +45,8 @@ export async function onRequestPost({ params, request, env }) {
   try {
     const cfg = await getConfig(env.DB);
     if (name.startsWith('logo')) cfg.site.logoImage = name;
-    if (name.startsWith('bg'))   cfg.site.bgImage   = name;
+    // Chỉ cập nhật bgImage site khi file là bg.ext (không phải bg-slug.ext của trang con)
+    if (/^bg\.[a-z]+$/.test(name)) cfg.site.bgImage = name;
     await saveConfig(env.DB, cfg);
   } catch(e) { /* optional */ }
 
