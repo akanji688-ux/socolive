@@ -135,6 +135,11 @@ function renderSlider(banners, buttons) {
   });
 
   startSlider(banners.length);
+  // Favicon: cập nhật theo logo thực tế
+  let _fav = document.querySelector('link[rel="icon"]');
+  if (!_fav) { _fav = document.createElement('link'); _fav.rel = 'icon'; _fav.type = 'image/png'; document.head.appendChild(_fav); }
+  if (site.logoImage) _fav.href = imgUrl(site.logoImage);
+
 }
 
 let current = 0, timer, totalSlides = 0;
