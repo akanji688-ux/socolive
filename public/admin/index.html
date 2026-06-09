@@ -329,6 +329,36 @@ async function savePageBannerImgUrl(slug, idx) {
   toast('ok', `Đã lưu URL ảnh Slide ${idx + 1}!`);
 }
 
+async function uploadPageBg(input, slug) {
+  const ext = input.files[0]?.name.split('.').pop() || 'jpg';
+  await uploadFile('bg-'+slug+'.'+ext, input, (d) => {
+    patchPage('update-page', slug, 'bgImage', d.filename);
+    if (!cfg.pages[slug]) cfg.pages[slug] = {};
+    cfg.pages[slug].bgImage = d.filename;
+    const prev = document.getElementById('ps-bg-prev-'+slug);
+    if (prev) { prev.src = imgUrl(d.filename)+'?'+Date.now(); prev.style.display=''; }
+    toast('ok', 'Đã lưu ảnh nền trang /'+slug+'!');
+  });
+}
+async function savePageBgUrl(slug) {
+  const url = document.getElementById('ps-bg-url-'+slug)?.value?.trim();
+  if (!url) return toast('err', 'Nhập URL ảnh nền trước!');
+  await patchPage('update-page', slug, 'bgImage', url);
+  if (!cfg.pages[slug]) cfg.pages[slug] = {};
+  cfg.pages[slug].bgImage = url;
+  const prev = document.getElementById('ps-bg-prev-'+slug);
+  if (prev) { prev.src = url; prev.style.display=''; }
+  toast('ok', 'Đã lưu ảnh nền trang /'+slug+'!');
+}
+async function removePageBg(slug) {
+  await patchPage('update-page', slug, 'bgImage', '');
+  if (cfg.pages[slug]) cfg.pages[slug].bgImage = '';
+  const prev = document.getElementById('ps-bg-prev-'+slug);
+  const url  = document.getElementById('ps-bg-url-'+slug);
+  if (prev) { prev.style.display='none'; prev.src=''; }
+  if (url)  url.value='';
+  toast('ok', 'Đã xóa ảnh nền trang /'+slug+'!');
+}
 async function uploadFile(filename, fileInput, onSuccess) {
   if (!fileInput.files[0]) return;
   const fd = new FormData();
