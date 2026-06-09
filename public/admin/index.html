@@ -792,6 +792,18 @@ function renderPageEditor(slug) {
           <div class="field-row">
           <div class="field"><label>Ticker — để trống = dùng global</label><input id="ps-ticker-${slug}" placeholder="VD: SOCOLIVE ĐỒNG HÀNH WORLD CUP 2026" style="width:100%"/></div>
           <div class="field"><label>Ticker phụ</label><input id="ps-tickerSub-${slug}" placeholder="VD: THAM GIA NHÓM BLV LIÊN HỆ TẠI ĐÂY" style="width:100%"/></div>
+        <div class="field-row">
+          <div class="field" style="flex:1">
+            <label>Ảnh nền riêng của trang này</label>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px">
+              <img id="ps-bg-prev-${slug}" style="width:90px;height:56px;object-fit:cover;border-radius:6px;display:none;border:1px solid var(--border)"/>
+              <label style="display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:7px 12px;cursor:pointer;font-size:.82rem;color:var(--text)"> Chọn file ảnh<input type="file" accept="image/*" style="display:none" onchange="uploadPageBg(this,'${slug}')"/></label>
+              <input id="ps-bg-url-${slug}" type="url" placeholder="Hoặc dán URL ảnh nền..." style="flex:1;min-width:160px;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 10px;font-size:.85rem"/>
+              <button onclick="savePageBgUrl('${slug}')" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem">Lưu URL</button>
+              <button onclick="removePageBg('${slug}')" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:7px 12px;cursor:pointer;font-size:.82rem">Xóa nền</button>
+            </div>
+          </div>
+        </div>
         </div>
         <button class="save-btn" onclick="savePage('${slug}')">Lưu thông tin</button>
         </div>
