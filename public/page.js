@@ -99,14 +99,14 @@ function setupNav(site) {
 function renderSlider(banners, buttons) {
   const slider  = document.getElementById('slider');
   const dotsWrap = document.getElementById('sliderDots');
-  const link1   = buttons[0]?.link || '#';
-  const link2   = buttons[1]?.link || '#';
   slider.innerHTML = '';
   dotsWrap.innerHTML = '';
 
   banners.forEach((b, i) => {
-    const label1 = buttons[0]?.label || b.btn1Label || 'Xem Ngay';
-    const label2 = buttons[1]?.label || b.btn2Label || 'Đăng Ký';
+    const label1 = b.btn1Label || 'Xem Ngay';
+    const label2 = b.btn2Label || 'Đăng Ký';
+    const link1  = b.btn1Link || buttons[0]?.link || '#';
+    const link2  = b.btn2Link || buttons[1]?.link || '#';
     const div = document.createElement('div');
     div.className = `slide ${b.bg}`;
     if (b.image) div.style.backgroundImage = `url('${imgUrl(b.image)}')`;
