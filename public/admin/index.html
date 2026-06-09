@@ -337,7 +337,6 @@ async function uploadPageBg(input, slug) {
     cfg.pages[slug].bgImage = d.filename;
     const prev = document.getElementById('ps-bg-prev-'+slug);
     if (prev) { prev.src = imgUrl(d.filename)+'?'+Date.now(); prev.style.display=''; }
-    toast('ok', 'Đã lưu ảnh nền trang /'+slug+'!');
   });
 }
 async function savePageBgUrl(slug) {
