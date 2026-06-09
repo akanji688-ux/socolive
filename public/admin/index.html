@@ -884,13 +884,19 @@ async function savePageBanner(slug, idx) {
   cfg.pages[slug].banners[idx].badge = document.getElementById(`pb-badge-${slug}`).value;
   cfg.pages[slug].banners[idx].title = title;
   cfg.pages[slug].banners[idx].desc  = document.getElementById(`pb-desc-${slug}`).value;
-  {const btns=cfg.pages[slug].buttons||cfg.buttons||[];
-   const lbl1=document.getElementById(`pb-btn1-label-${slug}`)?.value;
+  {const lbl1=document.getElementById(`pb-btn1-label-${slug}`)?.value;
    const lbl2=document.getElementById(`pb-btn2-label-${slug}`)?.value;
    const lnk1=document.getElementById(`pb-btn1-link-${slug}`)?.value;
    const lnk2=document.getElementById(`pb-btn2-link-${slug}`)?.value;
-   if(btns[0]&&lnk1!==undefined){await patchPage('update-page',slug,'buttons',btns.map((b,i)=>i===0?{...b,label:lbl1||b.label,link:lnk1}:b));}
-   if(btns[1]&&lnk2!==undefined){await patchPage('update-page',slug,'buttons',btns.map((b,i)=>i===1?{...b,label:lbl2||b.label,link:lnk2}:b));}
+   if(lbl1!==undefined) await patchPageBanner('update-banner',slug,idx,'btn1Label',lbl1);
+   if(lnk1!==undefined) await patchPageBanner('update-banner',slug,idx,'btn1Link',lnk1);
+   if(lbl2!==undefined) await patchPageBanner('update-banner',slug,idx,'btn2Label',lbl2);
+   if(lnk2!==undefined) await patchPageBanner('update-banner',slug,idx,'btn2Link',lnk2);
+   if(!cfg.pages[slug].banners) cfg.pages[slug].banners=JSON.parse(JSON.stringify(cfg.banners));
+   if(lbl1!==undefined) cfg.pages[slug].banners[idx].btn1Label=lbl1;
+   if(lnk1!==undefined) cfg.pages[slug].banners[idx].btn1Link=lnk1;
+   if(lbl2!==undefined) cfg.pages[slug].banners[idx].btn2Label=lbl2;
+   if(lnk2!==undefined) cfg.pages[slug].banners[idx].btn2Link=lnk2;
   }
   toast('ok', ` Đã lưu Slide ${idx + 1} của trang /${slug}!`);
 }
