@@ -4,14 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SocoLive – Xem Bóng Đá Trực Tuyến</title>
-  <link rel="stylesheet" href="style.css?v=fav" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PJQGSNG3LZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PJQGSNG3LZ');
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <!-- Background layer — hiển thị ảnh nền phía sau toàn bộ trang -->
+  <!-- Background layer -->
   <div id="bgLayer"></div>
-
   <!-- HEADER -->
   <header class="header">
     <div class="container header-inner">
@@ -27,7 +34,6 @@
       <a id="logoMobile" href="/" class="logo" style="font-size:1rem"></a>
     </div>
   </header>
-
   <!-- BANNER SLIDER -->
   <section class="slider-section">
     <div class="slider" id="slider"></div>
@@ -35,8 +41,7 @@
     <button class="slider-btn next" id="nextBtn" aria-label="Next">&#8594;</button>
     <div class="slider-dots" id="sliderDots"></div>
   </section>
-
-  <!-- 3 BUTTONS -->
+  <!-- BUTTONS -->
   <section class="features" id="features">
     <div class="container">
       <h2 class="section-title">Khám Phá SocoLive</h2>
@@ -44,8 +49,6 @@
       <div class="btn-grid" id="btnGrid"></div>
     </div>
   </section>
-
-
-<script src="app.js?v=7"></script>
+<script src="app.js"></script>
 </body>
 </html>
