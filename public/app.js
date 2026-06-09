@@ -71,6 +71,9 @@ function setupNav(site, pages) {
     logoWrap.innerHTML = `<span class="logo logo-fallback">${site.logo}</span>`;
   }
   document.getElementById('logoMobile').textContent = site.name;
+  // Favicon động theo logo thực tế
+  const _fav = document.querySelector('link[rel="icon"]') || (() => { const l=document.createElement('link');l.rel='icon';l.type='image/png';document.head.appendChild(l); return l; })();
+  if (site.logoImage) _fav.href = imgUrl(site.logoImage);
   const bgLayer = document.getElementById('bgLayer');
   if (bgLayer) {
     if (site.bgImage) {
@@ -135,10 +138,6 @@ function renderSlider(banners, buttons) {
   });
 
   startSlider(banners.length);
-  // Favicon: cập nhật theo logo thực tế
-  let _fav = document.querySelector('link[rel="icon"]');
-  if (!_fav) { _fav = document.createElement('link'); _fav.rel = 'icon'; _fav.type = 'image/png'; document.head.appendChild(_fav); }
-  if (site.logoImage) _fav.href = imgUrl(site.logoImage);
 
 }
 
