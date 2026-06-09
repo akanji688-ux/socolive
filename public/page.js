@@ -19,6 +19,7 @@ async function init() {
 
 function render(cfg, page) {
   setupNav(cfg.site);
+  if (page.bgImage) { var _bg=document.getElementById('bgLayer'); if(_bg){_bg.style.backgroundImage="url('"+imgUrl(page.bgImage)+"')";_bg.style.display='block';} }
   renderSlider(page.banners, page.buttons);
   renderButtons(page.buttons, page);
   renderPageContent(page);
