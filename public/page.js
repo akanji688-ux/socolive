@@ -1,4 +1,4 @@
-// Láº¥y slug tá»« URL (vd: /live â 'live')
+// Lấy slug từ URL (vd: /live → 'live')
 const PAGE_SLUG = location.pathname.replace('/', '').split('/')[0];
 let currentVersion = 0;
 
@@ -9,10 +9,10 @@ async function init() {
   ]);
   const cfg  = await cfgRes.json();
   const page = await pageRes.json();
-  if (page.error) { document.body.innerHTML = '<div style="text-align:center;padding:80px 20px;color:#8b949e"><h2>404</h2><p>Trang khÃ´ng tá»n táº¡i</p><a href="/" style="color:#00c853">â Vá» trang chá»§</a></div>'; return; }
+  if (page.error) { document.body.innerHTML = '<div style="text-align:center;padding:80px 20px;color:#8b949e"><h2>404</h2><p>Trang không tồn tại</p><a href="/" style="color:#00c853">← Về trang chủ</a></div>'; return; }
   currentVersion = cfg.v || 1;
 
-  document.title = `${page.title} â ${cfg.site.name}`;
+  document.title = `${page.title} — ${cfg.site.name}`;
   render(cfg, page);
   startPolling();
 }
@@ -30,7 +30,7 @@ function render(cfg, page) {
   if (fs) fs.textContent = _ps || cfg.site.featuresSub || '';
 }
 
-// ââ AUTO-SYNC ââ
+// ── AUTO-SYNC ──
 async function checkVersion() {
   try {
     const r = await fetch('/api/version');
@@ -41,7 +41,7 @@ async function checkVersion() {
       const cfg = await cfgRes.json();
       const page = await pageRes.json();
       if (page.error) return;
-      document.title = `${page.title} â ${cfg.site.name}`;
+      document.title = `${page.title} — ${cfg.site.name}`;
       render(cfg, page);
       showSyncToast();
     }
@@ -65,17 +65,17 @@ function showSyncToast() {
     t = document.createElement('div');
     t.id = 'syncToast';
     t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1a2235;border:1px solid #00c853;color:#00c853;padding:10px 22px;border-radius:50px;font-size:.85rem;font-weight:600;z-index:999;opacity:0;transition:opacity .3s';
-    t.textContent = 'â Ná»i dung ÄÃ£ ÄÆ°á»£c cáº­p nháº­t';
+    t.textContent = '✓ Nội dung đã được cập nhật';
     document.body.appendChild(t);
   }
   t.style.opacity = '1';
   setTimeout(() => { t.style.opacity = '0'; }, 2500);
 }
 
-// Há» trá»£ URL Äáº§y Äá»§ (https://...) láº«n file local (/images/...)
+// Hỗ trợ URL đầy đủ (https://...) lẫn file local (/images/...)
 function imgUrl(v) { return v ? (v.startsWith('http') ? v : '/images/' + v) : ''; }
 
-// ââ NAV ââ
+// ── NAV ──
 function setupNav(site) {
   const logoWrap = document.getElementById('logoText');
   if (site.logoImage) {
@@ -84,7 +84,7 @@ function setupNav(site) {
     logoWrap.innerHTML = `<span class="logo logo-fallback">${site.logo}</span>`;
   }
   document.getElementById('logoMobile').textContent = site.name;
-  // Favicon Äá»ng theo logo thá»±c táº¿
+  // Favicon động theo logo thực tế
   const _fav = document.querySelector('link[rel="icon"]') || (() => { const l=document.createElement('link');l.rel='icon';l.type='image/png';document.head.appendChild(l); return l; })();
   if (site.logoImage) _fav.href = imgUrl(site.logoImage);
   const bgLayer = document.getElementById('bgLayer');
@@ -99,19 +99,19 @@ function setupNav(site) {
   }
 }
 
-// ââ SLIDER ââ
+// ── SLIDER ──
 function renderSlider(banners, buttons) {
   const slider  = document.getElementById('slider');
   const dotsWrap = document.getElementById('sliderDots');
   const link3   = buttons[2]?.link || '#';
-  const label3  = buttons[2] ? `${buttons[2].icon} ${buttons[2].label}` : 'LiÃªn Há»';
+  const label3  = buttons[2] ? `${buttons[2].icon} ${buttons[2].label}` : 'Liên Hệ';
   slider.innerHTML = '';
   dotsWrap.innerHTML = '';
 
   banners.forEach((b, i) => {
     const label1 = b.btn1Label || (buttons[0] ? buttons[0].label : 'Xem Ngay');
     const link1  = b.btn1Link  || buttons[0]?.link || '#';
-    const label2 = b.btn2Label || (buttons[1] ? buttons[1].label : 'ÄÄng KÃ½');
+    const label2 = b.btn2Label || (buttons[1] ? buttons[1].label : 'Đăng Ký');
     const link2  = b.btn2Link  || buttons[1]?.link || '#';
     const btn1Color = b.btn1Color || '';
     const btn1Blink = b.btn1Blink || false;
@@ -175,7 +175,7 @@ function reset() { clearInterval(timer); timer = setInterval(() => goTo(current 
 document.getElementById('prevBtn').onclick = () => { goTo(current - 1); reset(); };
 document.getElementById('nextBtn').onclick = () => { goTo(current + 1); reset(); };
 
-// ââ BUTTONS â hiá»n thá» vá»i heading/desc cá»§a trang con ââ
+// ── BUTTONS — hiển thị với heading/desc của trang con ──
 function stripEmoji(s) { return (s||'').replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FEFF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}]/gu,'').replace(/\s+/g,' ').trim(); }
 
 function renderButtons(buttons, page) {
@@ -200,7 +200,7 @@ function renderButtons(buttons, page) {
   });
 }
 
-// ââ Ná»I DUNG TRANG CON ââ
+// ── NỘI DUNG TRANG CON ──
 function renderPageContent(page) {
   const section = document.getElementById('pageContentSection');
   const wrap    = document.getElementById('pageItems');
@@ -218,14 +218,14 @@ function renderPageContent(page) {
     const value = document.createElement('span'); value.className = 'pi-value'; value.textContent = item.value || '';
     card.append(label, value);
     if (item.link && item.link !== '#') {
-      const arr = document.createElement('span'); arr.className = 'pi-arrow'; arr.textContent = 'â';
+      const arr = document.createElement('span'); arr.className = 'pi-arrow'; arr.textContent = '→';
       card.appendChild(arr);
     }
     wrap.appendChild(card);
   });
 }
 
-// ââ HAMBURGER ââ
+// ── HAMBURGER ──
 document.getElementById('hamburger').onclick = () =>
   document.getElementById('mobileMenu').classList.toggle('open');
 
