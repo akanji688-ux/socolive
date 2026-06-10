@@ -167,6 +167,7 @@ body {
   background: var(--card); border: 2px solid rgba(255,255,255,.06);
   border-radius: var(--radius); cursor: pointer; transition: all .3s;
   color: var(--text);
+  text-decoration: none;
 }
 .feature-btn:hover {
   border-color: var(--green); transform: translateY(-6px);
