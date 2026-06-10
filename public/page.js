@@ -130,7 +130,7 @@ function renderSlider(banners, buttons) {
         <h1>${b.title.replace(/\n/g, '<br/>')}</h1>
         <p>${b.desc}</p>
         <div class="cta-group">
-          <a href="${link1}" class="btn btn-primary${btn1Extra}"${btn1Style}>â¶ ${label1}</a>
+          <a href="${link1}" class="btn btn-primary${btn1Extra}"${btn1Style}>▶ ${label1}</a>
           <a href="${link2}" class="btn btn-ghost${btn2Extra}"${btn2Style}>${label2}</a>
           <a href="${link3}" class="btn btn-outline">${label3}</a>
         </div>
