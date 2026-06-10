@@ -103,6 +103,8 @@ function setupNav(site) {
 function renderSlider(banners, buttons) {
   const slider  = document.getElementById('slider');
   const dotsWrap = document.getElementById('sliderDots');
+  const link3   = buttons[2]?.link || '#';
+  const label3  = buttons[2] ? `${buttons[2].icon} ${buttons[2].label}` : 'Liên Hệ';
   slider.innerHTML = '';
   dotsWrap.innerHTML = '';
 
@@ -134,6 +136,13 @@ function renderSlider(banners, buttons) {
         </div>
       </div>`;
     slider.appendChild(div);
+
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    dotsWrap.appendChild(dot);
+  });
+
   startSlider(banners.length);
 
 }
