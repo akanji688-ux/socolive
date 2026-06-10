@@ -107,10 +107,18 @@ function renderSlider(banners, buttons) {
   dotsWrap.innerHTML = '';
 
   banners.forEach((b, i) => {
-    const label1 = b.btn1Label || 'Xem Ngay';
-    const label2 = b.btn2Label || 'Đăng Ký';
-    const link1  = b.btn1Link || buttons[0]?.link || '#';
-    const link2  = b.btn2Link || buttons[1]?.link || '#';
+    const label1 = b.btn1Label || (buttons[0] ? buttons[0].label : 'Xem Ngay');
+    const link1  = b.btn1Link  || buttons[0]?.link || '#';
+    const label2 = b.btn2Label || (buttons[1] ? buttons[1].label : 'Đăng Ký');
+    const link2  = b.btn2Link  || buttons[1]?.link || '#';
+    const btn1Color = b.btn1Color || '';
+    const btn1Blink = b.btn1Blink || false;
+    const btn2Color = b.btn2Color || '';
+    const btn2Blink = b.btn2Blink || false;
+    const btn1Style = btn1Color ? ` style="background:${btn1Color};border-color:${btn1Color};color:#0a1628"` : '';
+    const btn2Style = btn2Color ? ` style="background:${btn2Color};border-color:${btn2Color};color:#0a1628"` : '';
+    const btn1Extra = btn1Blink ? ' btn-blink' : '';
+    const btn2Extra = btn2Blink ? ' btn-blink' : '';
     const div = document.createElement('div');
     div.className = `slide ${b.bg}`;
     if (b.image) div.style.backgroundImage = `url('${imgUrl(b.image)}')`;
@@ -120,18 +128,12 @@ function renderSlider(banners, buttons) {
         <h1>${b.title.replace(/\n/g, '<br/>')}</h1>
         <p>${b.desc}</p>
         <div class="cta-group">
-          <a href="${link1}" class="btn btn-primary">${label1}</a>
-          <a href="${link2}" class="btn btn-ghost">${label2}</a>
+          <a href="${link1}" class="btn btn-primary${btn1Extra}"${btn1Style}>▶ ${label1}</a>
+          <a href="${link2}" class="btn btn-ghost${btn2Extra}"${btn2Style}>${label2}</a>
+          <a href="${link3}" class="btn btn-outline">${label3}</a>
         </div>
       </div>`;
     slider.appendChild(div);
-
-    const d = document.createElement('div');
-    d.className = 'dot' + (i === 0 ? ' active' : '');
-    d.onclick = () => goTo(i);
-    dotsWrap.appendChild(d);
-  });
-
   startSlider(banners.length);
 
 }
