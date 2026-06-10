@@ -1047,7 +1047,7 @@ function fillPageButtons(slug) {
            <span style="color:#ffc800;font-weight:600">Noi bat (nhap nhay)</span>
          </label>
          <div style="margin-left:auto;display:flex;gap:8px">
-           <input type="color" id="pbi-color-${slug}-${i}" value="#1a2235" style="width:32px;height:26px;border:none;border-radius:4px;cursor:pointer;padding:2px;background:transparent" title="Chon mau nut"/>
+           <label style="display:flex;align-items:center;gap:3px;font-size:.78rem;cursor:pointer;color:#aaa"><input type="checkbox" id="pbi-usecolor-${slug}-${i}" onchange="(function(cb){var inp=document.getElementById('pbi-color-${slug}-${i}');inp.style.opacity=cb.checked?'1':'0.35';})(this)" style="width:14px;height:14px;cursor:pointer"/>Màu</label><input type="color" id="pbi-color-${slug}-${i}" value="#1a2235" style="width:32px;height:26px;border:none;border-radius:4px;cursor:pointer;padding:2px;background:transparent;opacity:0.35" title="Chon mau nut"/>
            <button onclick="savePageButton('${slug}',${i})" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:7px 14px;cursor:pointer;font-size:.82rem">Luu</button>
            ${canDel ? `<button onclick="deletePageButton('${slug}',${i})" style="background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.3);color:#f85149;border-radius:6px;padding:7px 10px;cursor:pointer;font-size:.82rem">Xoa</button>` : ''}
          </div>
@@ -1060,7 +1060,9 @@ function fillPageButtons(slug) {
     document.getElementById(`pbi-featured-${slug}-${i}`).checked  = !!b.featured;
     document.getElementById(`pbi-highlight-${slug}-${i}`).checked = !!b.highlight;
     const colorElF = document.getElementById(`pbi-color-${slug}-${i}`);
-    if (colorElF) colorElF.value = b.color || '#1a2235';
+    const useColorCbF = document.getElementById(`pbi-usecolor-${slug}-${i}`);
+    if (colorElF) { colorElF.value = b.color || '#1a2235'; colorElF.style.opacity = b.color ? '1' : '0.35'; }
+    if (useColorCbF) useColorCbF.checked = !!b.color;
   });
   wrap.insertAdjacentHTML('beforeend',
     `<button onclick="addPageButton('${slug}')" style="background:transparent;border:1px solid var(--green);color:var(--green-light);border-radius:6px;padding:8px 18px;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:4px">+ Them nut moi</button>`);
@@ -1074,8 +1076,9 @@ async function savePageButton(slug, i) {
   const badge     = document.getElementById(`pbi-badge-${slug}-${i}`).value || null;
   const featured  = document.getElementById(`pbi-featured-${slug}-${i}`).checked;
   const highlight = document.getElementById(`pbi-highlight-${slug}-${i}`).checked;
-  const colorEl   = document.getElementById(`pbi-color-${slug}-${i}`);
-  const colorVal  = colorEl && colorEl.value !== '#1a2235' ? colorEl.value : null;
+  const colorEl    = document.getElementById(`pbi-color-${slug}-${i}`);
+  const useColorCb = document.getElementById(`pbi-usecolor-${slug}-${i}`);
+  const colorVal   = (colorEl && useColorCb && useColorCb.checked) ? colorEl.value : null;
   await patchPageBanner('update-button', slug, i, 'icon',      icon);
   await patchPageBanner('update-button', slug, i, 'label',     label);
   await patchPageBanner('update-button', slug, i, 'desc',      desc);
