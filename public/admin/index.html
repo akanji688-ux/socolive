@@ -901,6 +901,22 @@ function fillPageBanners(slug) {
           <div class="field"><label>Nút 2 — Tên</label><input id="pb-btn2-label-${slug}"/></div>
           <div class="field"><label>Nút 2 — Link</label><input id="pb-btn2-link-${slug}"/></div>
         </div>
+        <div class="field-row" style="margin-bottom:4px">
+          <div class="field">
+            <label>Màu Nút 1</label>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+              <input type="color" id="pb-btn1-color-${slug}" value="#00c853" style="width:42px;height:32px;border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:2px;background:none"/>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.82rem;color:var(--muted)"><input type="checkbox" id="pb-btn1-blink-${slug}" style="width:14px;height:14px"> Nhấp nháy</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Màu Nút 2</label>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+              <input type="color" id="pb-btn2-color-${slug}" value="#ffffff" style="width:42px;height:32px;border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:2px;background:none"/>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.82rem;color:var(--muted)"><input type="checkbox" id="pb-btn2-blink-${slug}" style="width:14px;height:14px"> Nhấp nháy</label>
+            </div>
+          </div>
+        </div>
       </div>
       <button class="save-btn" onclick="savePageBanner('${slug}',${idx})">Lưu Slide ${idx + 1}</button>
     </div>`;
@@ -910,7 +926,11 @@ function fillPageBanners(slug) {
    const e1=document.getElementById(`pb-btn1-label-${slug}`); if(e1) e1.value=b.btn1Label||btns[0]?.label||'';
    const e2=document.getElementById(`pb-btn2-label-${slug}`); if(e2) e2.value=b.btn2Label||btns[1]?.label||'';
    const l1=document.getElementById(`pb-btn1-link-${slug}`); if(l1) l1.value=b.btn1Link||btns[0]?.link||'';
-   const l2=document.getElementById(`pb-btn2-link-${slug}`); if(l2) l2.value=b.btn2Link||btns[1]?.link||'';}
+   const l2=document.getElementById(`pb-btn2-link-${slug}`); if(l2) l2.value=b.btn2Link||btns[1]?.link||'';
+   const c1=document.getElementById(`pb-btn1-color-${slug}`); if(c1) c1.value=b.btn1Color||'#00c853';
+   const c2=document.getElementById(`pb-btn2-color-${slug}`); if(c2) c2.value=b.btn2Color||'#ffffff';
+   const bk1=document.getElementById(`pb-btn1-blink-${slug}`); if(bk1) bk1.checked=!!b.btn1Blink;
+   const bk2=document.getElementById(`pb-btn2-blink-${slug}`); if(bk2) bk2.checked=!!b.btn2Blink;}
   document.getElementById(`pb-title-${slug}`).value = (b.title || '').replace(/\n/g,'\\n');
   document.getElementById(`pb-desc-${slug}`).value  = b.desc  || '';
   const pbImgPrev = document.getElementById(`pb-img-prev-${slug}`);
@@ -939,6 +959,20 @@ async function savePageBanner(slug, idx) {
    if(lnk1!==undefined) cfg.pages[slug].banners[idx].btn1Link=lnk1;
    if(lbl2!==undefined) cfg.pages[slug].banners[idx].btn2Label=lbl2;
    if(lnk2!==undefined) cfg.pages[slug].banners[idx].btn2Link=lnk2;
+  }
+  {const clr1=document.getElementById(`pb-btn1-color-${slug}`)?.value;
+   const clr2=document.getElementById(`pb-btn2-color-${slug}`)?.value;
+   const blk1=document.getElementById(`pb-btn1-blink-${slug}`)?.checked;
+   const blk2=document.getElementById(`pb-btn2-blink-${slug}`)?.checked;
+   if(clr1) await patchPageBanner('update-banner',slug,idx,'btn1Color',clr1);
+   if(clr2) await patchPageBanner('update-banner',slug,idx,'btn2Color',clr2);
+   await patchPageBanner('update-banner',slug,idx,'btn1Blink',!!blk1);
+   await patchPageBanner('update-banner',slug,idx,'btn2Blink',!!blk2);
+   if(!cfg.pages[slug].banners) cfg.pages[slug].banners=JSON.parse(JSON.stringify(cfg.banners));
+   if(clr1) cfg.pages[slug].banners[idx].btn1Color=clr1;
+   if(clr2) cfg.pages[slug].banners[idx].btn2Color=clr2;
+   cfg.pages[slug].banners[idx].btn1Blink=!!blk1;
+   cfg.pages[slug].banners[idx].btn2Blink=!!blk2;
   }
   toast('ok', ` Đã lưu Slide ${idx + 1} của trang /${slug}!`);
 }
