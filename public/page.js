@@ -188,7 +188,7 @@ function renderButtons(buttons, page) {
     a.href = b.link;
     a.target = '_blank';
     a.className = 'feature-btn' + (b.featured ? ' featured' : '') + (b.highlight ? ' highlight' : '') + (b.link === `/${PAGE_SLUG}` ? ' active-page' : '');
-    if (b.color) { a.style.background = b.color; a.style.borderColor = b.color; a.style.color = '#0a1628'; a.style.textDecoration = 'none'; }
+    if (b.color) { a.style.background = b.color; a.style.borderColor = b.color; a.style.color = b.textColor || '#0a1628'; a.style.textDecoration = 'none'; } else if (b.textColor) { a.style.color = b.textColor; }
     if (b.badge) {
       const s = document.createElement('span'); s.className = 'badge-btn'; s.textContent = b.badge; a.appendChild(s);
     }
